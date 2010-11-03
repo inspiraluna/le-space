@@ -1,0 +1,753 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="UserContract" language="groovy" pageWidth="495" pageHeight="802" columnWidth="435" leftMargin="40" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="11"/>
+	<property name="ireport.y" value="120"/>
+	<field name="id" class="java.lang.String"/>
+	<field name="customer.salutation" class="java.lang.String"/>
+	<field name="customer.firstname" class="java.lang.String"/>
+	<field name="customer.lastname" class="java.lang.String"/>
+	<field name="customer.addressLine1" class="java.lang.String"/>
+	<field name="customer.addressLine2" class="java.lang.String"/>
+	<field name="customer.zip" class="java.lang.String"/>
+	<field name="customer.city" class="java.lang.String"/>
+	<field name="customer.country" class="java.lang.String"/>
+	<field name="customer.email" class="java.lang.String"/>
+	<field name="customer.tel1" class="java.lang.String"/>
+	<field name="customer.fax" class="java.lang.String"/>
+	<field name="customer.company" class="java.lang.String"/>
+	<field name="contractStart" class="java.util.Date"/>
+	<field name="contractEnd" class="java.util.Date"/>
+	<field name="selectedProducts" class="java.lang.String"/>
+	<field name="amountGross" class="java.lang.Double"/>
+	<field name="conditions" class="java.lang.String"/>
+	<field name="amountNet" class="java.lang.Double"/>
+	<field name="amountVAT" class="java.lang.Double"/>
+	<field name="quantity" class="java.lang.Integer"/>
+	<field name="customer.accountOwner" class="java.lang.String"/>
+	<field name="customer.accountNo" class="java.lang.String"/>
+	<field name="customer.bankNo" class="java.lang.String"/>
+	<field name="customer.bankName" class="java.lang.String"/>
+	<field name="customer.IBANNo" class="java.lang.String"/>
+	<field name="customer.BICNo" class="java.lang.String"/>
+	<field name="customer.directDebitPermission" class="java.lang.Boolean"/>
+	<field name="autoExtend" class="java.lang.Boolean"/>
+	<field name="customer.allowPublishNameOnWebsite" class="java.lang.Boolean"/>
+	<field name="customer.publicationHTML" class="java.lang.String"/>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="106">
+			<staticText>
+				<reportElement x="0" y="2" width="426" height="23"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nutzungsvertrag der Le Space UG (haftungsbeschränkt)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="26" width="263" height="15"/>
+				<textElement/>
+				<text><![CDATA[Lützner Str. 91, 04177 Leipzig]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="76" width="364" height="25"/>
+				<textElement/>
+				<text><![CDATA[vertreten durch den Geschäftsführer Nico Krause
+eingetragen im Amtsgericht Leipzig HRB 25885 / UstID Nr. DE27240660]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="43" width="430" height="15"/>
+				<textElement/>
+				<text><![CDATA[Tel.: +49 (0) 3 41 / 4 78 58 70 - Fax: +49 (0) 3 41 / 4 92 76 49]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="60" width="430" height="15"/>
+				<textElement/>
+				<text><![CDATA[Internet: www.le-space.de - Email: info@le-space.de]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="393">
+			<staticText>
+				<reportElement x="0" y="0" width="315" height="15"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[1. Vertragspartner der Nutzungsvereinbarung:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="40" width="150" height="12"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{customer.addressLine1}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="150" y="40" width="150" height="12"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{customer.addressLine2}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="55" width="58" height="6"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<text><![CDATA[Straße Nr. (Adresse)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="150" y="55" width="58" height="6"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<text><![CDATA[Adresse (Zeile2)]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="53" width="300" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="1" y="89" width="224" height="15"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[2. Leistung]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="104" width="126" height="12"/>
+				<textElement/>
+				<text><![CDATA[Die Nutzung beginnt am:]]></text>
+			</staticText>
+			<textField pattern="EEEEE dd. MMMMM yyyy" isBlankWhenNull="true">
+				<reportElement x="131" y="104" width="198" height="12"/>
+				<textElement/>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{contractStart}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="1" y="131" width="128" height="12"/>
+				<textElement/>
+				<text><![CDATA[Ticketanzahl / Menge:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="132" y="131" width="197" height="12" isPrintWhenDetailOverflows="true"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{quantity}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="104" y="32" width="82" height="6"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<text><![CDATA[Firma bzw. Vorname und Name]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="103" y="18" width="197" height="12"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[($F{customer.company}==null || $F{customer.company}=="")?$F{customer.salutation}+" "+$F{customer.firstname}+" "+$F{customer.lastname}:$F{customer.company}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="108" y="31" width="193" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="1" y="118" width="127" height="12"/>
+				<textElement/>
+				<text><![CDATA[Die Nutzung endet am:]]></text>
+			</staticText>
+			<textField pattern="EEEEE dd. MMMMM yyyy" isBlankWhenNull="true">
+				<reportElement x="131" y="118" width="198" height="12"/>
+				<textElement/>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{contractEnd}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="209" y="64" width="93" height="12"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{customer.country}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="78" width="58" height="6"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<text><![CDATA[PLZ]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="62" y="64" width="146" height="12"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{customer.city}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="2" y="77" width="300" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="209" y="78" width="58" height="6"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<text><![CDATA[Land]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="63" y="78" width="58" height="6"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<text><![CDATA[Stadt]]></text>
+			</staticText>
+			<textField pattern="dd. MMMMM yyyy" isBlankWhenNull="true">
+				<reportElement x="1" y="64" width="59" height="12"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{customer.zip}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="133" y="145" width="197" height="12" isPrintWhenDetailOverflows="true"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{selectedProducts}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="2" y="145" width="128" height="12"/>
+				<textElement/>
+				<text><![CDATA[Gewählter Tarif/Produkte:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="32" width="58" height="6"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<text><![CDATA[Vertragsnummer]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="18" width="100" height="12"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{id}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="31" width="300" height="1"/>
+			</line>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="132" y="158" width="198" height="12"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{conditions}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="158" width="129" height="12"/>
+				<textElement/>
+				<text><![CDATA[Vertragsbedingungen:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="248" y="253" width="182" height="12">
+					<printWhenExpression><![CDATA[$F{customer.directDebitPermission}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{customer.bankName}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="248" y="241" width="179" height="12">
+					<printWhenExpression><![CDATA[$F{customer.directDebitPermission}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{customer.accountOwner}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="111">
+			<rectangle>
+				<reportElement x="357" y="72" width="22" height="20">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="126" y="-205" width="100" height="12"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{amountNet}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="-126" width="427" height="28"/>
+				<textElement/>
+				<text><![CDATA[Ergänzend gelten die ausgelegten allgemeinen Geschäftsbedingungen der Le Space UG
+und die Hausordnung des Tapetenwerks]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="-219" width="225" height="15"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[3. Nutzungsgebühr]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="22" width="133" height="6"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<text><![CDATA[Ort, Datum, Unterschrift Le Space UG (haftungsbeschränkt)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="189" y="22" width="133" height="6"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<text><![CDATA[Ort, Datum Unterschrift Nutzer]]></text>
+			</staticText>
+			<line>
+				<reportElement x="7" y="20" width="130" height="1"/>
+			</line>
+			<line>
+				<reportElement x="189" y="20" width="131" height="1"/>
+			</line>
+			<rectangle>
+				<reportElement x="115" y="47" width="20" height="20">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="137" y="47" width="20" height="20">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="181" y="47" width="20" height="20">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="159" y="47" width="20" height="20">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="225" y="47" width="20" height="20">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="203" y="47" width="20" height="20">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="247" y="47" width="20" height="20">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="269" y="47" width="20" height="20">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="313" y="47" width="20" height="20">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="291" y="47" width="20" height="20">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="122" y="51" width="8" height="13">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="142" y="51" width="8" height="13">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="164" y="51" width="8" height="13">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[3]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="186" y="51" width="8" height="13">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[4]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="207" y="51" width="8" height="13">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[5]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="229" y="51" width="8" height="13">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[6]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="252" y="51" width="8" height="13">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[7]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="296" y="50" width="8" height="13">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[9]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="275" y="50" width="8" height="13">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[8]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="316" y="50" width="15" height="13">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[10]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="269" y="72" width="20" height="20">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="203" y="72" width="20" height="20">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="296" y="75" width="8" height="13">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[9]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="142" y="76" width="8" height="13">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="186" y="76" width="8" height="13">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[4]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="275" y="75" width="8" height="13">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[8]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="316" y="75" width="15" height="13">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[10]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="115" y="72" width="20" height="20">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="291" y="72" width="20" height="20">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="247" y="72" width="20" height="20">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="181" y="72" width="20" height="20">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="122" y="76" width="8" height="13">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[1]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="137" y="72" width="20" height="20">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="164" y="76" width="8" height="13">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[3]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="313" y="72" width="20" height="20">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="252" y="76" width="8" height="13">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[7]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="207" y="76" width="8" height="13">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[5]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="229" y="76" width="8" height="13">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[6]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="159" y="72" width="20" height="20">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="225" y="72" width="20" height="20">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="143" y="76" width="8" height="13">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="164" y="76" width="8" height="13">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[3]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="187" y="76" width="8" height="13">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[4]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="231" y="76" width="9" height="12">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[6]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="297" y="75" width="8" height="13">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[9]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="315" y="75" width="15" height="13">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[10]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="335" y="72" width="20" height="20">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="366" y="75" width="8" height="13">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="-205" width="125" height="12"/>
+				<textElement/>
+				<text><![CDATA[Betrag (netto):]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="337" y="75" width="8" height="13">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="345" y="75" width="8" height="13">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="358" y="75" width="8" height="13">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="9" y="47" width="95" height="18">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[10 Tage Flexdesk ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="9" y="71" width="95" height="18">
+					<printWhenExpression><![CDATA[(false)]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[12 Tage Flexdesk]]></text>
+			</staticText>
+			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="126" y="-193" width="100" height="12"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{amountVAT}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="-193" width="125" height="12"/>
+				<textElement/>
+				<text><![CDATA[MwSt:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="-180" width="125" height="12"/>
+				<textElement/>
+				<text><![CDATA[Betrag (brutto):]]></text>
+			</staticText>
+			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="126" y="-180" width="100" height="12"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{amountGross}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="5" y="36" width="428" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="1" y="-167" width="431" height="15">
+					<printWhenExpression><![CDATA[$F{customer.directDebitPermission}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[4. Einzugsermächtigung erteile ich jederzeit widerufbar für die Vertragslaufzeit:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="9" y="47" width="103" height="33"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<text><![CDATA[Bankverbindung Sparkasse Leipzig, 
+Bankleitzahl, 860 555 92
+Kto. Nr. 1100880298 
+IBAN: DE74860555921100880298 
+BIC-/SWIFT-Code: WELADE8L]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="-152" width="53" height="12">
+					<printWhenExpression><![CDATA[$F{customer.directDebitPermission}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[Kto. Nr.:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="-140" width="53" height="12">
+					<printWhenExpression><![CDATA[$F{customer.directDebitPermission}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[BLZ:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="174" y="-140" width="74" height="12">
+					<printWhenExpression><![CDATA[$F{customer.directDebitPermission}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[Bank:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="174" y="-152" width="74" height="12">
+					<printWhenExpression><![CDATA[$F{customer.directDebitPermission}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[Kontoinhaber:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="55" y="-152" width="117" height="12">
+					<printWhenExpression><![CDATA[$F{customer.directDebitPermission}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{customer.accountNo}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="55" y="-140" width="117" height="12">
+					<printWhenExpression><![CDATA[$F{customer.directDebitPermission}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{customer.bankNo}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="5" y="9" width="140" height="10"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Leipzig,"+(new java.text.SimpleDateFormat("dd.MM.yyyy").format(new java.util.Date()))]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="188" y="10" width="133" height="10"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Leipzig,"+(new java.text.SimpleDateFormat("dd.MM.yyyy").format(new java.util.Date()))]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="-92" width="376" height="15">
+					<printWhenExpression><![CDATA[$F{customer.allowPublishNameOnWebsite}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[5. Veröffentlichung von Firmenname, Name, Beruf und Webadresse ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="-77" width="404" height="13">
+					<printWhenExpression><![CDATA[$F{customer.allowPublishNameOnWebsite}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[Folgender Text wird ausschließlich auf unserer Webseite kostenfrei veröffentlicht.]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="2" y="-61" width="387" height="51">
+					<printWhenExpression><![CDATA[$F{customer.allowPublishNameOnWebsite}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{customer.publicationHTML}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

@@ -1,0 +1,252 @@
+/* stylesheet Le Space
+zuletzt editiert am: 6.4.2010
+----------------------------------*/
+
+* {
+    margin:0;
+    padding:0;
+}
+
+/* General Typography
+----------------------------------*/
+
+body,
+input,
+textarea {
+    font-family:Georgia, "Times New Roman", Times, serif;
+    font-size:10px;
+}
+
+p,
+li,
+caption,
+td,
+th,
+a,
+legend,
+label,
+input,
+textarea {
+    font-size:13px;
+    font-weight:200;
+    line-height:18px;
+}
+
+#slogan p {
+    font-size:23px;
+    font-weight:200;
+    line-height:30px;
+}
+
+#slogan .name {
+    font-size:13px;
+}
+
+caption,
+th,
+legend {
+    font-weight:600;
+}
+
+tfoot td {
+    font-size:11px;
+}
+
+/* Headline Styles
+----------------------------------*/
+
+h1 {
+    font-size:18px;
+    font-weight:200;
+}
+
+h2 {
+    font-size:13px;
+    font-weight:600;
+}
+
+h3 {
+    font-size:13px;
+    font-weight:600;
+    letter-spacing:0.5px;
+    padding:0.3em;
+}
+
+/* Colours
+----------------------------------*/
+
+body,
+input,
+textarea {
+    color:#000;
+    background-color:#fff;
+}
+
+#slogan p,
+#infos h2,
+.feed {
+    color:#ef8000;
+}
+
+h3 {
+    color:#fff;
+    background-color:#ef8000;
+}
+
+/* Images
+----------------------------------*/
+
+img {
+    border:0;
+}
+
+/* List Styles
+----------------------------------*/
+
+#kopf ul,
+#kopf li,
+#koerper ul,
+#koerper li {
+    list-style: none;
+}
+
+/* Table Styles
+----------------------------------*/
+
+#koerper table {
+    border-collapse:collapse;
+    border:1px solid #787878;
+}
+
+#koerper caption { 
+    text-align:left;
+    margin:1em 0;
+}
+
+#koerper tbody { 
+    border:1px solid #787878;
+}
+
+#koerper th,
+#koerper td { 
+    padding: 0.3em 1em;
+    text-align:left;
+    vertical-align:top;
+    border-left:1px solid #b4b4b4;
+}
+#koerper th {
+    background-color:#b4b4b4;
+    border-left:1px solid #fff;
+    border-bottom:1px solid #fff;
+}
+#koerper tr.ungerade {
+    background-color:#e7e7e7;
+}
+#koerper th.first,
+#koerper td.first {
+    border-left:none;
+}
+
+
+/* Link Styles
+----------------------------------*/
+
+a {
+    color:#000;
+}
+a:hover {
+    color:#515151;
+}
+
+#hauptnavi ul {
+    background-color:#515151;
+}
+#hauptnavi ul a {
+    text-decoration:none;
+    font-weight:600;
+    letter-spacing:0.5px;
+    color:#fff;
+    background:url(../img/navigation/weiss.gif) no-repeat left 50%;
+}
+#hauptnavi ul .first a {
+    background:none;
+}
+#hauptnavi ul a:hover {
+    background-color:#787878;
+}
+#coworking #hauptnavi .coworking a,
+#user #hauptnavi .user a,
+#raeume #hauptnavi .raeume a,
+#preise #hauptnavi .preise a,
+#faq #hauptnavi .faq a,
+#kontakt #hauptnavi .kontakt a {
+    color:#b7b7b7;
+    cursor:default;
+}
+#coworking #hauptnavi .coworking a:hover,
+#user #hauptnavi .user a:hover,
+#raeume #hauptnavi .raeume a:hover,
+#preise #hauptnavi .preise a:hover,
+#faq #hauptnavi .faq a:hover,
+#kontakt #hauptnavi .kontakt a:hover {
+    background-color:#515151;
+}
+
+ul#subnavi_text a {
+    background:url(../img/navigation/schwarz.gif) no-repeat left 50%;
+}
+ul#subnavi_text .first a {
+    background:none;
+}
+#startseite #subnavi_text .startseite a,
+#anmeldung #subnavi_text .anmeldung a,
+#impressum #subnavi_text .impressum a {
+    color:#b7b7b7;
+    cursor:default;
+}
+
+#koerper a.extern {
+    background:url(../img/navigation/externerlink_s.gif) no-repeat right top;
+    padding:0 15px 0 0;
+}
+#koerper a.extern:hover {
+    background:url(../img/navigation/externerlink_g.gif) no-repeat right top;
+}
+
+.feed h3 a {
+    font-size:13px;
+    font-weight:600;
+    letter-spacing:0.5px;
+    padding:0.3em;
+
+    text-decoration:none;
+    color:#ffffff;
+}
+
+.feed ul a {
+    text-decoration:none;
+    color:#ef8000;
+}
+
+div.ausklappen {
+    background-color:#515151;
+}
+div.ausklappen a {
+    display:block;
+    text-decoration:none;
+    font-weight:600;
+    letter-spacing:0.5px;
+    color:#fff;
+}
+div.ausklappen a:hover {
+    background-color:#787878;
+}
+
+/* hr Styles
+----------------------------------*/
+
+hr {
+    color:#787878;
+    background-color:#787878;
+    border:0;
+}

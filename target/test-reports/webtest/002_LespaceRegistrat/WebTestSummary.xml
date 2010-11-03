@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <summary starttime="Wed Nov 03 14:35:36 CET 2010" duration="12926" name="le.space.RegistrationTests.testAdd10DayTicket" successful="yes">
+<topsteps notexecuted="0" failed="0" successful="37" total="37"/>
+<steps notexecuted="0" failed="0" successful="37" total="37"/>
+<timingprofile number="6" average="1876">
+<range number="2" to="1" from="0"/>
+<range number="2" to="3" from="1"/>
+<range number="2" to="5" from="3"/>
+<range number="0" to="10" from="5"/>
+<range number="0" to="30" from="10"/>
+<range number="0" from="30"/>
+</timingprofile>
+</summary>

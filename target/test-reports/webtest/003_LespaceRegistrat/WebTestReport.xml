@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<summary Implementation-Title="Canoo Webtest" Implementation-Version="R_1758">
+    <testresult endtime="Wed Nov 03 14:35:53 CET 2010" location=": "
+        starttime="Wed Nov 03 14:35:49 CET 2010" successful="yes" testspecname="le.space.RegistrationTests.testCustomerPublicationOnWebsite">
+        <config>
+            <parameter name="port" value="8080"/>
+            <parameter name="summary" value="yes"/>
+            <parameter name="protocol" value="http"/>
+            <parameter name="host" value="localhost"/>
+            <parameter name="resultpath" value="/Users/nico/NetBeansProjects/le-space/target/test-reports/webtest"/>
+            <parameter name="saveprefix" value="response"/>
+            <parameter name="basepath" value="le-space"/>
+            <parameter name="resultfile" value="WebTestReport.xml"/>
+            <parameter name="haltonerror" value="no"/>
+            <parameter name="errorproperty" value="webTestError"/>
+            <parameter name="saveresponse" value="yes"/>
+            <parameter name="haltonfailure" value="no"/>
+            <parameter name="failureproperty" value="webTestFailure"/>
+            <parameter name="autorefresh" value="false"/>
+            <parameter name="showhtmlparseroutput" value="yes"/>
+            <parameter name="timeout" value="300"/>
+        </config>
+        <results>
+            <step duration="3625" result="completed" taskName="invoke">
+                <parameter name="-> complete url" value="http://localhost:8080/le-space/user"/>
+                <parameter name="nested text" value="/user"/>
+                <resultFile name="001_response_invoke.html"/>
+                <htmlparser>
+                    <error col="67" line="5" url="http://localhost:8080/le-space/user">Missing attribute name.</error>
+                    <error col="43" line="6" url="http://localhost:8080/le-space/user">Missing attribute name.</error>
+                    <error col="35" line="7" url="http://localhost:8080/le-space/user">Missing attribute name.</error>
+                    <error col="105" line="9" url="http://localhost:8080/le-space/user">Missing attribute name.</error>
+                    <error col="42" line="1" url="http://localhost:8080/le-space/user">Missing whitespace before attribute "src".</error>
+                    <error col="148" line="34" url="http://localhost:8080/le-space/user">Missing attribute name.</error>
+                    <error col="97" line="35" url="http://localhost:8080/le-space/user">Missing attribute name.</error>
+                    <error col="110" line="41" url="http://localhost:8080/le-space/user">Missing attribute name.</error>
+                    <error col="239" line="54" url="http://localhost:8080/le-space/user">Missing attribute name.</error>
+                    <error col="151" line="55" url="http://localhost:8080/le-space/user">Missing attribute name.</error>
+                    <error col="59" line="66" url="http://localhost:8080/le-space/user">Missing attribute name.</error>
+                    <error col="148" line="66" url="http://localhost:8080/le-space/user">Missing attribute name.</error>
+                    <error col="158" line="67" url="http://localhost:8080/le-space/user">Missing attribute name.</error>
+                    <error col="161" line="68" url="http://localhost:8080/le-space/user">Missing attribute name.</error>
+                    <error col="164" line="69" url="http://localhost:8080/le-space/user">Missing attribute name.</error>
+                    <error col="168" line="70" url="http://localhost:8080/le-space/user">Missing attribute name.</error>
+                    <error col="9" line="76" url="http://localhost:8080/le-space/user">Missing attribute name.</error>
+                    <error col="246" line="78" url="http://localhost:8080/le-space/user">Missing attribute name.</error>
+                    <error col="497" line="78" url="http://localhost:8080/le-space/user">Missing attribute name.</error>
+                    <error col="754" line="78" url="http://localhost:8080/le-space/user">Missing attribute name.</error>
+                    <error col="1013" line="78" url="http://localhost:8080/le-space/user">Missing attribute name.</error>
+                    <error col="1272" line="78" url="http://localhost:8080/le-space/user">Missing attribute name.</error>
+                    <error col="1531" line="78" url="http://localhost:8080/le-space/user">Missing attribute name.</error>
+                    <error col="1790" line="78" url="http://localhost:8080/le-space/user">Missing attribute name.</error>
+                    <error col="9" line="80" url="http://localhost:8080/le-space/user">Missing attribute name.</error>
+                    <error col="25" line="89" url="http://localhost:8080/le-space/user">Missing attribute name.</error>
+                    <error col="25" line="92" url="http://localhost:8080/le-space/user">Missing attribute name.</error>
+                    <error col="39" line="93" url="http://localhost:8080/le-space/user">Missing attribute name.</error>
+                    <error col="101" line="94" url="http://localhost:8080/le-space/user">Missing attribute name.</error>
+                    <error col="41" line="97" url="http://localhost:8080/le-space/user">Missing attribute name.</error>
+                    <error col="85" line="98" url="http://localhost:8080/le-space/user">Missing attribute name.</error>
+                    <error col="92" line="99" url="http://localhost:8080/le-space/user">Missing attribute name.</error>
+                    <warning col="40" line="100" url="http://localhost:8080/le-space/user">Bare ampersand found.</warning>
+                    <warning col="40" line="100" url="http://localhost:8080/le-space/user">Unknown general entity "blob".</warning>
+                    <error col="7" line="105" url="http://localhost:8080/le-space/user">Missing attribute name.</error>
+                    <error col="4" line="116" url="http://localhost:8080/le-space/user">Missing attribute name.</error>
+                    <error col="4" line="133" url="http://localhost:8080/le-space/user">Missing attribute name.</error>
+                    <error col="7" line="141" url="http://localhost:8080/le-space/user">Missing attribute name.</error>
+                    <error col="15" line="149" url="http://localhost:8080/le-space/user">Missing attribute name.</error>
+                    <error col="48" line="149" url="http://localhost:8080/le-space/user">Missing attribute name.</error>
+                    <warning col="50" line="149" url="http://localhost:8080/le-space/user">Start element &lt;hr&gt; automatically closes element &lt;p&gt;.</warning>
+                    <warning col="101" line="149" url="http://localhost:8080/le-space/user">Bare ampersand found.</warning>
+                    <error col="15" line="150" url="http://localhost:8080/le-space/user">Missing attribute name.</error>
+                </htmlparser>
+            </step>
+            <step duration="16" result="completed" taskName="verifyTitle">
+                <parameter name="nested text" value="Le Space (beta) - Coworking in Leipzig"/>
+            </step>
+            <step duration="3" result="completed" taskName="verifyText">
+                <parameter name="nested text" value="Martin"/>
+            </step>
+            <step duration="3" result="completed" taskName="verifyText">
+                <parameter name="nested text" value="Hilbrecht"/>
+            </step>
+            <step duration="4" result="completed" taskName="verifyText">
+                <parameter name="nested text" value="Nico"/>
+            </step>
+            <step duration="3" result="completed" taskName="verifyText">
+                <parameter name="nested text" value="Krause"/>
+            </step>
+        </results>
+    </testresult>
+</summary>

@@ -1,0 +1,27 @@
+--Output from testAddDayTicket--
+url: http://localhost:8080/le-space/ secureServerUrl: https://localhost:8443/le-space 
+[native2ascii] Converting 1 file from /Users/nico/NetBeansProjects/le-space/grails-app/i18n to /Users/nico/.grails/1.3.4/projects/le-space/resources/grails-app/i18n
+Server And Context from config file: set http://localhost:8080/le-space/
+Request servlet path: /grails/public/step3.dispatch
+Request with context: http://localhost:8080/le-space
+context only: /le-space
+Server And Context from config file: set http://localhost:8080/le-space/
+Request servlet path: /grails/public/register.dispatch
+Request with context: http://localhost:8080/le-space
+context only: /le-space
+--Output from testAdd10DayTicket--
+url: http://localhost:8080/le-space/ secureServerUrl: https://localhost:8443/le-space 
+Server And Context from config file: set http://localhost:8080/le-space/
+Request servlet path: /grails/public/step2.dispatch
+Request with context: http://localhost:8080/le-space
+context only: /le-space
+Server And Context from config file: set http://localhost:8080/le-space/
+Request servlet path: /grails/public/step2.dispatch
+Request with context: http://localhost:8080/le-space
+context only: /le-space
+Server And Context from config file: set http://localhost:8080/le-space/
+Request servlet path: /grails/public/register.dispatch
+Request with context: http://localhost:8080/le-space
+context only: /le-space
+--Output from testCustomerPublicationOnWebsite--
+url: http://localhost:8080/le-space/ secureServerUrl: https://localhost:8443/le-space 

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?><testsuite time="89.289" tests="3" name="WebTest" failures="0" errors="0">
+<!--
+			This is an overview of the WebTest results in JUnit "standard" format.
+			It doesn't present all the information available in WebTest reports but can be easily be integrated
+			in reports of continuous integration tools like Cruise Control.
+			-->
+<testcase time="72.709" name="le.space.RegistrationTests.testAddDayTicket" classname="WebTest"/>
+<testcase time="12.926" name="le.space.RegistrationTests.testAdd10DayTicket" classname="WebTest"/>
+<testcase time="3.654" name="le.space.RegistrationTests.testCustomerPublicationOnWebsite" classname="WebTest"/>
+</testsuite>

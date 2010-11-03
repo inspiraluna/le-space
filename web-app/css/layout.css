@@ -1,0 +1,342 @@
+/* stylesheet Le Space
+zuletzt editiert am: 6.4.2010
+----------------------------------*/
+
+.message {
+    background: #f3f8fc url(../images/skin/information.png) 8px 50% no-repeat;
+    border: 1px solid #b2d1ff;
+    color: #006dba;
+    margin: 10px 0 5px 0;
+    padding: 5px 5px 5px 30px
+}
+
+div.errors {
+    background: #fff3f3;
+    border: 1px solid red;
+    color: #cc0000;
+    margin: 10px 0 5px 0;
+    padding: 5px 0 5px 0;
+}
+div.errors ul {
+    list-style: none;
+    padding: 0;
+}
+div.errors li {
+	background: url(../images/skin/exclamation.png) 8px 0% no-repeat;
+    line-height: 16px;
+    padding-left: 30px;
+}
+
+td.errors select {
+    border: 1px solid red;
+}
+td.errors input {
+    border: 1px solid red;
+}
+
+#kopf,
+#koerper,
+#footer {
+margin:2em 0 0 3em;
+clear:both;
+}
+
+#logo,
+#infos {
+width:22em;
+margin:0 3em 2em 0;
+float:left;
+display:inline;
+}
+
+#navi_slogan,
+#inhalt {
+width:69em;
+float:left;
+display:inline;
+}
+
+/* kopf - navi (zitat, bilder)
+----------------------------------*/
+
+div#hauptnavi {
+margin:0 0 1em 0;
+}
+
+#hauptnavi ul {
+width:100%;
+margin:0 0 0.1em 0;
+}
+
+#hauptnavi ul li {
+display:inline;
+}
+
+#hauptnavi ul a {
+float:left;
+padding:0.2em 1em 0.3em 1em;
+}
+
+#subnavi {
+width:100%;
+float:left;
+display:inline;
+margin:0 0 1em 0;
+}
+
+ul#subnavi_text li,
+ul#subnavi_icons li {
+display:inline;
+}
+
+ul#subnavi_text a {
+float:left;
+padding:0em 1em;
+}
+
+ul#subnavi_icons a {
+float:left;
+padding:0em 0.1em;
+}
+
+#bilder img {
+margin:0 0.5em 0.5em 0;
+}
+
+/* koerper - infos 
+----------------------------------*/
+
+#infos hr {
+width:100%;
+height:1px;
+clear:both;
+margin:1em 0 1em 0;
+}
+
+#infos h2 {
+margin:1em 0 0 0;
+}
+
+/* koerper - inhalt
+----------------------------------*/
+
+#koerper .dreispaltig {
+margin:0 0 2em 0;
+float:left;
+}
+
+#koerper .dreispaltig table {
+width:69em;
+}
+
+#koerper .zweispaltig {
+width:45.5em;
+float:left;
+}
+
+
+
+#koerper .einspaltig {
+width:22em;
+float:left;
+margin:0 0 0 1.5em;
+}
+
+#startseite .feed {
+width:22em;
+margin:0 0 0 1.5em;
+float:left;
+}
+
+#startseite #koerper div.first {
+margin:0;
+}
+
+#koerper .feed ul {
+margin:0 0 2em 0;
+padding:0.3em;
+}
+
+#koerper .feed li {
+border-bottom:solid 1px #ef8000;
+padding:0.3em 0;
+}
+
+#koerper h1 {
+margin:26px 0 26px 0;
+}
+#koerper h1.first {
+margin:0 0 26px 0;
+}
+#koerper h2,
+#koerper p,
+#koerper table {
+margin:0 0 13px 0;
+}
+#koerper h2.extra {
+margin:26px 0 13px 0;
+}
+
+div.ausklappen {
+border-bottom:2px solid #fff;
+}
+div.ausklappen a {
+padding: 0.3em 1em;
+}
+#koerper #vorteil01,
+#koerper #vorteil02,
+#koerper #vorteil03,
+#koerper #vorteil04 {
+margin: 13px 0 26px 0;
+}
+
+/* allgemein
+----------------------------------*/
+
+hr {
+width:100%;
+height:1px;
+clear:both;
+margin:1em 0 1em 0;
+}
+
+.clear {
+clear:both;
+}
+
+
+/* Print
+----------------------------------*/
+
+@media print {
+
+* {
+margin:0;
+padding:0;
+border-collapse:collapse;
+border-spacing:0;
+}
+
+#hauptnavi,
+#subnavi,
+div.extern,
+div.einspaltig,
+div.feed {
+visibility:hidden;
+width:0;
+height:0;
+position:absolute;
+left:0;
+top:0;
+z-index:5;
+}
+
+#logo,
+#infos {
+width:5cm;
+float:left;
+margin:0;
+}
+
+#navi_slogan,
+#inhalt,
+#inhalt div.dreispaltig,
+#inhalt div.dreispaltig table,
+#inhalt div.zweispaltig {
+width:9cm;
+float:right;
+}
+#navi_slogan,
+#inhalt {
+margin:0 1cm 0 0;
+}
+
+div.ausklappen a {
+padding: 0;
+}
+
+
+
+/* Bilder
+==================================*/
+#logo img {
+width:4cm;
+height:4cm;
+border:none;
+}
+
+#bilder img {
+width:2cm;
+height:2cm;
+border:none;
+}
+
+/* Listen
+----------------------------------*/
+
+ul,
+li {
+list-style: none;
+}
+
+/* Tabelle
+----------------------------------*/
+
+#koerper th,
+#koerper td { 
+text-align:left;
+padding:1mm;
+border:1px solid #787878;
+}
+
+/* hr
+----------------------------------*/
+
+hr {
+color:#787878;
+background-color:#787878;
+border:0;
+}
+
+/* Typo
+==================================*/
+
+body {
+font-family:Georgia, "Times New Roman", Times, serif; 
+}
+
+p, 
+a,
+th,
+td {
+font-size:9pt;
+line-height:12pt;
+color:#000;
+}
+
+#slogan p {
+font-size:16pt; 
+line-height:18pt;
+color:#ef8000;
+}
+
+h1 {
+font-size:12pt; 
+line-height:16pt;
+font-weight:700;
+}
+
+h2 {
+font-size:9pt; 
+font-weight:700;
+}
+#infos h2 {
+color:#ef8000;
+}
+
+tfoot td {
+font-size:7pt; 
+}
+
+
+}
