@@ -39,62 +39,37 @@
     <div class="dialog">
       <table>
         <tbody>
-
           <tr class="prop">
             <td valign="top" class="name"><g:message code="contract.id.label" default="Id" /></td>
             <td valign="top" class="value">${fieldValue(bean: contractInstance, field: "id")}</td>
             <td valign="top" class="name"><g:message code="contract.company.label" default="Company" /></td>
             <td valign="top" class="value">${fieldValue(bean: contractInstance, field: "customer.company")}</td>
         </tr>
+        <tr class="prop">
+        <td valign="top" class="name"><g:message code="contract.autoExtend.label" default="Auto Extend" /></td>
+        <td valign="top" class="value"><g:formatBoolean boolean="${contractInstance?.autoExtend}" /></td>
+        <td valign="top" class="name"><g:message code="contract.paymentMethod.label" default="Payment Method" /></td>
+        <td valign="top" class="value">
+        <g:select id="paymentMethod" name="paymentMethod"
+                                                 valueMessagePrefix="contract.paymentMethod"
+                                                 from="${contractInstance.constraints.paymentMethod.inList}" value="${contractInstance.paymentMethod}">
+        </g:select>
+        </td>
 
         <tr class="prop">
-            <td valign="top" class="name"><g:message code="contract.addressLine1.label" default="Address Line1" /></td>
-            <td valign="top" class="value">${fieldValue(bean: contractInstance, field: "customer.addressLine1")}</td>
-            <td valign="top" class="name"><g:message code="contract.addressLine2.label" default="Address Line2" /></td>
-            <td valign="top" class="value">${fieldValue(bean: contractInstance, field: "customer.addressLine2")}</td>
-        </tr>
+          <td valign="top" class="name"><g:message code="contract.contractStart.label" default="Contract Start" /></td>
+          <td valign="top" class="value"><calendar:datePicker dateFormat="%d.%m.%Y" name="contractStart" value="${contractInstance.contractStart}" defaultValue="${new Date()}" years="2009,2999"/></td>
 
-        <tr class="prop">
-            <td valign="top" class="name"><g:message code="contract.zip.label" default="Zip" /></td>
-            <td valign="top" class="value">${fieldValue(bean: contractInstance, field: "customer.zip")}</td>
-            <td valign="top" class="name"><g:message code="contract.city.label" default="City" /></td>
-            <td valign="top" class="value">${fieldValue(bean: contractInstance, field: "customer.city")}</td>
+          <td valign="top" class="name"><g:message code="contract.contractEnd.label" default="Contract End" /></td>
+          <td valign="top" class="value"><calendar:datePicker dateFormat="%d.%m.%Y" name="contractEnd" value="${contractInstance.contractEnd}" defaultValue="${new Date()}" years="2009,2999"/></td>
         </tr>
-
-        <tr class="prop">
-          <td valign="top" class="name"><g:message code="contract.country.label" default="Country" /></td>
-        <td valign="top" class="value">${fieldValue(bean: contractInstance, field: "customer.country")}</td>
-        </tr>
-
-        <tr class="prop">
-          <td valign="top" class="name"><g:message code="contract.tel1.label" default="Tel1" /></td>
-        <td valign="top" class="value">${fieldValue(bean: contractInstance, field: "customer.tel1")}</td>
-        <td valign="top" class="name"><g:message code="contract.fax.label" default="Fax" /></td>
-        <td valign="top" class="value">${fieldValue(bean: contractInstance, field: "customer.fax")}</td>
-        </tr>
-
-       
         <tr class="prop">
           <td valign="top" class="name"><g:message code="contract.url.label" default="Url" /></td>
           <td valign="top" class="value">${fieldValue(bean: contractInstance, field: "customer.url")}</td>
         </tr>
 
-        
-        </tr>
-
-        <td valign="top" class="name"><g:message code="contract.paymentMethod.label" default="Payment Method" /></td>
-        <td valign="top" class="value">${fieldValue(bean: contractInstance, field: "paymentMethod")}</td>
-
         <tr class="prop">
-          <td valign="top" class="name"><g:message code="contract.contractStart.label" default="Contract Start" /></td>
-        <td valign="top" class="value"><g:formatDate date="${contractInstance?.contractStart}" /></td>
-        <td valign="top" class="name"><g:message code="contract.contractEnd.label" default="Contract End" /></td>
-        <td valign="top" class="value"><g:formatDate date="${contractInstance?.contractEnd}" /></td>
-        </tr>
-
-        <tr class="prop">
-          <td valign="top" class="name"><g:message code="contract.autoExtend.label" default="Auto Extend" /></td>
-        <td valign="top" class="value"><g:formatBoolean boolean="${contractInstance?.autoExtend}" /></td>
+         
         <td valign="top" class="name"><g:message code="contract.allowPublishNameOnWebsite.label" default="Allow Publish Name On Website" /></td>
         <td valign="top" class="value"><g:formatBoolean boolean="${contractInstance?.customer.allowPublishNameOnWebsite}" /></td>
         </tr>

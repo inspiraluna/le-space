@@ -109,7 +109,7 @@ environments {
     }
     test {
         dataSource {
-            grails.serverURL = "http://localhost:8080/le-space/" //${appName}
+            grails.serverURL = "http://localhost:8081/le-space/" //${appName}
             grails.secureServerURL  = "https://localhost:8443/le-space"
             dbCreate = "update"
             url = "jdbc:hsqldb:mem:testDb"

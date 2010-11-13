@@ -3,21 +3,21 @@
 </g:if>
 <g:if test="${contract.paymentMethod==1}">
   <table>
-      <tr><td><g:message code="contract.accountOwner" />:</td>
-        <td class="value ${hasErrors(bean: contract, field: 'accountOwner', 'errors')}"><g:textField name="accountOwner" value="${contract?.customer?.accountOwner}" /></td></tr>
-      <tr><td><g:message code="contract.accountNo" />:</td>
-        <td class="value ${hasErrors(bean: contract, field: 'accountNo', 'errors')}"><g:textField name="accountNo" value="${contract?.customer?.accountNo}" /></td></tr>
-      <tr><td><g:message code="contract.bankNo" />:</td>
-        <td class="value ${hasErrors(bean: contract, field: 'bankNo', 'errors')}"><g:textField name="bankNo" value="${contract?.customer?.bankNo}" /></td></tr>
-      <tr><td><g:message code="contract.bankName" />:</td>
-        <td class="value ${hasErrors(bean: contract, field: 'bankName', 'errors')}"><g:textField name="bankName" value="${contract?.customer?.bankName}" /></td></tr>
-      <tr><td><g:message code="contract.IBANNo" />:</td>
-        <td class="value ${hasErrors(bean: contract, field: 'IBANNo', 'errors')}"><g:textField name="IBANNo" value="${contract?.customer?.IBANNo}" /></td></tr>
-      <tr><td><g:message code="contract.BICNo" />:</td>
-        <td class="value ${hasErrors(bean: contract, field: 'BICNo', 'errors')}"><g:textField name="BICNo" value="${contract?.customer?.BICNo}" /></td></tr>
-      <tr><td><g:message code="contract.directDebitPermission" />:</td>
-        <td class="value ${hasErrors(bean: contract, field: 'directDebitPermission', 'errors')}"><g:checkBox name="directDebitPermission" value="${contract?.customer?.directDebitPermission}" />&nbsp;
-        <g:message code="contract.directDebitPermissionText" />
+      <tr><td><g:message code="bankAccount.accountOwner.label" />:</td>
+        <td class="value ${hasErrors(bean: bankAccount, field: 'accountOwner', 'errors')}"><g:textField name="accountOwner" value="${contract?.customer?.bankAccount?.accountOwner}" /></td></tr>
+      <tr><td><g:message code="bankAccount.accountNo.label" />:</td>
+        <td class="value ${hasErrors(bean: bankAccount, field: 'accountNo', 'errors')}"><g:textField name="accountNo" value="${contract?.customer?.bankAccount?.accountNo}" /></td></tr>
+      <tr><td><g:message code="bankAccount.bankNo.label" />:</td>
+        <td class="value ${hasErrors(bean: bankAccount, field: 'bankNo', 'errors')}"><g:textField name="bankNo" value="${contract?.customer?.bankAccount?.bankNo}" /></td></tr>
+      <tr><td><g:message code="bankAccount.bankName.label" />:</td>
+        <td class="value ${hasErrors(bean: bankAccount, field: 'bankName', 'errors')}"><g:textField name="bankName" value="${contract?.customer?.bankAccount?.bankName}" /></td></tr>
+      <tr><td><g:message code="bankAccount.IBANNo.label" />:</td>
+        <td class="value ${hasErrors(bean: bankAccount, field: 'IBANNo', 'errors')}"><g:textField name="IBANNo" value="${contract?.customer?.bankAccount?.IBANNo}" /></td></tr>
+      <tr><td><g:message code="bankAccount.BICNo.label" />:</td>
+        <td class="value ${hasErrors(bean: bankAccount, field: 'BICNo', 'errors')}"><g:textField name="BICNo" value="${contract?.customer?.bankAccount?.BICNo}" /></td></tr>
+      <tr><td><g:message code="bankAccount.directDebitPermission.label" />:</td>
+          <td class="value ${hasErrors(bean: bankAccount, field: 'directDebitPermission', 'errors')}"><g:checkBox name="directDebitPermission" value="${contract?.customer?.bankAccount?.directDebitPermission}" />&nbsp;
+        <g:message code="bankAccount.directDebitPermissionText.label" />
         </td></tr>
   </table>
 </g:if>

@@ -187,7 +187,7 @@
               <label for="paymentMethod"><g:message code="contract.paymentMethod.label" default="Payment Method" /></label>
             </td>
             <td valign="top" class="value ${hasErrors(bean: contractInstance, field: 'paymentMethod', 'errors')}">
-          <g:select id="paymentMethod" name="paymentMethod" from="${contractInstance.constraints.paymentMethod.inList}" value="${contractInstance.paymentMethod}" ></g:select>
+              <g:select id="paymentMethod" name="paymentMethod" from="${contractInstance.constraints.paymentMethod.inList}" value="${contractInstance.paymentMethod}" ></g:select>
           </td>
           </tr>
 

@@ -4,6 +4,12 @@ class PublicController {
 
     def index = {     
         log.debug " registration called..."
+        session.contract=new Contract()
+        session.bankAccount = new BankAccount()
+        session.customer = new Customer()
+        session.products = null
+        session.shiroUser = new ShiroUser()
+
         [contract:new Contract(), shiroUser: new ShiroUser(), customer: new Customer(), bodyId:"anmeldung",slogan: "Jetzt anmelden und Fensterplätze sichern! :-)"]
     }
 
@@ -14,11 +20,20 @@ class PublicController {
 
         def contract = session.contract
         def customer = session.customer
+        def products = session.products
+        def bankAccount = session.bankAccount
+
+        log.debug "bankAccount:${bankAccount} ${contract.customer.bankAccount}"
         contract.customer = customer
+        customer.bankAccount = bankAccount
+        contract.products = products
+        contract.calculateAmounts()
+
+        log.debug "bankAccount:${bankAccount} ${contract.customer.bankAccount}"
+        
         def shiroUser = session.shiroUser
         customer.addToShiroUsers(shiroUser)
         
-
         if(!contract.validate()){
             log.debug "contract has errors! ${contract}"
             customer.errors.allErrors.each {
@@ -45,41 +60,47 @@ class PublicController {
             flash.message = message(code: "shiroUser.formErrors",args: [ "" ])
             [render(view: "step1", model: [contract:contract,customer:customer,shiroUser:shiroUser])]
         }
-        log.debug "contract:${contract}\nshiroUser:${shiroUser}\ncustomer:${customer}"
-        [contract:contract,customer:customer,shiroUser:shiroUser]
+        
+        log.debug "contract:${contract}\n shiroUser:${shiroUser}\n customer:${customer} \n products:${session.products}"
+        [contract:contract,customer:customer,shiroUser:shiroUser,products:products]
     }
 
     // check payment method (add products to contract)
     def step2 = {
 
         log.debug " step 2 called ${params.email}"
+        
         def contract = session.contract
-        contract.properties = params
+        contract.products = session.products
+        def bankAccount = session.bankAccount
+        def customer = session.customer
+        def shiroUser = session.shiroUser
 
-        def customer = contract.customer
-        if(!customer)
-        customer = new Customer()
+        if(params.email || params.email == ''){
+            log.debug "here we go!"
+            
+            contract.properties = params
+            customer.properties = params
+            shiroUser.properties = params
 
-        customer.properties = params
-        session.customer = customer
-        contract.customer = customer
-        
-        def shiroUser = new ShiroUser()
-        shiroUser.properties = params
-        shiroUser.username = params.email
-        
-        customer.addToShiroUsers(shiroUser)
-        session.shiroUser = shiroUser
-        
-        params.products.each{
-            contract.addToProducts(Product.get(it))
+            shiroUser.username = params.email
+            contract.products = session.products
+            customer.bankAccount = bankAccount
+            
+            contract.customer = customer
+            customer.addToShiroUsers(shiroUser)
         }
+        contract.calculateAmounts()
+        session.customer = customer
+        session.shiroUser = shiroUser
+        session.contract = contract
+        session.products = contract.products
 
-        log.debug "${contract}\n${shiroUser}\n${customer}"
+        log.debug "${contract}\n${shiroUser}\n${customer} ${contract.paymentMethod}"
 
         if(!contract.validate()){
             log.debug "contract has errors!"
-            customer.errors.allErrors.each {
+            contract.errors.allErrors.each {
                 log.error it
             }
             flash.message = message(code: "contract.formErrors",args: [ "" ])
@@ -103,27 +124,65 @@ class PublicController {
             flash.message = message(code: "shiroUser.formErrors",args: [ "" ])
             [render(view: "step1", model: [contract:contract,customer:customer,shiroUser:shiroUser])]
         }
+        
+        log.debug "contract:${contract}\n shiroUser:${shiroUser}\n customer:${customer} \n products:${session.products}"
 
         if(contract.paymentMethod == 0)
         [render(view: "step3", model: [contract:contract,customer:customer,shiroUser:shiroUser])]
-        log.debug "contract:${contract}\nshiroUser:${shiroUser}\ncustomer:${customer}"
+            
+       
         [contract:contract,customer:customer,shiroUser:shiroUser]
     }
 
     //display contract data
     def step3 = {
-        log.debug "step 3 called"
+        log.debug "step 3 called ${params}"
+
         def contract = session.contract
+        contract.calculateAmounts()
         def customer = session.customer
-        customer.properties = params
-        session.customer = customer
         def shiroUser = session.shiroUser
-        customer.addToShiroUsers(shiroUser)
+        def bankAccount = session.bankAccount
+
+        if(params.accountOwner || params.email){
+            log.debug "here we go. ... ${params.accountOwner} ${params.email}"
+            if(params.accountOwner){
+                bankAccount = new BankAccount()
+                log.debug "adding bankAccount ${params.accountOwner}"
+                bankAccount.properties = params
+                session.bankAccount = bankAccount
+            }       
+            else{
+                contract = new Contract()
+                customer = new Customer()
+                shiroUser = new ShiroUser()
+                contract.properties = params
+                customer.properties = params
+                shiroUser.properties = params
+                contract.products = session.products
+                shiroUser.username = params.email
+                /**
+                params.product.each{
+                if(it!=null && it!='null')
+                log.debug "adding product ${Product.get(it)}"
+                contract.addToProducts(Product.get(it))
+                }*/
+            }
+        }
+        
+        customer.bankAccount = bankAccount
         contract.customer = customer
+        contract.calculateAmounts()
+        session.contract = contract
+        session.customer = customer
+        session.shiroUser = shiroUser
+        session.products = contract.products
 
-        log.debug "contract:${contract}\nshiroUser:${shiroUser}\ncustomer:${customer}"
+        customer.addToShiroUsers(shiroUser)
+       
+        log.debug "contract:${contract} \n shiroUser:${shiroUser}\n customer:${customer} \n products:${session.products}"
 
-        [contract:contract,customer:customer,shiroUser:shiroUser]
+        [contract:contract,customer:customer,shiroUser:shiroUser,bankAccount:bankAccount]
     }
 
     //save contract
@@ -134,16 +193,21 @@ class PublicController {
         def shiroUser = session.shiroUser
         shiroUser.addToRoles(ShiroRole.findByName("User"))
         def customer = session.customer
-
+        def bankAccount = session.bankAccount
+        
         customer.addToShiroUsers(shiroUser)
         contract.customer = customer
 
         log.debug "contract:${contract}\nshiroUser:${shiroUser}\ncustomer:${customer}"
         
-        if(shiroUser.validate() && shiroUser.save() && customer.validate() && customer.save() && contract.validate() && contract.save() ){
+        if(shiroUser.validate() && shiroUser.save() && 
+            customer.validate() && customer.save() &&
+            bankAccount.validate() && bankAccount.save() &&
+            contract.validate() && contract.save() ){
+            
             log.debug "no errors contract saved"
             
-//            shiroUser.save()
+            //            shiroUser.save()
             session.contract = contract
 
             /*            //log.debug "try to send email... "
@@ -219,29 +283,41 @@ class PublicController {
     def optionsOfProduct = {
 
         def contract = new Contract()
+        def customer = new Customer()
+        def shiroUser = new ShiroUser()
+
         contract.properties=params
-        log.debug "quantity: ${contract.quantity} ${params}"
+        customer.properties = params
+        shiroUser.properties = params
+        shiroUser.username = params.email
+        contract.customer = customer
+        customer.addToShiroUsers(shiroUser)
+        log.debug "quantity: ${contract.quantity} ${params} ${contract.customer.reverseChargeSystem} "
+        
         def p
         if(params.id && params.id!='0'){
             p = Product.get(params.id)
             contract.addToProducts(p)
             contract.calculateAmounts()
-        }
         
-        session.contract=contract
-        log.debug "load options of product ${p}  params.id:${params.id}"
+        
+            session.contract=contract
 
-        def options = null
+            log.debug "load options of product ${p}  params.id:${params.id}"
 
-        session.options = []
+        
+            session.options = []
 
-        if(params.id)
-        options = le.space.Product.findAll('from Product as p where p.option = ?', [p])
+            //if(params.id)
+            def options = le.space.Product.findAll('from Product as p where p.option = ?', [p])
 
-        session.options = options
+            session.options = options
+            session.products = contract.products
 
-        log.debug "found options ${options} ${session.contract} params.id:${params.id}"
-        [contract:session.contract,options:options,product:p]
+
+            log.debug "found options ${options} ${session.contract} params.id:${params.id}"
+        }
+        [contract:session.contract,options:session.options,product:p]
     }
 
     def addOption = {
@@ -265,6 +341,8 @@ class PublicController {
             }
         }
         log.debug "contents of optionList  ${contract.products}"
+        session.products = contract.products
+        session.contract = contract
 
         [render(view: "_sum", model: [contract:contract])]
     }
@@ -272,7 +350,7 @@ class PublicController {
     def contractPdf = {
         
         if(params.id)
-          session.contract = Contract.get(params.id)
+        session.contract = Contract.get(params.id)
 
         def contract = session.contract
 
@@ -280,7 +358,7 @@ class PublicController {
             log.debug it
         }
 
-        log.info "contractPdf called. with ${contract} and products: ${contract.products} and customer: ${contract.customer} and users: ${contract.customer.shiroUsers}"
+        log.info "contractPdf called. with ${contract} \nand products: ${contract.products} \nand customer: ${contract.customer} \nand bankAccount:${contract.customer.bankAccount} \n and users: ${contract.customer.shiroUsers}"
         chain(controller:"jasper", action:"index", model:[data:[contract]],params:params)
     }
 

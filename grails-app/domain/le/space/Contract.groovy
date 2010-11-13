@@ -46,13 +46,15 @@ class Contract {
     def toolService
    	
     static transients = ["selectedProducts"]
-    static hasMany = [ products: Product,logins: Login,payments:Payment]
+
+    static hasMany = [products: Product,logins: Login,payments:Payment]
+
 
     static constraints = {
 
         conditions(nullable:true,blank:true)        
         paymentMethod(nullable:false,inList:[0,1,2,3])
-        contractStart(nullable:false,blank:true)
+        contractStart(nullable:false,blank:false)
         contractEnd(nullable:true,blank:true)
         autoExtend()
         
@@ -90,6 +92,8 @@ class Contract {
             ld = ld.minusDays(1)		
             contractEnd = ld.toDate()
         }
+        if(autoExtend)
+        contractEnd = null
 
         //calculating amountNet
         double aGross = 0.00
@@ -103,10 +107,17 @@ class Contract {
             aVAT+=iNet*it.vat/100
             // log.debug "-->currentProduct: ${it.name} priceNet:${it.priceNet} priceGross:${it.priceGross} amount:${it.priceVAT}"
         }
+        if(!customer?.reverseChargeSystem){
+            amountNet = aNet.round(2)
+            amountVAT  = aVAT.round(2)
+            amountGross = aGross.round(2)
 
-        amountGross = aGross.round(2)
-        amountVAT  = aVAT.round(2)
-        amountNet = aNet.round(2)
+        }
+        else{
+            amountNet = aNet.round(2)
+            amountVAT  = 0.00
+            amountGross = amountNet
+        }
 
         //automatisch verlängernde Verträge heraussuchen und anzahl der noch nicht bezahlten Monate heraussuchen und mit Vertragspreis multiplizieren.
         boolean autoExtendPaid = false
@@ -118,9 +129,9 @@ class Contract {
         }
         
         if((!autoExtend && amountPaid >=amountGross) || (autoExtend && autoExtendPaid))
-            paid = true
+        paid = true
         else
-            paid = false
+        paid = false
 
 
         boolean tmpValid = false
@@ -144,14 +155,19 @@ class Contract {
 
         dateCreated = new Date()
         dateModified = new Date()
-        createdBy = SecurityUtils.getSubject().principal?ShiroUser.findByUsername(SecurityUtils.getSubject().principal):null
+        try { //during startup no securityManager!
+            createdBy = SecurityUtils.getSubject().principal?ShiroUser.findByUsername(SecurityUtils.getSubject().principal):null
+        }catch(Exception ex){createdBy=ShiroUser.get(1)}
         allowedLoginDaysLeft=getProducts()?getProducts().toArray()[0].allowedLoginDays*quantity:0
         calculateAmounts()
     }
 
     def beforeUpdate = {
         dateModified = new Date()
-        modifiedBy = SecurityUtils.getSubject().principal?ShiroUser.findByUsername(SecurityUtils.getSubject().principal):null
+        try { //during startup no securityManager!
+            modifiedBy = SecurityUtils.getSubject().principal?ShiroUser.findByUsername(SecurityUtils.getSubject().principal):null
+        }catch(Exception ex){createdBy=ShiroUser.get(1)}
+        
         calculateAmounts()
     }
 
@@ -160,6 +176,6 @@ class Contract {
     }
 
     String toString(){
-        "${contractStart} ${contractEnd} "
+        "${contractStart} ${contractEnd} ${paymentMethod} ${amountGross} ${amountNet}"
     }
 }

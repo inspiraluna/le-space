@@ -30,32 +30,32 @@ class ApplicationBootStrap {
         //  if(grails.util.GrailsUtil.environment == "development" || grails.util.GrailsUtil.environment == "test") {
         if(le.space.Product.count()==0){
             //Product
-            def p1 = new le.space.Product(productNo:"0001",name:"_day_ticket",description:"_day_ticket",priceNet:8.40336134454,vat:19.0,option:null,autoExtendPossible:false).save() //10
-            def p2 = new le.space.Product(durationType:le.space.Product.DUR_MONTH, productNo:"0002",name:"_12day_in_1_month",description:"_12day_ticket",priceNet:57.98319327731,vat:19.0,option:null,autoExtendPossible:true).save() //69
-            def p3 = new le.space.Product(duration:7, productNo:"0003",name:"_week_ticket",description:"_week_ticket",priceNet:32.7731092437,vat:19.0,option:null,autoExtendPossible:false).save() //39
-            def p4 = new le.space.Product(durationType:le.space.Product.DUR_MONTH, productNo:"0004",name:"_month_ticket",description:"_month_ticket",priceNet:100,vat:19.0,option:null,autoExtendPossible:true).save() //119
-            def p5 = new le.space.Product(durationType:le.space.Product.DUR_MONTH, productNo:"0005",name:"_month_ticket_fix",description:"_month_ticket_fix",priceNet:142.01680672269,vat:19.0,option:null,autoExtendPossible:true).save() //169
+            def p1 = new le.space.Product(productNo:"0001",name:"_day_ticket",description:"_day_ticket",priceNet:8.40,vat:19.0,option:null,autoExtendPossible:false,publicProduct:true).save() //10
+            def p2 = new le.space.Product(durationType:le.space.Product.DUR_MONTH, productNo:"0002",name:"_12day_in_1_month",description:"_12day_ticket",priceNet:57.98,vat:19.0,option:null,autoExtendPossible:true,publicProduct:true).save() //69
+            def p3 = new le.space.Product(duration:7, productNo:"0003",name:"_week_ticket",description:"_week_ticket",priceNet:32.77,vat:19.0,option:null,autoExtendPossible:false,publicProduct:true).save() //39
+            def p4 = new le.space.Product(durationType:le.space.Product.DUR_MONTH, productNo:"0004",name:"_month_ticket",description:"_month_ticket",priceNet:100,vat:19.0,option:null,autoExtendPossible:true,publicProduct:true).save() //119
+            def p5 = new le.space.Product(durationType:le.space.Product.DUR_MONTH, productNo:"0005",name:"_month_ticket_fix",description:"_month_ticket_fix",priceNet:142.017,vat:19.0,option:null,autoExtendPossible:true,publicProduct:true).save() //169
 						
             //Product Options
-            def p7 = new le.space.Product(productNo:"0007",name:"_key_week",description:"_key_week",priceNet:14.29,vat:19.0,option:p3).save() //17
-            def p8 = new le.space.Product(durationType:le.space.Product.DUR_MONTH,productNo:"0008",name:"_key_month",description:"_key_month",priceNet:24.37,vat:19.0,option:p4).save() //29
-            def p9 = new le.space.Product(durationType:le.space.Product.DUR_MONTH,productNo:"0009",name:"_key_12day_ticket",description:"_key_12day_ticket",priceNet:24.37,vat:19.0,option:p2,allowedLoginDays:12).save() //29
+            def p7 = new le.space.Product(productNo:"0007",name:"_key_week",description:"_key_week",priceNet:14.29,vat:19.0,option:p3,publicProduct:true).save() //17
+            def p8 = new le.space.Product(durationType:le.space.Product.DUR_MONTH,productNo:"0008",name:"_key_month",description:"_key_month",priceNet:24.37,vat:19.0,option:p4,publicProduct:true).save() //29
+            def p9 = new le.space.Product(durationType:le.space.Product.DUR_MONTH,productNo:"0009",name:"_key_12day_ticket",description:"_key_12day_ticket",priceNet:24.37,vat:19.0,option:p2,allowedLoginDays:12,publicProduct:true).save() //29
 			
-            def p10 = new le.space.Product(productNo:"0010",name:"_lockbox_day",description:"_lockbox_day",priceNet:2.52,vat:19.0,option:p1).save() //3
-            def p11 = new le.space.Product(productNo:"0011",name:"_lockbox_week",description:"_lockbox_week",priceNet:10.08,vat:19.0,option:p3).save() //12
-            def p12 = new le.space.Product(durationType:le.space.Product.DUR_MONTH,productNo:"0012",name:"_lockbox_12_day_ticket",description:"_lockbox_12_day_ticket",priceNet:12.61,vat:19.0,option:p2).save() //15
+            def p10 = new le.space.Product(productNo:"0010",name:"_lockbox_day",description:"_lockbox_day",priceNet:2.52,vat:19.0,option:p1,publicProduct:true).save() //3
+            def p11 = new le.space.Product(productNo:"0011",name:"_lockbox_week",description:"_lockbox_week",priceNet:10.08,vat:19.0,option:p3,publicProduct:true).save() //12
+            def p12 = new le.space.Product(durationType:le.space.Product.DUR_MONTH,productNo:"0012",name:"_lockbox_12_day_ticket",description:"_lockbox_12_day_ticket",priceNet:12.61,vat:19.0,option:p2,publicProduct:true).save() //15
 			
-            def p13 = new le.space.Product(durationType:le.space.Product.DUR_MONTH,productNo:"0013",name:"_mailbox_12_day_ticket",description:"_mailbox_12_day_ticket",priceNet:24.37,vat:19.0,option:p2).save() //29
-            def p14 = new le.space.Product(durationType:le.space.Product.DUR_MONTH,productNo:"0014",name:"_mailbox_month_ticket",description:"_mailbox_month",priceNet:24.37,vat:19.0,option:p4).save() //29
-            def p15 = new le.space.Product(durationType:le.space.Product.DUR_MONTH,productNo:"0015",name:"_mailbox_month_ticket_fix",description:"_mailbox_month",priceNet:24.37,vat:19.0,option:p5).save() //29
+            def p13 = new le.space.Product(durationType:le.space.Product.DUR_MONTH,productNo:"0013",name:"_mailbox_12_day_ticket",description:"_mailbox_12_day_ticket",priceNet:24.37,vat:19.0,option:p2,publicProduct:true).save() //29
+            def p14 = new le.space.Product(durationType:le.space.Product.DUR_MONTH,productNo:"0014",name:"_mailbox_month_ticket",description:"_mailbox_month",priceNet:24.37,vat:19.0,option:p4,publicProduct:true).save() //29
+            def p15 = new le.space.Product(durationType:le.space.Product.DUR_MONTH,productNo:"0015",name:"_mailbox_month_ticket_fix",description:"_mailbox_month",priceNet:24.37,vat:19.0,option:p5,publicProduct:true).save() //29
 		
-            def p16 = new le.space.Product(durationType:le.space.Product.DUR_MONTH,productNo:"0016",name:"_10day_in_3_months",description:"_10day_in_3_months",priceNet:75.63025210084,vat:19.0,option:null,autoExtendPossible:true,allowedLoginDays:10,duration:3).save() //90
-            def p17 = new le.space.Product(duration:3, durationType:le.space.Product.DUR_MONTH,productNo:"0017",name:"_lockbox_10day_in_3_months",description:"_lockbox_10day_in_3_months",priceNet:24.37,vat:19.0,option:p16).save() //29
+            def p16 = new le.space.Product(durationType:le.space.Product.DUR_MONTH,productNo:"0016",name:"_10day_in_3_months",description:"_10day_in_3_months",priceNet:75.63025210084,vat:19.0,option:null,autoExtendPossible:true,allowedLoginDays:10,duration:3,publicProduct:true).save() //90
+            def p17 = new le.space.Product(duration:3, durationType:le.space.Product.DUR_MONTH,productNo:"0017",name:"_lockbox_10day_in_3_months",description:"_lockbox_10day_in_3_months",priceNet:24.37,vat:19.0,option:p16,publicProduct:true).save() //29
 			
-            def p18 = new le.space.Product(durationType:le.space.Product.DUR_MONTH,productNo:"0018",name:"_key_month",description:"_key_month",priceNet:24.37,vat:19.0,option:p8).save() //29
+            def p18 = new le.space.Product(durationType:le.space.Product.DUR_MONTH,productNo:"0018",name:"_key_month",description:"_key_month",priceNet:24.37,vat:19.0,option:p8,publicProduct:true).save() //29
 
-            def p19 = new le.space.Product(durationType:le.space.Product.DUR_MONTH,productNo:"0019",name:"_coworking_visa",description:"_coworking_visa",priceNet:0,vat:19.0,option:null).save() //29
-            def p20 = new le.space.Product(durationType:le.space.Product.DUR_MONTH,productNo:"0020",name:"_jelly",description:"_jelly",priceNet:0,vat:19.0,option:null).save() //29
+            def p19 = new le.space.Product(durationType:le.space.Product.DUR_MONTH,productNo:"0019",name:"_coworking_visa",description:"_coworking_visa",priceNet:0,vat:19.0,option:null,publicProduct:true).save() //29
+            def p20 = new le.space.Product(durationType:le.space.Product.DUR_MONTH,productNo:"0020",name:"_jelly",description:"_jelly",priceNet:0,vat:19.0,option:null,publicProduct:true).save() //29
             
 
             log.debug "Products in database: ${le.space.Product.count()}"
@@ -126,8 +126,73 @@ class ApplicationBootStrap {
             new le.space.Photo(filename:"partyspace",directory:"/img/space_party",title:"foto:reneschaeffer.de",pageId:"faq,kontakt").save()
             log.debug "Photos in database: ${le.space.Photo.count()}"
         }
-        		
-        
+        if(le.space.Customer.count()==0){
+
+            def userNico = new ShiroUser(username:"nico",passwordHash:new Sha512Hash("nico").toHex(),salutation:"Herr",firstname:"Nico",lastname:"Krause",
+                email:"nico@le-space.de",birthday:new Date(),telMobile:"+49 174 9891949",occupation:"Softwareentwickler, Coworking Space Founder, Yoga Teacher",
+                twitterName:"inspiraluna",facebookName:"inspiraluna").save()
+
+            def customerNico = new Customer(company:"Softwareberatung Nico Krause",addressLine1:"Lichtenberg 44",addressLine2:"(oberes Geschoss)",zip:"D-84307",city:"Eggenfelden",country:"Deutschland",
+                tel1:"+49 8721 12132",fax:"+49 8721 12132",url:"www.twitter.com/inspiraluna",
+                allowPublishNameOnWebsite:true).save()
+
+            def bankAccount = new BankAccount(directDebitPermission:false,
+                accountOwner:"Nico Krause",accountNo:"119380",bankNo:"94391400",bankName:"Inntaler Volksbank",IBANNo:"12312311",BICNo:"123123123").save()
+            
+            customerNico.bankAccount = bankAccount
+            customerNico.addToShiroUsers(userNico)
+            customerNico.save()
+
+            def userJulian = new ShiroUser(username:"julian",passwordHash:new Sha512Hash("julian").toHex(),salutation:"Herr",firstname:"Julian",lastname:"Moritz",
+                email:"julian@le-space.de",birthday:new Date(),telMobile:"",occupation:"Softwareentwickler",
+                twitterName:"",facebookName:"").save()
+
+            def customerJulian = new Customer(company:"Julian Moritz",addressLine1:"Nonnenstraße 28",addressLine2:"",zip:"D-84307",city:"Leipzig",country:"Deutschland",
+                tel1:"+49 341 4955898",fax:"+49 341 4955898",url:"www.julianmoritz.de",
+                allowPublishNameOnWebsite:true).save()
+
+            def bankAccountJulian = new BankAccount(directDebitPermission:false,
+                accountOwner:"Julian Moritz",accountNo:"1802247080",bankNo:"94391422",bankName:"Sparkasse Leipzig",IBANNo:"86055592",BICNo:"123123123").save()
+            customerJulian.bankAccount = bankAccountJulian
+
+            customerJulian.addToShiroUsers(userJulian)
+            customerJulian.save()
+
+
+            log.debug "ShiroUsers in database: ${le.space.ShiroUser.count()}"
+            log.debug "Customers in database: ${le.space.Customer.count()}"
+
+        }
+
+        if(le.space.Contract.count()==0){            
+           
+            def contract1 = new Contract(customer:Customer.get(1),
+                conditions:"",
+                quantity:1,
+                paymentMethod:Contract.PM_CASH,
+                contractStart:new Date()-300,
+                autoExtend:false)
+
+            log.debug " ${le.space.Product.get(5)} ${le.space.Customer.get(1)}"
+
+            contract1.addToProducts(le.space.Product.get(5))
+            contract1.save()
+
+            def contract2 = new Contract(customer:Customer.get(2),
+                conditions:"",
+                quantity:1,
+                paymentMethod:Contract.PM_DIRECT_DEBIT,
+                contractStart:new Date(),
+                autoExtend:true)
+
+            log.debug " ${le.space.Product.get(1)} ${le.space.Customer.get(1)}"
+
+            contract2.addToProducts(le.space.Product.get(1))
+            contract2.save()
+
+
+            log.debug "Contracts in database: ${le.space.Contract.count()}"
+        }
     }
     def destroy = {
     }

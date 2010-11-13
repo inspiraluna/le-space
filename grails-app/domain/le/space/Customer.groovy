@@ -21,14 +21,22 @@ class Customer {
     String email
 
     boolean allowPublishNameOnWebsite = true
-    boolean directDebitPermission = false
+    boolean reverseChargeSystem = false
+    String reverseChargeSystemID
 
-    String accountOwner
-    String accountNo
-    String bankNo
-    String bankName
-    String IBANNo
-    String BICNo
+    BankAccount bankAccount
+    
+    static belongsTo = [Contract]
+
+    
+/*
+ *
+ * http://evatr.bff-online.de/eVatR/
+ *
+die ATU-Nummer deines Kunden und
+§13b (Reverse Charge System): Die Steuerschuld geht auf den Leistungsempfänger über!
+Ihre UstID: <%ustid%>
+*/
 
     Date dateCreated = new Date()
     Date dateModified = new Date()
@@ -68,6 +76,7 @@ class Customer {
     static transients = ["publicationHTML","salutation","firstname","lastname","email"]
 
     static constraints = {
+        
         company(nullable:true,blank:true)
         addressLine1(nullable:false,blank:false)
         addressLine2(nullable:true,blank:true)
@@ -80,14 +89,11 @@ class Customer {
         url(nullable:true,blank:true)
 
         allowPublishNameOnWebsite()
-        accountOwner(nullable:true,blank:true)
-        accountNo(nullable:true,blank:true)
-        bankNo(nullable:true,blank:true)
-        bankName(nullable:true,blank:true)
-        IBANNo(nullable:true,blank:true)
-        BICNo(nullable:true,blank:true)
-        directDebitPermission()
+        
+        bankAccount(nullable:true)
 
+        reverseChargeSystem()
+        reverseChargeSystemID(nullable:true,blank:true)
         dateCreated(nullable:true,blank:true)
         dateModified(nullable:true,blank:true)
         createdBy(nullable:true,blank:true)
@@ -99,12 +105,16 @@ class Customer {
     def beforeInsert = {
         dateCreated = new Date()
         dateModified = new Date()
-        createdBy = SecurityUtils.getSubject().principal?ShiroUser.findByUsername(SecurityUtils.getSubject().principal):null
+        try { //during startup no securityManager!
+            createdBy = SecurityUtils.getSubject().principal?ShiroUser.findByUsername(SecurityUtils.getSubject().principal):null
+        }catch(Exception ex){createdBy=ShiroUser.get(1)}
     }
 
     def beforeUpdate = {
         dateModified = new Date()
-        modifiedBy = SecurityUtils.getSubject().principal?ShiroUser.findByUsername(SecurityUtils.getSubject().principal):null
+        try{ //during startup no securityManager!
+            modifiedBy = SecurityUtils.getSubject().principal?ShiroUser.findByUsername(SecurityUtils.getSubject().principal):null
+        }catch(Exception ex){modifiedBy=ShiroUser.get(1)}
     }
 
     def afterLoad = {
@@ -112,9 +122,9 @@ class Customer {
         def html = "<hr /><p>"
         html+="${shiroUsers.toArray()[0].firstname} ${shiroUsers.toArray()[0].lastname} "
         if(shiroUsers.toArray()[0].occupation)
-        html+="- (${shiroUsers.toArray()[0].occupation})"
+        html+=" - (${shiroUsers.toArray()[0].occupation})"
         if(company)
-            html+="- ${company},"
+            html+=" - ${company},"
         if(city)
         html+=" (${city})"
         if(url && !url.startsWith("http://"))
@@ -125,7 +135,7 @@ class Customer {
         
     }
     String toString(){
-        "${company} ${addressLine1} ${addressLine2} ${zip} ${country} ${tel1} ${fax} ${url} directDebitPermission:${directDebitPermission}"
+        "${company} ${addressLine1} ${addressLine2} ${zip} ${country} ${tel1} ${fax} ${url} "
     }
 
 }

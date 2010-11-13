@@ -1,44 +1,118 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <testsuites>
-  <testsuite errors="0" failures="0" hostname="Nico.local" id="0" name="RegistrationTests" package="le.space" tests="3" time="92.976" timestamp="2010-11-03T13:34:20">
+  <testsuite errors="1" failures="0" hostname="Nico.local" id="0" name="ContractRegistrationTests" package="le.space" tests="4" time="121.852" timestamp="2010-11-13T13:43:06">
       <properties />
 
-      <testcase classname="le.space.RegistrationTests" name="testAddDayTicket" time="75.565" />
+      <testcase classname="le.space.ContractRegistrationTests" name="testAddDayTicket" time="96.628" />
 
-      <testcase classname="le.space.RegistrationTests" name="testAdd10DayTicket" time="13.472" />
+      <testcase classname="le.space.ContractRegistrationTests" name="testAddReverseChargeSystemContract" time="12.733">
+          <error message="WebTest le.space.ContractRegistrationTests.testAddReverseChargeSystemContract has failed. See WebTestReport for details." type="java.lang.RuntimeException">java.lang.RuntimeException: WebTest le.space.ContractRegistrationTests.testAddReverseChargeSystemContract has failed. See WebTestReport for details.
+	at org.grails.plugins.webtest.WebTestStatement.evaluate(WebTestStatement.groovy:28)
+	at org.grails.plugins.webtest.WebTestStatement$evaluate.call(Unknown Source)
+</error>
 
-      <testcase classname="le.space.RegistrationTests" name="testCustomerPublicationOnWebsite" time="3.871" />
+      </testcase>
+
+      <testcase classname="le.space.ContractRegistrationTests" name="testAdd10DayTicket" time="10.164" />
+
+      <testcase classname="le.space.ContractRegistrationTests" name="testCustomerPublicationOnWebsite" time="2.175" />
 
       <system-out><![CDATA[--Output from testAddDayTicket--
-url: http://localhost:8080/le-space/ secureServerUrl: https://localhost:8443/le-space 
-[native2ascii] Converting 1 file from /Users/nico/NetBeansProjects/le-space/grails-app/i18n to /Users/nico/.grails/1.3.4/projects/le-space/resources/grails-app/i18n
-Server And Context from config file: set http://localhost:8080/le-space/
+url: http://localhost:8081/le-space/ secureServerUrl: https://localhost:8443/le-space 
+Server And Context from config file: set http://localhost:8081/le-space/
 Request servlet path: /grails/public/step3.dispatch
 Request with context: http://localhost:8080/le-space
 context only: /le-space
-Server And Context from config file: set http://localhost:8080/le-space/
+Server And Context from config file: set http://localhost:8081/le-space/
+Request servlet path: /grails/public/step3.dispatch
+Request with context: http://localhost:8080/le-space
+context only: /le-space
+Server And Context from config file: set http://localhost:8081/le-space/
+Request servlet path: /grails/public/step3.dispatch
+Request with context: http://localhost:8080/le-space
+context only: /le-space
+Server And Context from config file: set http://localhost:8081/le-space/
 Request servlet path: /grails/public/register.dispatch
 Request with context: http://localhost:8080/le-space
 context only: /le-space
+--Output from testAddReverseChargeSystemContract--
+url: http://localhost:8081/le-space/ secureServerUrl: https://localhost:8443/le-space 
+Server And Context from config file: set http://localhost:8081/le-space/
+Request servlet path: /grails/public/step2.dispatch
+Request with context: http://localhost:8080/le-space
+context only: /le-space
+Server And Context from config file: set http://localhost:8081/le-space/
+Request servlet path: /grails/public/register.dispatch
+Request with context: http://localhost:8080/le-space
+context only: /le-space
+Webtest failure: : Text not found in pdf text "
+Nutzungsvertrag der Le Space UG (haftungsbeschränkt)
+Lützner Str. 91, 04177 Leipzig
+vertreten durch den Geschäftsführer Nico Krause
+eingetragen im Amtsgericht Leipzig HRB 25885 / UstID Nr. DE27240660
+Tel.: +49 (0) 3 41 / 4 78 58 70 - Fax: +49 (0) 3 41 / 4 92 76 49
+Internet: www.le-space.de - Email: info@le-space.de
+1. Vertragspartner der Nutzungsvereinbarung:
+Riedbrunnenstr. 4 -
+Straße Nr. (Adresse) Adresse (Zeile2)
+2. Leistung
+Die Nutzung beginnt am: Wednesday 01. September 2010
+Ticketanzahl / Menge: 1
+Firma bzw. Vorname und Name
+Herr Eric Poscher
+Die Nutzung endet am: Thursday 30. September 2010
+Österreich
+PLZ
+Dornbirn
+LandStadt
+6850
+contract.product.4(€ 100.00 netto)Gewählter Tarif/Produkte:
+Vertragsnummer
+4
+Vertragsbedingungen:
+Ergänzend gelten die ausgelegten allgemeinen Geschäftsbedingungen der Le Space UG
+und die Hausordnung des Tapetenwerks
+Betrag (netto):
+§13b (Reverse Charge System): Die Steuerschuld geht auf den Leistungsempfänger
+über!
+$ 100.00
+eRICsATUNo
+MwSt:
+Ihre UstId:
+<hr /><p>Eric Poscher  (Dornbirn)
+Betrag (brutto): $ 100.00
+$ 0.00
+3. Nutzungsgebühr
+5. Veröffentlichung von Firmenname, Name, Beruf und Webadresse
+Folgender Text wird ausschließlich auf unserer Webseite kostenfrei veröffentlicht.
+Ort, Datum, Unterschrift Le Space UG Ort, Datum Unterschrift Nutzer
+Bankverbindung Sparkasse Leipzig,
+Bankleitzahl, 860 555 92
+Kto. Nr. 1100880298
+IBAN: DE74860555921100880298
+BIC-/SWIFT-Code: WELADE8L
+Leipzig,13.11.2010 Leipzig,13.11.2010
+"
 --Output from testAdd10DayTicket--
-url: http://localhost:8080/le-space/ secureServerUrl: https://localhost:8443/le-space 
-Server And Context from config file: set http://localhost:8080/le-space/
+url: http://localhost:8081/le-space/ secureServerUrl: https://localhost:8443/le-space 
+Server And Context from config file: set http://localhost:8081/le-space/
 Request servlet path: /grails/public/step2.dispatch
 Request with context: http://localhost:8080/le-space
 context only: /le-space
-Server And Context from config file: set http://localhost:8080/le-space/
+Server And Context from config file: set http://localhost:8081/le-space/
 Request servlet path: /grails/public/step2.dispatch
 Request with context: http://localhost:8080/le-space
 context only: /le-space
-Server And Context from config file: set http://localhost:8080/le-space/
+Server And Context from config file: set http://localhost:8081/le-space/
 Request servlet path: /grails/public/register.dispatch
 Request with context: http://localhost:8080/le-space
 context only: /le-space
 --Output from testCustomerPublicationOnWebsite--
-url: http://localhost:8080/le-space/ secureServerUrl: https://localhost:8443/le-space 
+url: http://localhost:8081/le-space/ secureServerUrl: https://localhost:8443/le-space 
 ]]></system-out>
 
       <system-err><![CDATA[--Output from testAddDayTicket--
+--Output from testAddReverseChargeSystemContract--
 --Output from testAdd10DayTicket--
 --Output from testCustomerPublicationOnWebsite--
 ]]></system-err>

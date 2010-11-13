@@ -7,7 +7,8 @@ class Login {
     String macAddress = ""
     Date loginStart = new Date()
 
-    static belongsTo = Contract
+    static belongsTo = [contract:Contract]
+
 
     static constraints = {
         user(nullable:true,blank:true)

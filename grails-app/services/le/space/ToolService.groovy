@@ -10,8 +10,10 @@ class ToolService {
     def messageSource
     def persistContractAgain(Long id){
         log.debug "loading contract with id ${id}"
-        def contract = Contract.get(id)
-        contract.save();
+        if(id){
+            def contract = Contract.get(id)
+            contract.save()
+        }
     }
 
     def formatNumber(Double number){

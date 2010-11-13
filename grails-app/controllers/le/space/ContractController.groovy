@@ -273,6 +273,12 @@ class ContractController {
         redirect(action: "list")
     }
 
+    def addTest = {
+        new RegistrationTests().runTests()
+
+        redirect(action: "list")
+    }
+
     /**
      * Add a payment to a certain contract
      */

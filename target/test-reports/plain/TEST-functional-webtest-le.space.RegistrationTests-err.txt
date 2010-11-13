@@ -1,3 +1,0 @@
---Output from testAddDayTicket--
---Output from testAdd10DayTicket--
---Output from testCustomerPublicationOnWebsite--
