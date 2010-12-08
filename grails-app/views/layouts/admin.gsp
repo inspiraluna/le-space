@@ -11,7 +11,7 @@
  @import url("${createLinkTo(dir:'css',file:'general.css')}");
 </style>
 <calendar:resources lang="${le.space.HelperTools.getLocale(request)}" theme="tiger"/>
-
+<script src="${createLinkTo(dir:'js',file:'prototype.js')}" type="text/javascript"></script>
 <title>Le Space (beta) - Coworking in Leipzig</title>
 <meta name="description" content="Le Space ist Leipzigs erster Coworking Space. Wir bieten flexible und fixe Arbeitsplätze, WLAN und Drucker." />
 <meta name="keywords" content="Coworking, Coworking Space, Büro, Arbeitsplatz, Arbeitsraum" />

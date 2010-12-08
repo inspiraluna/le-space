@@ -21,17 +21,12 @@
                 <table>
                     <thead>
                         <tr>
-                        
-                            <g:sortableColumn property="id" title="${message(code: 'product.id.label', default: 'Id')}" />
-                        
-                            <g:sortableColumn property="productNo" title="${message(code: 'product.productNo.label', default: 'Product No')}" />
-                        
-                            <g:sortableColumn property="name" title="${message(code: 'product.name.label', default: 'Name')}" />
-                        
+                            <g:sortableColumn property="id" title="${message(code: 'product.id.label', default: 'Id')}" />                       
+                            <g:sortableColumn property="productNo" title="${message(code: 'product.productNo.label', default: 'Product No')}" />                      
+                            <g:sortableColumn property="name" title="${message(code: 'product.name.label', default: 'Name')}" />                       
                             <g:sortableColumn property="description" title="${message(code: 'product.description.label', default: 'Description')}" />
-                        
                             <g:sortableColumn property="priceNet" title="${message(code: 'product.priceNet.label', default: 'Price Net')}" />
-                        
+               
                             <g:sortableColumn property="priceVAT" title="${message(code: 'product.priceVAT.label', default: 'Price VAT')}" />
                         
                         </tr>

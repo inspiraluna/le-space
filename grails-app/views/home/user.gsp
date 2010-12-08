@@ -10,7 +10,7 @@
         <div class="zweispaltig">
           <h1 class="first">Nutzer bei Le Space</h1>
           <p>Wenn Ihr in den Coworking Space kommt, ist es möglich, dass Ihr auf folgende Menschen und Firmen trefft...</p>
-          <g:each in="${customerList}" satus="i" var="entry">${entry.publicationHTML}</g:each>
+          <g:each in="${customerList}" satus="i" var="entry"><g:if test="${entry?.email}">${entry.publicationHTML}<avatar:gravatar email="${entry?.email}" defaultGravatarUrl="kontakt@le-space.de"/></g:if></g:each>
           <hr />
         </div>
         <div class="einspaltig">

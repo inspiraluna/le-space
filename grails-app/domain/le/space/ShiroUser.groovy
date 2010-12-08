@@ -51,6 +51,8 @@ class ShiroUser {
     def beforeInsert = {
         dateCreated = new Date()
         dateModified = new Date()
+        if(!username)
+            username = email
         try { //during startup no securityManager!
             createdBy = SecurityUtils.getSubject().principal?ShiroUser.findByUsername(SecurityUtils.getSubject().principal):null
         }catch(Exception ex){createdBy=ShiroUser.get(1)}
@@ -58,6 +60,8 @@ class ShiroUser {
 
     def beforeUpdate = {
         dateModified = new Date()
+        if(!username)
+            username = email
         try{ //during startup no securityManager!
             modifiedBy = SecurityUtils.getSubject().principal?ShiroUser.findByUsername(SecurityUtils.getSubject().principal):null
         }catch(Exception ex){modifiedBy=ShiroUser.get(1)}

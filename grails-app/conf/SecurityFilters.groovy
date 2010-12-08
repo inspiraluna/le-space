@@ -10,6 +10,7 @@ class SecurityFilters {
                 if (controllerName=='home') return true
                 if (controllerName=='public') return true
                 if (controllerName=='jasper') return true
+                if (controllerName=='admin') return true
 
                 // Access control by convention.
                 accessControl()

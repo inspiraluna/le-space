@@ -49,8 +49,15 @@ class ContractController {
 
         boolean first = true
 
-        def hql = "select c from le.space.Contract  c "
-        hql+= " left join c.customer.shiroUsers u "
+        log.debug "Contracts:${le.space.Contract.list()}"
+
+        log.debug "Customers:${le.space.Customer.list()}"
+
+        log.debug "ShiroUsers:${le.space.ShiroUser.list()}"
+
+
+        def hql = "select distinct c from le.space.Contract  c "
+        hql+= " inner join c.customer.shiroUsers u "
         
         if(paid && paid!="all"){
             first = false
@@ -151,6 +158,7 @@ class ContractController {
 
     def save = {
         def contractInstance = new Contract(params)
+        log.debug "${contractInstance}"
         if (contractInstance.save(flush: true)) {
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'contract.label', default: 'Contract'), contractInstance.id])}"
             redirect(action: "show", id: contractInstance.id)
@@ -199,24 +207,31 @@ class ContractController {
     }
 
     def update = {
+
         def contractInstance = Contract.get(params.id)
-        if (contractInstance) {
+        def customer = contractInstance.customer
+
+        log.debug "update of contract: ${contractInstance} ${customer}"
+
+        if (contractInstance && customer) {
             if (params.version) {
                 def version = params.version.toLong()
                 if (contractInstance.version > version) {
                     
                     contractInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'contract.label', default: 'Contract')] as Object[], "Another user has updated this Contract while you were editing")
-                    render(view: "edit", model: [contractInstance: contractInstance])
+                    render(view: "show", model: [contractInstance: contractInstance])
                     return
                 }
             }
             contractInstance.properties = params
-            if (!contractInstance.hasErrors() && contractInstance.save(flush: true)) {
+            customer.properties = params
+            
+            if (!contractInstance.hasErrors() && !customer.hasErrors() && contractInstance.save(flush: true) && customer.save(flush: true)) {
                 flash.message = "${message(code: 'default.updated.message', args: [message(code: 'contract.label', default: 'Contract'), contractInstance.id])}"
                 redirect(action: "show", id: contractInstance.id)
             }
             else {
-                render(view: "edit", model: [contractInstance: contractInstance])
+                render(view: "show", model: [contractInstance: contractInstance])
             }
         }
         else {
@@ -251,9 +266,11 @@ class ContractController {
         def contractInstance = Contract.get(params.id)
         def shiroUser = ShiroUser.get(params.userId)
 
-        if (contractInstance) {
-            def login = new Login(user:null,ipAddress:null,macAddress:null,loginStart:new Date()).save()
-            log.debug "saved new login ${login}}"
+        log.debug "logging in ${shiroUser.username} of contract: ${contractInstance.id}"
+
+        if (contractInstance && shiroUser) {
+            def login = new Login(user:shiroUser,ipAddress:null,macAddress:null,loginStart:new Date()).save()
+            log.debug "saved new login ${login}"
             contractInstance.addToLogins(login)
                 
             log.debug "Product ${contractInstance.getProducts().toArray()[0]} has durationType:${contractInstance.getProducts().toArray()[0].durationType}"
@@ -274,9 +291,7 @@ class ContractController {
     }
 
     def addTest = {
-        new RegistrationTests().runTests()
-
-        redirect(action: "list")
+       redirect(action: "list")
     }
 
     /**

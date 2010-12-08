@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <testsuites>
-  <testsuite errors="1" failures="0" hostname="Nico.local" id="0" name="ContractRegistrationTests" package="le.space" tests="4" time="121.852" timestamp="2010-11-13T13:43:06">
+  <testsuite errors="4" failures="0" hostname="Nico.local" id="0" name="ContractRegistrationTests" package="le.space" tests="4" time="19.421" timestamp="2010-12-08T09:11:35">
       <properties />
 
-      <testcase classname="le.space.ContractRegistrationTests" name="testAddDayTicket" time="96.628" />
+      <testcase classname="le.space.ContractRegistrationTests" name="testAddDayTicket" time="12.05">
+          <error message="WebTest le.space.ContractRegistrationTests.testAddDayTicket has failed. See WebTestReport for details." type="java.lang.RuntimeException">java.lang.RuntimeException: WebTest le.space.ContractRegistrationTests.testAddDayTicket has failed. See WebTestReport for details.
+	at org.grails.plugins.webtest.WebTestStatement.evaluate(WebTestStatement.groovy:28)
+	at org.grails.plugins.webtest.WebTestStatement$evaluate.call(Unknown Source)
+</error>
 
-      <testcase classname="le.space.ContractRegistrationTests" name="testAddReverseChargeSystemContract" time="12.733">
+      </testcase>
+
+      <testcase classname="le.space.ContractRegistrationTests" name="testAddReverseChargeSystemContract" time="0.316">
           <error message="WebTest le.space.ContractRegistrationTests.testAddReverseChargeSystemContract has failed. See WebTestReport for details." type="java.lang.RuntimeException">java.lang.RuntimeException: WebTest le.space.ContractRegistrationTests.testAddReverseChargeSystemContract has failed. See WebTestReport for details.
 	at org.grails.plugins.webtest.WebTestStatement.evaluate(WebTestStatement.groovy:28)
 	at org.grails.plugins.webtest.WebTestStatement$evaluate.call(Unknown Source)
@@ -13,105 +19,35 @@
 
       </testcase>
 
-      <testcase classname="le.space.ContractRegistrationTests" name="testAdd10DayTicket" time="10.164" />
+      <testcase classname="le.space.ContractRegistrationTests" name="testAdd10DayTicket" time="6.708">
+          <error message="WebTest le.space.ContractRegistrationTests.testAdd10DayTicket has failed. See WebTestReport for details." type="java.lang.RuntimeException">java.lang.RuntimeException: WebTest le.space.ContractRegistrationTests.testAdd10DayTicket has failed. See WebTestReport for details.
+	at org.grails.plugins.webtest.WebTestStatement.evaluate(WebTestStatement.groovy:28)
+	at org.grails.plugins.webtest.WebTestStatement$evaluate.call(Unknown Source)
+</error>
 
-      <testcase classname="le.space.ContractRegistrationTests" name="testCustomerPublicationOnWebsite" time="2.175" />
+      </testcase>
+
+      <testcase classname="le.space.ContractRegistrationTests" name="testCustomerPublicationOnWebsite" time="0.266">
+          <error message="WebTest le.space.ContractRegistrationTests.testCustomerPublicationOnWebsite has failed. See WebTestReport for details." type="java.lang.RuntimeException">java.lang.RuntimeException: WebTest le.space.ContractRegistrationTests.testCustomerPublicationOnWebsite has failed. See WebTestReport for details.
+	at org.grails.plugins.webtest.WebTestStatement.evaluate(WebTestStatement.groovy:28)
+	at org.grails.plugins.webtest.WebTestStatement$evaluate.call(Unknown Source)
+</error>
+
+      </testcase>
 
       <system-out><![CDATA[--Output from testAddDayTicket--
-url: http://localhost:8081/le-space/ secureServerUrl: https://localhost:8443/le-space 
-Server And Context from config file: set http://localhost:8081/le-space/
-Request servlet path: /grails/public/step3.dispatch
-Request with context: http://localhost:8080/le-space
-context only: /le-space
-Server And Context from config file: set http://localhost:8081/le-space/
-Request servlet path: /grails/public/step3.dispatch
-Request with context: http://localhost:8080/le-space
-context only: /le-space
-Server And Context from config file: set http://localhost:8081/le-space/
-Request servlet path: /grails/public/step3.dispatch
-Request with context: http://localhost:8080/le-space
-context only: /le-space
-Server And Context from config file: set http://localhost:8081/le-space/
-Request servlet path: /grails/public/register.dispatch
-Request with context: http://localhost:8080/le-space
-context only: /le-space
+Webtest failure: : HTTP error 404
 --Output from testAddReverseChargeSystemContract--
-url: http://localhost:8081/le-space/ secureServerUrl: https://localhost:8443/le-space 
-Server And Context from config file: set http://localhost:8081/le-space/
-Request servlet path: /grails/public/step2.dispatch
-Request with context: http://localhost:8080/le-space
-context only: /le-space
-Server And Context from config file: set http://localhost:8081/le-space/
-Request servlet path: /grails/public/register.dispatch
-Request with context: http://localhost:8080/le-space
-context only: /le-space
-Webtest failure: : Text not found in pdf text "
-Nutzungsvertrag der Le Space UG (haftungsbeschränkt)
-Lützner Str. 91, 04177 Leipzig
-vertreten durch den Geschäftsführer Nico Krause
-eingetragen im Amtsgericht Leipzig HRB 25885 / UstID Nr. DE27240660
-Tel.: +49 (0) 3 41 / 4 78 58 70 - Fax: +49 (0) 3 41 / 4 92 76 49
-Internet: www.le-space.de - Email: info@le-space.de
-1. Vertragspartner der Nutzungsvereinbarung:
-Riedbrunnenstr. 4 -
-Straße Nr. (Adresse) Adresse (Zeile2)
-2. Leistung
-Die Nutzung beginnt am: Wednesday 01. September 2010
-Ticketanzahl / Menge: 1
-Firma bzw. Vorname und Name
-Herr Eric Poscher
-Die Nutzung endet am: Thursday 30. September 2010
-Österreich
-PLZ
-Dornbirn
-LandStadt
-6850
-contract.product.4(€ 100.00 netto)Gewählter Tarif/Produkte:
-Vertragsnummer
-4
-Vertragsbedingungen:
-Ergänzend gelten die ausgelegten allgemeinen Geschäftsbedingungen der Le Space UG
-und die Hausordnung des Tapetenwerks
-Betrag (netto):
-§13b (Reverse Charge System): Die Steuerschuld geht auf den Leistungsempfänger
-über!
-$ 100.00
-eRICsATUNo
-MwSt:
-Ihre UstId:
-<hr /><p>Eric Poscher  (Dornbirn)
-Betrag (brutto): $ 100.00
-$ 0.00
-3. Nutzungsgebühr
-5. Veröffentlichung von Firmenname, Name, Beruf und Webadresse
-Folgender Text wird ausschließlich auf unserer Webseite kostenfrei veröffentlicht.
-Ort, Datum, Unterschrift Le Space UG Ort, Datum Unterschrift Nutzer
-Bankverbindung Sparkasse Leipzig,
-Bankleitzahl, 860 555 92
-Kto. Nr. 1100880298
-IBAN: DE74860555921100880298
-BIC-/SWIFT-Code: WELADE8L
-Leipzig,13.11.2010 Leipzig,13.11.2010
-"
+Webtest failure: : HTTP error 404
 --Output from testAdd10DayTicket--
-url: http://localhost:8081/le-space/ secureServerUrl: https://localhost:8443/le-space 
-Server And Context from config file: set http://localhost:8081/le-space/
-Request servlet path: /grails/public/step2.dispatch
-Request with context: http://localhost:8080/le-space
-context only: /le-space
-Server And Context from config file: set http://localhost:8081/le-space/
-Request servlet path: /grails/public/step2.dispatch
-Request with context: http://localhost:8080/le-space
-context only: /le-space
-Server And Context from config file: set http://localhost:8081/le-space/
-Request servlet path: /grails/public/register.dispatch
-Request with context: http://localhost:8080/le-space
-context only: /le-space
+Webtest failure: : HTTP error 404
 --Output from testCustomerPublicationOnWebsite--
-url: http://localhost:8081/le-space/ secureServerUrl: https://localhost:8443/le-space 
+Webtest failure: : HTTP error 404
 ]]></system-out>
 
       <system-err><![CDATA[--Output from testAddDayTicket--
+log4j:WARN No appenders could be found for logger (StackTrace).
+log4j:WARN Please initialize the log4j system properly.
 --Output from testAddReverseChargeSystemContract--
 --Output from testAdd10DayTicket--
 --Output from testCustomerPublicationOnWebsite--

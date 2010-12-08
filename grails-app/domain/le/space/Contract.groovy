@@ -57,7 +57,6 @@ class Contract {
         contractStart(nullable:false,blank:false)
         contractEnd(nullable:true,blank:true)
         autoExtend()
-        
         valid(nullable:true,blank:true)
         dateCreated(nullable:true,blank:true)
         dateModified(nullable:true,blank:true)

@@ -1,4 +1,5 @@
 package le.space
+import org.apache.shiro.crypto.hash.Sha512Hash
 
 class ShiroUserController {
 
@@ -12,6 +13,39 @@ class ShiroUserController {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         [shiroUserInstanceList: ShiroUser.list(params), shiroUserInstanceTotal: ShiroUser.count()]
     }
+    
+    def add = {
+        log.debug "shiroUser add called... with contract id ${params.contract.id} "
+        def contractInstance
+        def shiroUserInstance = new ShiroUser()
+
+        shiroUserInstance.properties = params
+        shiroUserInstance.username = shiroUserInstance.email
+        shiroUserInstance.passwordHash =  new Sha512Hash(params.password).toHex()
+
+        if (shiroUserInstance.validate() && shiroUserInstance.save()) {
+            log.debug "shiroUser ${shiroUserInstance} saved... "
+            shiroUserInstance.addToPermissions("*:*")
+            shiroUserInstance.addToRoles(ShiroRole.findByName("User"))
+            shiroUserInstance.save()
+            contractInstance = Contract.get(params.contract.id)
+            log.debug "contractInstance ${contractInstance} "
+            def customer = contractInstance.customer
+            customer.addToShiroUsers(shiroUserInstance)
+            customer.save()
+            log.debug "customer ${customer} saved... "
+            flash.message = "${message(code: 'default.created.message', args: [message(code: 'shiroUser.label', default: 'ShiroUser'), shiroUserInstance.id])}"
+        }
+        else{
+            log.debug "shiroUserInstance has errors!"
+            shiroUserInstance.errors.allErrors.each {
+                log.error it
+            }
+        }
+
+        render(view: "_customerUsers", model: [contractInstance: contractInstance])
+    }
+
 
     def create = {
         def shiroUserInstance = new ShiroUser()

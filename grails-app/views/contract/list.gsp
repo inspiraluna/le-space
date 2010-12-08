@@ -37,6 +37,7 @@
         <thead>
           <tr>
         <g:sortableColumn align="left" valign="top" property="id" title="${message(code: 'contract.id.label', default: 'Id')}" />
+        <td>&nbsp;</td>
         <g:sortableColumn align="left" valign="top" property="customer.company" title="${message(code: 'contract.company.label', default: 'Customer')}" />
         <g:sortableColumn align="left" valign="top" property="customer.firstname" title="${message(code: 'contract.first.label', default: 'Firstname')}" />
         <g:sortableColumn align="left" valign="top" property="customer.lastname" title="${message(code: 'contract.lastname.label', default: 'Lastname')}" />
@@ -57,7 +58,8 @@
         <tbody>
         <g:each in="${contractInstanceList}" status="i" var="contractInstance">
           <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
-            <td valign="top" ><g:link action="show" id="${contractInstance.id}">${fieldValue(bean: contractInstance, field: "id")}</g:link></td>
+            <td valign="top"><g:link action="show" id="${contractInstance.id}"><g:if test="${contractInstance?.customer?.email}"><avatar:gravatar email="${contractInstance?.customer?.email}" defaultGravatarUrl="${createLinkTo(file:'favicon.ico')}"/></g:if></g:link></td>
+            <td valign="top"><g:link action="show" id="${contractInstance.id}">${fieldValue(bean: contractInstance, field: "id")}</g:link></td>
           <td valign="top" >${fieldValue(bean: contractInstance, field: "customer.company")}</td>
           <td valign="top" >${fieldValue(bean: contractInstance, field: "customer.firstname")}</td>
           <td valign="top" >${fieldValue(bean: contractInstance, field: "customer.lastname")}</td>
@@ -74,11 +76,13 @@
           <td valign="top" align="left"><g:formatDate date="${contractInstance.lastLogin}" format="dd.MM.yyyy hh:mm:ss"/></td>
           <td valign="top" align="left">
           <g:if test="${contractInstance?.lastLogin?.getTime()<=(new org.joda.time.DateTime().withTime(0,0,0,0).toDate().getTime())}">
-          <g:each in="${contractInstance?.customer.shiroUsers}" var="user">
-            <g:form name="login" action="addLogin"><g:hiddenField name="id" value="${user?.id}" />
-              <g:actionSubmit class="input login" value="${g.message(code:'contract.login')}" action="addLogin" />
-            </g:form>
-          </g:each>
+            <g:each in="${contractInstance?.customer?.shiroUsers}" var="user">
+              <g:form name="login" action="addLogin">
+                <g:hiddenField name="id" value="${contractInstance?.id}" />
+                <g:hiddenField name="userId" value="${user?.id}" />
+                <g:actionSubmit class="input login" value="${g.message(code:'contract.login')}" action="addLogin" />
+              </g:form>
+            </g:each>
           </g:if>
           </td>
           </tr>
@@ -91,7 +95,6 @@
       <g:paginate  max="${max}" offset="${offset}" total="${totalCount}" />
       <export:formats formats="['csv', 'excel', 'ods', 'pdf', 'rtf', 'xml']" />
     </div>
-
 
   </div>
 </body>

@@ -27,7 +27,11 @@
 <tr><td><g:message code="customer.addressLine2.label" />:</td><td class="value ${hasErrors(bean: customer, field: 'addressLine2', 'errors')}"><g:textField name="addressLine2" value="${contract?.customer?.addressLine2}" /></td></tr>
 <tr><td><g:message code="customer.zip.label" />*:</td><td class="value ${hasErrors(bean: customer, field: 'zip', 'errors')}"><g:textField name="zip" value="${contract?.customer?.zip}" /></td></tr>
 <tr><td><g:message code="customer.city.label" />*:</td><td class="value ${hasErrors(bean: customer, field: 'city', 'errors')}"><g:textField name="city" value="${contract?.customer?.city}" /></td></tr>
-<tr><td><g:message code="customer.country.label" />*:</td><td class="value ${hasErrors(bean: customer, field: 'country', 'errors')}"><g:textField name="country" value="${contract?.customer?.country}" /></td></tr>
+<tr><td><g:message code="customer.country.label" />*:</td><td class="value ${hasErrors(bean: customer, field: 'country', 'errors')}">
+<g:select name="country.id"  from="${le.space.Country.list()}"
+                          value="${contract?.customer?.country?.id}" noSelection="${['0':g.message(code:'contract.chooseSomething')]}"
+                          optionKey="name" onChange="loadSubOptions(this.value);" />
+</td></tr>
 <tr><td><g:message code="shiroUser.email.label" />*:</td><td class="value ${hasErrors(bean: shiroUser, field: 'email', 'errors')}"><g:textField name="email" value="${shiroUser.email}" /></td></tr>
 <tr><td><g:message code="shiroUser.birthday.label" />:</td><td class="value ${hasErrors(bean: shiroUser, field: 'birthday', 'errors')}"><g:datePicker
 precision="day" name="birthday" value="${(contract?.customer?.shiroUsers)?contract?.customer?.shiroUsers.toArray()[0].birthday:""}" defaultValue="${new Date()}" /></td>
@@ -45,7 +49,8 @@ precision="day" name="birthday" value="${(contract?.customer?.shiroUsers)?contra
         value="${contract?.contractStart}"/>
 </td>
 </tr>
-<tr><td><g:message code="contract.quantity.label" />:</td><td class="value ${hasErrors(bean: contract, field: 'quantity', 'errors')}"><g:select name="quantity"
+<tr><td><g:message code="contract.quantity.label" />:</td><td class="value ${hasErrors(bean: contract, field: 'quantity', 'errors')}">
+                                                                                                                                    <g:select name="quantity"
                                                                                                                                           from="${1..100}"
                                                                                                                                           value="${contract?.quantity}"
                                                                                                                                           onChange="loadSubOptions(document.contract.product.value);" /></td></tr>

@@ -8,13 +8,14 @@ class Customer {
     String addressLine2
     String zip
     String city
-    String country
+    Country country
     
     String tel1
     String fax
 
     String url
     String publicationHTML
+    
     String salutation
     String firstname
     String lastname
@@ -29,14 +30,14 @@ class Customer {
     static belongsTo = [Contract]
 
     
-/*
- *
- * http://evatr.bff-online.de/eVatR/
- *
-die ATU-Nummer deines Kunden und
-§13b (Reverse Charge System): Die Steuerschuld geht auf den Leistungsempfänger über!
-Ihre UstID: <%ustid%>
-*/
+    /*
+     *
+     * http://evatr.bff-online.de/eVatR/
+     *
+    die ATU-Nummer deines Kunden und
+    §13b (Reverse Charge System): Die Steuerschuld geht auf den Leistungsempfänger über!
+    Ihre UstID: <%ustid%>
+     */
 
     Date dateCreated = new Date()
     Date dateModified = new Date()
@@ -120,19 +121,20 @@ Ihre UstID: <%ustid%>
     def afterLoad = {
 
         def html = "<hr /><p>"
-        html+="${shiroUsers.toArray()[0].firstname} ${shiroUsers.toArray()[0].lastname} "
-        if(shiroUsers.toArray()[0].occupation)
-        html+=" - (${shiroUsers.toArray()[0].occupation})"
-        if(company)
+        if(shiroUsers){
+            html+="${shiroUsers.toArray()[0].firstname} ${shiroUsers.toArray()[0].lastname} "
+            if(shiroUsers.toArray()[0].occupation)
+            html+=" - (${shiroUsers.toArray()[0].occupation})"
+            if(company)
             html+=" - ${company},"
-        if(city)
-        html+=" (${city})"
-        if(url && !url.startsWith("http://"))
-        url="http://"+url
-        if(url)
-        html+=" <a href='${url}' class='extern' target='_blank'>${url}</a></p>"
-        publicationHTML = html;
-        
+            if(city)
+            html+=" (${city})"
+            if(url && !url.startsWith("http://"))
+            url="http://"+url
+            if(url)
+            html+=" <a href='${url}' class='extern' target='_blank'>${url}</a></p>"
+            publicationHTML = html;
+        }
     }
     String toString(){
         "${company} ${addressLine1} ${addressLine2} ${zip} ${country} ${tel1} ${fax} ${url} "

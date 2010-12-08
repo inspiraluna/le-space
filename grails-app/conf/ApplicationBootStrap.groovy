@@ -2,11 +2,16 @@ import org.apache.shiro.crypto.hash.Sha512Hash
 import groovy.sql.Sql
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import le.space.*
+import org.tinyradius.util.RadiusServer
 
 class ApplicationBootStrap {
 
     def init = { servletContext ->
 
+        def adminUser
+
+        def RadiusServer server = null;
+        
         if(ShiroUser.count()==0){
             log.info"adding demo data application in development mode"
         
@@ -16,15 +21,21 @@ class ApplicationBootStrap {
             def userRole = new ShiroRole(name: "User").save()
             log.info("added User role to db")
 
-            def adminUser = new ShiroUser(username: "admin@le-space.de",
+            adminUser = new ShiroUser(username: "admin",
                 passwordHash: new Sha512Hash("admin").toHex(),
                 firstname: "Administrator",
                 lastname:"admin",
-                email:"admin@le-space.de")
+                email:"admin")
 
             adminUser.addToPermissions("*:*")
             adminUser.addToRoles(adminRole)
             adminUser.save()
+        }
+            
+        if(le.space.Country.count()==0){
+            def path = servletContext.getRealPath("./")+"/WEB-INF"
+            addAllCountries(path)
+            log.debug "Countries in database: ${le.space.Country.count()}"
         }
 
         //  if(grails.util.GrailsUtil.environment == "development" || grails.util.GrailsUtil.environment == "test") {
@@ -61,6 +72,7 @@ class ApplicationBootStrap {
             log.debug "Products in database: ${le.space.Product.count()}"
         }
 
+        
         if(le.space.Link.count()==0){
             new le.space.Link(name:"Wikipedia Artikel",url:"http://de.wikipedia.org/wiki/Coworking", pageId:"Coworking Links")
             new le.space.Link(name:"Betahaus Berlin",url:"http://www.betahaus.de/", pageId:"Coworking in Deutschland")
@@ -126,13 +138,17 @@ class ApplicationBootStrap {
             new le.space.Photo(filename:"partyspace",directory:"/img/space_party",title:"foto:reneschaeffer.de",pageId:"faq,kontakt").save()
             log.debug "Photos in database: ${le.space.Photo.count()}"
         }
+
         if(le.space.Customer.count()==0){
 
             def userNico = new ShiroUser(username:"nico",passwordHash:new Sha512Hash("nico").toHex(),salutation:"Herr",firstname:"Nico",lastname:"Krause",
                 email:"nico@le-space.de",birthday:new Date(),telMobile:"+49 174 9891949",occupation:"Softwareentwickler, Coworking Space Founder, Yoga Teacher",
                 twitterName:"inspiraluna",facebookName:"inspiraluna").save()
+            userNico.addToPermissions("*:*")
+            userNico.addToRoles(ShiroRole.findByName("User"))
+            userNico.save()
 
-            def customerNico = new Customer(company:"Softwareberatung Nico Krause",addressLine1:"Lichtenberg 44",addressLine2:"(oberes Geschoss)",zip:"D-84307",city:"Eggenfelden",country:"Deutschland",
+            def customerNico = new Customer(company:"Softwareberatung Nico Krause",addressLine1:"Lichtenberg 44",addressLine2:"(oberes Geschoss)",zip:"D-84307",city:"Eggenfelden",country:Country.findByName("Deutschland"),
                 tel1:"+49 8721 12132",fax:"+49 8721 12132",url:"www.twitter.com/inspiraluna",
                 allowPublishNameOnWebsite:true).save()
 
@@ -143,16 +159,22 @@ class ApplicationBootStrap {
             customerNico.addToShiroUsers(userNico)
             customerNico.save()
 
+
             def userJulian = new ShiroUser(username:"julian",passwordHash:new Sha512Hash("julian").toHex(),salutation:"Herr",firstname:"Julian",lastname:"Moritz",
                 email:"julian@le-space.de",birthday:new Date(),telMobile:"",occupation:"Softwareentwickler",
                 twitterName:"",facebookName:"").save()
 
-            def customerJulian = new Customer(company:"Julian Moritz",addressLine1:"Nonnenstraße 28",addressLine2:"",zip:"D-84307",city:"Leipzig",country:"Deutschland",
+            userJulian.addToPermissions("*:*")
+            userJulian.addToRoles(ShiroRole.findByName("User"))
+            userJulian.save()
+
+            def customerJulian = new Customer(company:"Julian Moritz",addressLine1:"Nonnenstraße 28",addressLine2:"",zip:"D-84307",city:"Leipzig",country:Country.findByName("Deutschland"),
                 tel1:"+49 341 4955898",fax:"+49 341 4955898",url:"www.julianmoritz.de",
                 allowPublishNameOnWebsite:true).save()
 
             def bankAccountJulian = new BankAccount(directDebitPermission:false,
                 accountOwner:"Julian Moritz",accountNo:"1802247080",bankNo:"94391422",bankName:"Sparkasse Leipzig",IBANNo:"86055592",BICNo:"123123123").save()
+            
             customerJulian.bankAccount = bankAccountJulian
 
             customerJulian.addToShiroUsers(userJulian)
@@ -163,15 +185,14 @@ class ApplicationBootStrap {
             log.debug "Customers in database: ${le.space.Customer.count()}"
 
         }
+        if(le.space.Contract.count()==0){
 
-        if(le.space.Contract.count()==0){            
-           
             def contract1 = new Contract(customer:Customer.get(1),
                 conditions:"",
                 quantity:1,
                 paymentMethod:Contract.PM_CASH,
                 contractStart:new Date()-300,
-                autoExtend:false)
+                autoExtend:false,createdBy:adminUser,modifiedBy:adminUser)
 
             log.debug " ${le.space.Product.get(5)} ${le.space.Customer.get(1)}"
 
@@ -183,17 +204,61 @@ class ApplicationBootStrap {
                 quantity:1,
                 paymentMethod:Contract.PM_DIRECT_DEBIT,
                 contractStart:new Date(),
-                autoExtend:true)
+                autoExtend:true,createdBy:adminUser,modifiedBy:adminUser)
 
             log.debug " ${le.space.Product.get(1)} ${le.space.Customer.get(1)}"
 
             contract2.addToProducts(le.space.Product.get(1))
             contract2.save()
 
-
             log.debug "Contracts in database: ${le.space.Contract.count()}"
+
         }
+            server = new LeSpaceRadiusServer()
+            server.start(true, true)
+
+            log.debug "le space radius server started"
+
+       
+
+
+        
     }
+
     def destroy = {
+        server.stop();
+    }
+
+    def addAllCountries(String path){
+
+        def f1 = new File(path+"/data/liste_countries.html")
+
+        def lineCounter = 0
+        boolean startReading
+
+        //quick & dirthy parsen des html dokuments.
+        f1.eachLine{
+
+            lineCounter++
+
+            if(startReading && it.contains("<tr>"))
+            lineCounter=0
+
+            if(startReading && lineCounter == 1){
+                def startPos = it.indexOf("title")+7
+                def endPos = it.indexOf("\"",startPos)
+                String countryName = it.substring(startPos,endPos)
+                log.debug(countryName)
+                new Country(name:countryName).save()
+            }
+
+            if(!startReading && it.contains("title=\"Europäische Union\">Europäische Union</a></i>"))
+            startReading = true
+
+            if(startReading && it.contains("<p><a name=\"Besonderheiten\" id=\"Besonderheiten\"></a></p>"))
+            startReading = false
+        }
+        
+        log.debug "${lineCounter}"
     }
 }

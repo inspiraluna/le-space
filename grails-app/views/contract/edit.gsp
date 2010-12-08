@@ -187,7 +187,7 @@
               <label for="paymentMethod"><g:message code="contract.paymentMethod.label" default="Payment Method" /></label>
             </td>
             <td valign="top" class="value ${hasErrors(bean: contractInstance, field: 'paymentMethod', 'errors')}">
-              <g:select id="paymentMethod" name="paymentMethod" from="${contractInstance.constraints.paymentMethod.inList}" value="${contractInstance.paymentMethod}" ></g:select>
+          <g:select id="paymentMethod" name="paymentMethod" from="${contractInstance.constraints.paymentMethod.inList}" value="${contractInstance.paymentMethod}" ></g:select>
           </td>
           </tr>
 
@@ -371,7 +371,7 @@
               <label for="paid"><g:message code="contract.paid.label" default="Paid" /></label>
             </td>
             <td valign="top" class="value ${hasErrors(bean: contractInstance, field: 'paid', 'errors')}">
-               <g:checkBox name="paid" value="${contractInstance?.paid}"></g:checkBox>
+          <g:checkBox name="paid" value="${contractInstance?.paid}"></g:checkBox>
           </td>
           </tr>
 
@@ -383,7 +383,7 @@
               <input type="text" name="selectedProducts" id="selectedProducts" value="${fieldValue(bean:contractInstance,field:'selectedProducts')}" />
             </td>
           </tr>
-        </tbody>
+          </tbody>
         </table>
       </div>
       <div class="buttons">

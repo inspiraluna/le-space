@@ -16,6 +16,7 @@ grails {
         }
 }
 
+
 //grails.config.locations = [ "classpath:${appName}-config.properties",
 //                             "classpath:${appName}-config.groovy",
 //                             "file:${userHome}/.grails/${appName}-config.properties",
@@ -152,8 +153,6 @@ log4j = {
     warn   'org.mortbay.log'
 }
 
-
-     
 // Added by the Joda-Time plugin:
 grails.gorm.default.mapping = {
 	"user-type" type: org.joda.time.contrib.hibernate.PersistentDateTime, class: org.joda.time.DateTime
