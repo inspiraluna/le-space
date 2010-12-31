@@ -1,14 +1,17 @@
-import java.net.InetSocketAddress;
+import java.net.InetSocketAddress
 import org.apache.shiro.crypto.hash.Sha512Hash
-import org.tinyradius.packet.AccessRequest;
-import org.tinyradius.packet.RadiusPacket;
+import org.tinyradius.packet.AccessRequest
+import org.tinyradius.packet.RadiusPacket
 import org.tinyradius.util.RadiusException
+import org.codehaus.groovy.grails.commons.ConfigurationHolder
 /**
  *
  * @author nico
  */
 class LeSpaceRadiusServer extends org.tinyradius.util.RadiusServer {
 
+    def loginService = new le.space.LoginService()
+    def persistenceInterceptor
 
     // This method should check whether the passed client is allowed to communicate with the Radius server. If this is the case, it should return the shared secret that secures the communication to the client.
     public String getUserPassword(String username) {
@@ -31,42 +34,49 @@ class LeSpaceRadiusServer extends org.tinyradius.util.RadiusServer {
         int type = RadiusPacket.ACCESS_REJECT;
         //Accept auf true setzen, wenn das übermittelte passwort (aus dem accessRequest mit dem aus der Datenbank übereinstimmt
 
+        def shiroUser = le.space.ShiroUser.findByUsername(accessRequest.getUserName())
+        //accessRequest.setAuthProtocol(AccessRequest.AUTH_PAP); //
+        System.out.println("try radius login of:"+accessRequest.getUserName())
+       // System.out.println("accessRequest.getUserPassword()"+accessRequest.getUserPassword())
+       // System.out.println("new Sha1Hash(accessRequest.getUserPassword()).toHex()"+new Sha512Hash(accessRequest.getUserPassword()).toHex())
+        //System.out.println("shiroUser.findByUsername(username).passwordHash"+shiroUser.passwordHash)
 
-        def shiroUser = ShiroUser.findByUsername(accessRequest.getUserName())
-        System.out.println("accessRequest.getUserPassword()"+accessRequest.getUserPassword())
-        System.out.println("new Sha1Hash(accessRequest.getUserPassword()).toHex()"+new Sha512Hash(accessRequest.getUserPassword()).toHex())
-        System.out.println("shiroUser.findByUsername(username).passwordHash"+shiroUser.passwordHash)
-        
+        //http://www.dd-wrt.com/wiki/index.php/How_to_configure_DD-WRT,_Chillispot,_Apache2,_FreeRadius,_freeradius-dialupadmin,_and_MySQL_on_Debian_4.0
+
         if (new Sha512Hash(accessRequest.getUserPassword()).toHex() == shiroUser.passwordHash){
-            
-            //does this user has valid custerorders? (time & if )
-/**            def hql = "from CustomerOrder co where co.customerr=:customer "
-            hql+= "and co.validFrom>=current_date() and co.validTo<=current_date() "
-            hql+= "and co.quantityOrdered<quantityDelivered"
-            def results = LoginLog.findAll(hql,[customer:shiroUser.customer])
-            if(results.length>0){
-                results[0].deliverOne()
-            }
-
-   */
             type = RadiusPacket.ACCESS_ACCEPT;
-         //   new LoginLog(loginDate:new Date(),shiroUser:shiroUser,ipAddress:"",hostname:"",success:true).save()
-            // def loggedIn = loginService.login(shiroUser.username)
+            try {
+                if (persistenceInterceptor) {
+                    //log.debug("opening persistence context")
+                    persistenceInterceptor.init()
+                } else {
+                    //log.debug("no persistence interceptor")
+                }
+                loginService.login(shiroUser.id.toString(),client)
+            } finally {
+                if (persistenceInterceptor) {
+                    //log.debug("destroying persistence context for listener" )
+                        persistenceInterceptor.flush()
+                        persistenceInterceptor.destroy()
+                    }
+                }
+            
+            }//if
+
+            RadiusPacket answer = new RadiusPacket(type, accessRequest.getPacketIdentifier());
+            copyProxyState(accessRequest, answer);
+            return answer;
         }
 
-        RadiusPacket answer = new RadiusPacket(type, accessRequest.getPacketIdentifier());
-        copyProxyState(accessRequest, answer);
-        return answer;
-    }
+
+        public String getSharedSecret(InetSocketAddress arg0) {
+           ConfigurationHolder.config.lespace.radiusServerSharedSecret
+        //"testing123"
+        }
 
 
-    public String getSharedSecret(InetSocketAddress arg0) {
-       "secret"
-    }
-
-
-    org.tinyradius.packet.RadiusPacket accountingRequestReceived(org.tinyradius.packet.AccountingRequest request, InetAddress client){
-        log.debug "access Request Received"
-    }
-}
+        org.tinyradius.packet.RadiusPacket accountingRequestReceived(org.tinyradius.packet.AccountingRequest request, InetAddress client){
+             System.out.println("access Request Received")
+        }
+        }
 

@@ -51,6 +51,8 @@ grails.mime.types = [ html: ['text/html','application/xhtml+xml'],
 // The default codec used to encode data with ${}
 grails.views.default.codec="none" // none, html, base64
 grails.views.gsp.encoding="UTF-8"
+//grails.views.javascript.library="jquery"
+
 grails.converters.encoding="UTF-8"
 // enable Sitemesh preprocessing of GSP pages
 grails.views.gsp.sitemesh.preprocess = true
@@ -66,7 +68,9 @@ grails.logging.jul.usebridge = true
 // packages to include in Spring bean scanning
 grails.spring.bean.packages = []
 
-//security.shiro.authc.required = false
+lespace.radiusServerIP="localhost"
+lespace.radiusServerSharedSecret="testing123"
+
 
 // set per-environment serverURL stem for creating absolute links
 dataSource {

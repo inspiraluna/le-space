@@ -14,7 +14,7 @@ class ShiroUserController {
         [shiroUserInstanceList: ShiroUser.list(params), shiroUserInstanceTotal: ShiroUser.count()]
     }
     
-    def add = {
+    def shiroUserAdd = {
         log.debug "shiroUser add called... with contract id ${params.contract.id} "
         def contractInstance
         def shiroUserInstance = new ShiroUser()
@@ -45,7 +45,59 @@ class ShiroUserController {
 
         render(view: "_customerUsers", model: [contractInstance: contractInstance])
     }
+   def shiroUserUpdate = {
+        log.debug "shiroUser update called... with contract id ${params.contract.id} ${params.id} "
+        def contractInstance
+        def shiroUserInstance = ShiroUser.get(params.id)
 
+        shiroUserInstance.properties = params
+        shiroUserInstance.username = shiroUserInstance.email
+        shiroUserInstance.passwordHash =  new Sha512Hash(params.password).toHex()
+
+        if (shiroUserInstance.validate() && shiroUserInstance.save()) {
+            log.debug "shiroUser ${shiroUserInstance} saved... "
+            shiroUserInstance.addToPermissions("*:*")
+            shiroUserInstance.addToRoles(ShiroRole.findByName("User"))
+            shiroUserInstance.save()
+            contractInstance = Contract.get(params.contract.id)
+            log.debug "contractInstance ${contractInstance} "
+            def customer = contractInstance.customer
+            customer.addToShiroUsers(shiroUserInstance)
+            customer.save()
+            log.debug "customer ${customer} saved... "
+            flash.message = "${message(code: 'default.created.message', args: [message(code: 'shiroUser.label', default: 'ShiroUser'), shiroUserInstance.id])}"
+        }
+        else{
+            log.debug "shiroUserInstance has errors!"
+            shiroUserInstance.errors.allErrors.each {
+                log.error it
+            }
+        }
+
+        render(view: "_customerUsers", model: [contractInstance: contractInstance])
+    }
+    def shiroUserRemove = {
+         log.debug "shiroUser update called... with contract id ${params.contract.id} ${params.id} "
+        def shiroUserInstance = ShiroUser.get(params.id)
+        def contractInstance = Contract.get(params.contract.id)
+        if (shiroUserInstance && contractInstance) {
+            try {
+                contractInstance.customer.removeFromShiroUsers(shiroUserInstance)
+                shiroUserInstance.delete(flush: true)
+                flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'shiroUser.label', default: 'ShiroUser'), params.id])}"
+                
+            }
+            catch (org.springframework.dao.DataIntegrityViolationException e) {
+                flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'shiroUser.label', default: 'ShiroUser'), params.id])}"
+               
+            }
+        }
+        else {
+            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'shiroUser.label', default: 'ShiroUser'), params.id])}"
+           
+        }
+        render(view: "_customerUsers", model: [contractInstance: contractInstance])
+    }
 
     def create = {
         def shiroUserInstance = new ShiroUser()

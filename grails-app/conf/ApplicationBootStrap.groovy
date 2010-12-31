@@ -6,11 +6,11 @@ import org.tinyradius.util.RadiusServer
 
 class ApplicationBootStrap {
 
+    def RadiusServer server = null;
+    
     def init = { servletContext ->
 
         def adminUser
-
-        def RadiusServer server = null;
         
         if(ShiroUser.count()==0){
             log.info"adding demo data application in development mode"
@@ -21,11 +21,11 @@ class ApplicationBootStrap {
             def userRole = new ShiroRole(name: "User").save()
             log.info("added User role to db")
 
-            adminUser = new ShiroUser(username: "admin",
+            adminUser = new ShiroUser(username: "admin@le-space.de",
                 passwordHash: new Sha512Hash("admin").toHex(),
                 firstname: "Administrator",
                 lastname:"admin",
-                email:"admin")
+                email:"admin@le-space.de").save()
 
             adminUser.addToPermissions("*:*")
             adminUser.addToRoles(adminRole)
@@ -159,7 +159,6 @@ class ApplicationBootStrap {
             customerNico.addToShiroUsers(userNico)
             customerNico.save()
 
-
             def userJulian = new ShiroUser(username:"julian",passwordHash:new Sha512Hash("julian").toHex(),salutation:"Herr",firstname:"Julian",lastname:"Moritz",
                 email:"julian@le-space.de",birthday:new Date(),telMobile:"",occupation:"Softwareentwickler",
                 twitterName:"",facebookName:"").save()
@@ -176,7 +175,6 @@ class ApplicationBootStrap {
                 accountOwner:"Julian Moritz",accountNo:"1802247080",bankNo:"94391422",bankName:"Sparkasse Leipzig",IBANNo:"86055592",BICNo:"123123123").save()
             
             customerJulian.bankAccount = bankAccountJulian
-
             customerJulian.addToShiroUsers(userJulian)
             customerJulian.save()
 
@@ -214,10 +212,10 @@ class ApplicationBootStrap {
             log.debug "Contracts in database: ${le.space.Contract.count()}"
 
         }
-            server = new LeSpaceRadiusServer()
-            server.start(true, true)
+        server = new LeSpaceRadiusServer()
+        server.start(true, true)
 
-            log.debug "le space radius server started"
+        log.debug "le space radius server started"
 
        
 

@@ -7,8 +7,31 @@ class ContractController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
+    def loginService 
     def exportService
+    
+    def stat = {
+        //select sum(amount_gross), month(contract_start), year(contract_start) from contract group by month(contract_start), year(contract_start) order by 1 desc
+        def hql = "select sum(amountGross) as amount, month(contractStart)||' '||year(contractStart) "
+        hql+="  from le.space.Contract  c "
+        hql+=" group by month(contractStart), year(contractStart)"
+        hql+= " order by sum(amountGross) desc "
+        def hparams = []
 
+        def revenueByMonth = Contract.executeQuery(hql,hparams)
+
+        hql = "select sum(amountGross) as amount, customer.id "
+        hql+="  from le.space.Contract  c "
+        hql+=" group by customer.id"
+        hql+= " order by sum(amountGross) desc "
+
+        hparams = []
+
+        def revenueByCustomer = Contract.executeQuery(hql,hparams)
+        log.debug "revenueByMonth.size() ${revenueByMonth.size}"
+
+        [revenueByMonth: revenueByMonth,revenueByCustomer:revenueByCustomer]
+    }
     def list = {
         int max = 10
         int offset = 0
@@ -49,12 +72,9 @@ class ContractController {
 
         boolean first = true
 
-        log.debug "Contracts:${le.space.Contract.list()}"
-
-        log.debug "Customers:${le.space.Customer.list()}"
-
-        log.debug "ShiroUsers:${le.space.ShiroUser.list()}"
-
+        //log.debug "Contracts:${le.space.Contract.list()}"
+        //log.debug "Customers:${le.space.Customer.list()}"
+        //log.debug "ShiroUsers:${le.space.ShiroUser.list()}"
 
         def hql = "select distinct c from le.space.Contract  c "
         hql+= " inner join c.customer.shiroUsers u "
@@ -101,19 +121,19 @@ class ContractController {
         hql+= sort
         hql+=" "+order
 
-        log.debug "${hql} searchText:${searchText} paid:${paid} valid:${valid}"
+        //log.debug "${hql} searchText:${searchText} paid:${paid} valid:${valid}"
       
         hparamsAll.putAll(hparams)
 
         hparams.put("max",max)
         hparams.put("offset",offset)
 
-        log.debug "max:${max} offset: ${offset} "
+        //log.debug "max:${max} offset: ${offset} "
 
         def contractListAll = Contract.executeQuery(hql,hparamsAll)
-        log.debug "contractListAll.size() ${contractListAll.size}"
+        // log.debug "contractListAll.size() ${contractListAll.size}"
         def contractList = Contract.executeQuery(hql,hparams)
-        log.debug "contractList.size() ${contractList.size}"
+        //log.debug "contractList.size() ${contractList.size}"
 
 
         List fields = ["id", "firstname", "lastname","company","city","amountGross","autoExtend","valid","paid"]
@@ -158,7 +178,8 @@ class ContractController {
 
     def save = {
         def contractInstance = new Contract(params)
-        log.debug "${contractInstance}"
+        //
+        //log.debug "${contractInstance}"
         if (contractInstance.save(flush: true)) {
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'contract.label', default: 'Contract'), contractInstance.id])}"
             redirect(action: "show", id: contractInstance.id)
@@ -263,35 +284,18 @@ class ContractController {
      * This controller method should be moved into a service! 
      */
     def addLogin = {
-        def contractInstance = Contract.get(params.id)
-        def shiroUser = ShiroUser.get(params.userId)
+        //def contractInstance = Contract.get(params.id)
+        //def shiroUser = ShiroUser.get()
 
-        log.debug "logging in ${shiroUser.username} of contract: ${contractInstance.id}"
-
-        if (contractInstance && shiroUser) {
-            def login = new Login(user:shiroUser,ipAddress:null,macAddress:null,loginStart:new Date()).save()
-            log.debug "saved new login ${login}"
-            contractInstance.addToLogins(login)
-                
-            log.debug "Product ${contractInstance.getProducts().toArray()[0]} has durationType:${contractInstance.getProducts().toArray()[0].durationType}"
-
-            //wenn heute schon ein login war diesen login nicht noch einmal zählen!
-            if(contractInstance.getProducts().toArray()[0].allowedLoginDays>0){
-                contractInstance.allowedLoginDaysLeft--
-                contractInstance.loginDays++
-                   
-                log.debug "allowedLoginDayLeft:${contractInstance.allowedLoginDaysLeft}"
-            }
-            contractInstance.lastLogin = new Date()
-            contractInstance.save()
-        }
+        log.debug "logging in userId:${params.userId} contract: ${params.id}"
+        loginService.login(params.userId)
 
        
         redirect(action: "list")
     }
 
     def addTest = {
-       redirect(action: "list")
+        redirect(action: "list")
     }
 
     /**
@@ -315,7 +319,9 @@ class ContractController {
             if(amountToPay>0){
                 def payment = new Payment(amount:amountToPay,paymentDate:new Date(),paymentMethod:Payment.PM_DIRECT_DEBIT,contract:contractInstance).save()
                 log.debug "saved new payment"
-                contractInstance.save()
+                contractInstance.customer.addToPayments(payment)
+                contractInstance.customer.save()
+                
                 log.debug "added payment ${payment} to contract ${contractInstance}"
             }
           

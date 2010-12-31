@@ -47,7 +47,7 @@ class Contract {
    	
     static transients = ["selectedProducts"]
 
-    static hasMany = [products: Product,logins: Login,payments:Payment]
+    static hasMany = [products: Product]
 
 
     static constraints = {
@@ -68,9 +68,9 @@ class Contract {
 
     def calculateAmounts(){
         
-        log.debug "getting sum for contract ${this.id} ${getProducts()} "
+       // log.debug "getting sum for contract ${this.id} ${getProducts()} "
         if(this.id){
-            def sum = Contract.executeQuery("select sum(amount) from le.space.Payment p where p.contract.id=:id",[id:this.id])
+            def sum = Contract.executeQuery("select sum(amount) from le.space.Payment p where p.customer.id=:id",[id:this.customer.id])
             amountPaid = (sum==null || sum[0]==null)?0:sum[0]
         }
 

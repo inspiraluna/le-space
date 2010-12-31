@@ -3,6 +3,45 @@ package le.space
 class LoginController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+    
+    def LoginService loginService
+
+    def radius = {
+
+        log.debug "secret:${grailsApplication.config.lespace.radiusServerSharedSecret}"
+
+        def radiusServerIP = params.radiusServerIP?params.radiusServerIP:grailsApplication.config.lespace.radiusServerIP
+        def String radiusServerSharedSecret = params.radiusServerSharedSecret?params.radiusServerSharedSecret:grailsApplication.config.lespace.radiusServerSharedSecret
+        def radiusUsername = params.radiusUsername //?params.radiusUsername:grailsApplication.config.lespace.radiusUsername
+        def radiusPassword = params.radiusPassword //?params.radiusPassword:grailsApplication.config.lespace.radiusPassword
+        
+        boolean logged_in
+
+        if(radiusUsername){
+            log.debug "try login into radius server: ${radiusServerIP} with secret: ${radiusServerSharedSecret} username:${radiusUsername} password:${radiusPassword}"
+            try{
+                org.tinyradius.util.RadiusClient rc = new org.tinyradius.util.RadiusClient(radiusServerIP, radiusServerSharedSecret)
+       
+                if (rc.authenticate(radiusUsername, radiusPassword)){
+                    logged_in = true
+                    log.debug "logged in"
+                    flash.message="logged in!"
+                }
+                else{
+                    logged_in = false
+                    flash.message="wrong password"
+                }
+            }catch(org.tinyradius.util.RadiusException rex){
+              flash.message="RadiusException - malformed packet: ${rex.getMessage()}"
+              logged_in = false
+           }
+           catch(java.io.IOException rex){
+              flash.message="java.io.IOException - communication error ${rex.getMessage()}"
+              logged_in = false
+           }
+        }        
+        [radiusServerIP:radiusServerIP,radiusServerSharedSecret:radiusServerSharedSecret,radiusUsername:radiusUsername,radiusPassword:radiusPassword,logged_in:logged_in]
+    }
 
     def index = {
         redirect(action: "list", params: params)

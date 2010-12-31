@@ -28,9 +28,10 @@
 <tr><td><g:message code="customer.zip.label" />*:</td><td class="value ${hasErrors(bean: customer, field: 'zip', 'errors')}"><g:textField name="zip" value="${contract?.customer?.zip}" /></td></tr>
 <tr><td><g:message code="customer.city.label" />*:</td><td class="value ${hasErrors(bean: customer, field: 'city', 'errors')}"><g:textField name="city" value="${contract?.customer?.city}" /></td></tr>
 <tr><td><g:message code="customer.country.label" />*:</td><td class="value ${hasErrors(bean: customer, field: 'country', 'errors')}">
+   
 <g:select name="country.id"  from="${le.space.Country.list()}"
                           value="${contract?.customer?.country?.id}" noSelection="${['0':g.message(code:'contract.chooseSomething')]}"
-                          optionKey="name" onChange="loadSubOptions(this.value);" />
+                          optionKey="id"  />
 </td></tr>
 <tr><td><g:message code="shiroUser.email.label" />*:</td><td class="value ${hasErrors(bean: shiroUser, field: 'email', 'errors')}"><g:textField name="email" value="${shiroUser.email}" /></td></tr>
 <tr><td><g:message code="shiroUser.birthday.label" />:</td><td class="value ${hasErrors(bean: shiroUser, field: 'birthday', 'errors')}"><g:datePicker

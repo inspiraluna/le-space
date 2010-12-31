@@ -55,11 +55,12 @@
 <tr><td><g:message code="customer.publication.label" />:</td><td>${contract.customer?.publicationHTML}</td></tr>
 </table>
 <table><tr><td colspan="2"><g:message code="contract.total.label" />:</td></tr>
- <tr><td><g:message code="contract.amountNet.label" />:</td><td id="amountNet" align="right"><g:formatNumber number="${contract.amountNet}" format="€ ###,##0.00" /></td></tr>
- <tr><td><g:message code="contract.vat.label" />:</td><td align="right" id="amountVat"><g:formatNumber number="${contract.amountVAT}" format="€ ###,##0.00" /></td></tr>
- <tr><td><g:message code="contract.amountGross.label" />:</td><td align="right" id="amountGross"><g:formatNumber number="${contract.amountGross}" format="€ ###,##0.00" /></td></tr>
+<tr><td><g:message code="contract.amountNet.label" />:</td><td id="amountNet" align="right"><g:formatNumber number="${contract.amountNet}" format="€ ###,##0.00" /></td></tr>
+<tr><td><g:message code="contract.vat.label" />:</td><td align="right" id="amountVat"><g:formatNumber number="${contract.amountVAT}" format="€ ###,##0.00" /></td></tr>
+<tr><td><g:message code="contract.amountGross.label" />:</td><td align="right" id="amountGross"><g:formatNumber number="${contract.amountGross}" format="€ ###,##0.00" /></td></tr>
 </table>
 <!--https://cms.paypal.com/us/cgi-bin/?cmd=_render-content&content_ID=developer/e_howto_html_Appx_websitestandard_htmlvariables -->
+
 <g:form name="contract" controller="public" method="post">
   <g:hiddenField name="id" value="${contract.id}" />
   <g:hiddenField name="_format" value="PDF" />
@@ -68,10 +69,14 @@
   <g:hiddenField name="_name" value="contract" />
   <g:hiddenField name="_file" value="contract"  />
 
+  <p><input type="checkbox" name="agbs" value="false" onChange="javascript:document.contract.register.disabled=!this.checked"/>
+${g.message(code:'contract.agb_read')} <a href="${createLinkTo(dir:'agb')}" target="_blank">AGB's lesen</a>
+  </p>
+
   <g:if test="${contract.paymentMethod==0}">
     <g:submitToRemote update="update" action="step1" controller="public" name="back" value="${g.message(code:'contract.back')}" /></g:if>
   <g:if test="${contract.paymentMethod==1}">
     <g:submitToRemote update="update" action="step2" controller="public" name="back" value="${g.message(code:'contract.back')}" /></g:if>
-  
-  <g:submitToRemote update="update" action="register" controller="public" name="register" value="${g.message(code:'contract.register')}" />
+
+  <input type="button" value="${g.message(code:'contract.register')}" disabled="disabled" name="register" onclick="new Ajax.Updater('update','${createLinkTo(dir:'/public/register')}',{asynchronous:true,evalScripts:true,parameters:Form.serialize(this.form)});return false">
 </g:form>

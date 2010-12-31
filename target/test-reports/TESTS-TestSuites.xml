@@ -1,53 +1,63 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <testsuites>
-  <testsuite errors="4" failures="0" hostname="Nico.local" id="0" name="ContractRegistrationTests" package="le.space" tests="4" time="19.421" timestamp="2010-12-08T09:11:35">
+  <testsuite errors="0" failures="0" hostname="Nico.local" id="0" name="ContractRegistrationTests" package="le.space" tests="4" time="152.063" timestamp="2010-12-08T16:15:23">
       <properties />
 
-      <testcase classname="le.space.ContractRegistrationTests" name="testAddDayTicket" time="12.05">
-          <error message="WebTest le.space.ContractRegistrationTests.testAddDayTicket has failed. See WebTestReport for details." type="java.lang.RuntimeException">java.lang.RuntimeException: WebTest le.space.ContractRegistrationTests.testAddDayTicket has failed. See WebTestReport for details.
-	at org.grails.plugins.webtest.WebTestStatement.evaluate(WebTestStatement.groovy:28)
-	at org.grails.plugins.webtest.WebTestStatement$evaluate.call(Unknown Source)
-</error>
+      <testcase classname="le.space.ContractRegistrationTests" name="testAddDayTicket" time="116.396" />
 
-      </testcase>
+      <testcase classname="le.space.ContractRegistrationTests" name="testAddReverseChargeSystemContract" time="13.256" />
 
-      <testcase classname="le.space.ContractRegistrationTests" name="testAddReverseChargeSystemContract" time="0.316">
-          <error message="WebTest le.space.ContractRegistrationTests.testAddReverseChargeSystemContract has failed. See WebTestReport for details." type="java.lang.RuntimeException">java.lang.RuntimeException: WebTest le.space.ContractRegistrationTests.testAddReverseChargeSystemContract has failed. See WebTestReport for details.
-	at org.grails.plugins.webtest.WebTestStatement.evaluate(WebTestStatement.groovy:28)
-	at org.grails.plugins.webtest.WebTestStatement$evaluate.call(Unknown Source)
-</error>
+      <testcase classname="le.space.ContractRegistrationTests" name="testAdd10DayTicket" time="19.162" />
 
-      </testcase>
-
-      <testcase classname="le.space.ContractRegistrationTests" name="testAdd10DayTicket" time="6.708">
-          <error message="WebTest le.space.ContractRegistrationTests.testAdd10DayTicket has failed. See WebTestReport for details." type="java.lang.RuntimeException">java.lang.RuntimeException: WebTest le.space.ContractRegistrationTests.testAdd10DayTicket has failed. See WebTestReport for details.
-	at org.grails.plugins.webtest.WebTestStatement.evaluate(WebTestStatement.groovy:28)
-	at org.grails.plugins.webtest.WebTestStatement$evaluate.call(Unknown Source)
-</error>
-
-      </testcase>
-
-      <testcase classname="le.space.ContractRegistrationTests" name="testCustomerPublicationOnWebsite" time="0.266">
-          <error message="WebTest le.space.ContractRegistrationTests.testCustomerPublicationOnWebsite has failed. See WebTestReport for details." type="java.lang.RuntimeException">java.lang.RuntimeException: WebTest le.space.ContractRegistrationTests.testCustomerPublicationOnWebsite has failed. See WebTestReport for details.
-	at org.grails.plugins.webtest.WebTestStatement.evaluate(WebTestStatement.groovy:28)
-	at org.grails.plugins.webtest.WebTestStatement$evaluate.call(Unknown Source)
-</error>
-
-      </testcase>
+      <testcase classname="le.space.ContractRegistrationTests" name="testCustomerPublicationOnWebsite" time="3.086" />
 
       <system-out><![CDATA[--Output from testAddDayTicket--
-Webtest failure: : HTTP error 404
+url: http://localhost:8081/le-space/ secureServerUrl: https://localhost:8443/le-space 
+Server And Context from config file: set http://localhost:8081/le-space/
+Request servlet path: /grails/public/step3.dispatch
+Request with context: http://localhost:8080/le-space
+context only: /le-space
+Server And Context from config file: set http://localhost:8081/le-space/
+Request servlet path: /grails/public/step3.dispatch
+Request with context: http://localhost:8080/le-space
+context only: /le-space
+Server And Context from config file: set http://localhost:8081/le-space/
+Request servlet path: /grails/public/step3.dispatch
+Request with context: http://localhost:8080/le-space
+context only: /le-space
+Server And Context from config file: set http://localhost:8081/le-space/
+Request servlet path: /grails/public/register.dispatch
+Request with context: http://localhost:8080/le-space
+context only: /le-space
 --Output from testAddReverseChargeSystemContract--
-Webtest failure: : HTTP error 404
+url: http://localhost:8081/le-space/ secureServerUrl: https://localhost:8443/le-space 
+Server And Context from config file: set http://localhost:8081/le-space/
+Request servlet path: /grails/public/step2.dispatch
+Request with context: http://localhost:8080/le-space
+context only: /le-space
+Server And Context from config file: set http://localhost:8081/le-space/
+Request servlet path: /grails/public/register.dispatch
+Request with context: http://localhost:8080/le-space
+context only: /le-space
 --Output from testAdd10DayTicket--
-Webtest failure: : HTTP error 404
+url: http://localhost:8081/le-space/ secureServerUrl: https://localhost:8443/le-space 
+Server And Context from config file: set http://localhost:8081/le-space/
+Request servlet path: /grails/public/step2.dispatch
+Request with context: http://localhost:8080/le-space
+context only: /le-space
+Server And Context from config file: set http://localhost:8081/le-space/
+Request servlet path: /grails/public/step2.dispatch
+Request with context: http://localhost:8080/le-space
+context only: /le-space
+Server And Context from config file: set http://localhost:8081/le-space/
+Request servlet path: /grails/public/register.dispatch
+Request with context: http://localhost:8080/le-space
+context only: /le-space
 --Output from testCustomerPublicationOnWebsite--
-Webtest failure: : HTTP error 404
+url: http://localhost:8081/le-space/ secureServerUrl: https://localhost:8443/le-space 
 ]]></system-out>
 
       <system-err><![CDATA[--Output from testAddDayTicket--
-log4j:WARN No appenders could be found for logger (StackTrace).
-log4j:WARN Please initialize the log4j system properly.
 --Output from testAddReverseChargeSystemContract--
 --Output from testAdd10DayTicket--
 --Output from testCustomerPublicationOnWebsite--

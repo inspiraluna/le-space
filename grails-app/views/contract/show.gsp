@@ -16,7 +16,8 @@
     <h1><g:message code="default.show.label" args="[entityName]" /></h1>
     <g:if test="${flash.message}">
       <div class="message">${flash.message}</div>
-    </g:if>    <g:form>
+    </g:if>
+    <g:form>
       <div class="buttons">
         <g:hiddenField name="id" value="${contractInstance?.id}" />
         <span class="button"><g:actionSubmit class="previous" action="previous" value="${message(code: 'default.button.previous.label', default: 'previous')}" /></span>
@@ -169,8 +170,11 @@
         </table>
       </div>
     </g:form>
-    <div class="shiroUser">
+    <div class="shiroUserAdd" id="shiroUserAdd">
       <g:render template="/shiroUser/customerUsers" />
+    </div>
+    <div class="paymentAdd" id="paymentAdd">
+      <g:render template="/payment/customerPayments" />
     </div>
   </div>
 </body>

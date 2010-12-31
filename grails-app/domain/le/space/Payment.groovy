@@ -1,7 +1,6 @@
 package le.space
 
 class Payment {
-
     
     static final int PM_CASH = 0
     static final int PM_DIRECT_DEBIT = 1
@@ -12,14 +11,15 @@ class Payment {
     Date paymentDate
     int paymentMethod = 0 //BAR=0
 
-    Contract contract
+    Customer customer
     
-    
-    static belongsTo = Contract
-
+    static belongsTo = Customer
 
     static constraints = {
-        
+        amount(nullable:false,blank:false)
+        amount(nullable:false,blank:false)
+        paymentDate(nullable:false,blank:false)
+        customer(nullable:false,blank:false)
     }
 
     String toString(){

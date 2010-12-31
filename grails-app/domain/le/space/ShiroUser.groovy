@@ -17,13 +17,15 @@ class ShiroUser {
     String twitterName
     String facebookName
 
+    boolean optOutIamHereFunction = false
+
     Date dateCreated = new Date()
     Date dateModified = new Date()
     ShiroUser createdBy
     ShiroUser modifiedBy
 
 
-    static hasMany = [ roles: ShiroRole, permissions: String ]
+    static hasMany = [roles: ShiroRole, permissions: String,logins: Login]
 
     static constraints = {
         username(nullable: false, blank: false, unique:true)
@@ -40,12 +42,11 @@ class ShiroUser {
         occupation(nullable:true,blank:true)
         twitterName(nullable:true,blank:true)
         facebookName(nullable:true,blank:true)
-
+        optOutIamHereFunction()
         dateCreated(nullable:true,blank:true)
         dateModified(nullable:true,blank:true)
         createdBy(nullable:true,blank:true)
         modifiedBy(nullable:true,blank:true)
-
     }
     
     def beforeInsert = {

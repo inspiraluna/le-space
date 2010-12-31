@@ -297,6 +297,7 @@ class PublicController {
         def p
         if(params.id && params.id!='0'){
             p = Product.get(params.id)
+            log.debug "adding product to contract... ${p} ${params.id}"
             contract.addToProducts(p)
             contract.calculateAmounts()
         

@@ -22,7 +22,7 @@ class ContractRegistrationTests extends grails.util.WebTest {
         setInputField name: "addressLine2", value: "(oberes Geschoss)"
         setInputField name: "zip", value: "D-84307"
         setInputField name: "city", value: "Eggennfelden"
-        setInputField name: "country", value: "Deutschland"
+        setSelectField description: "choosing the country", name: "country.id", value: "38"
         setInputField name: "email", value: "nico2@le-space.de"
 
         setInputField name: "tel1", value: "08721 12132"
@@ -100,7 +100,7 @@ class ContractRegistrationTests extends grails.util.WebTest {
         pdfVerifyText description:"addressLine1", text: "Lichtenberg 44", regex: "true"
         pdfVerifyText description:"addressLine2", text: "(oberes Geschoss)", regex: "true"
         pdfVerifyText description:"zip", text: "D-84307", regex: "true"
-        pdfVerifyText description:"city", text: "Eggennfelden", regex: "true"
+        pdfVerifyText description:"city", text: "Eggenfelden", regex: "true"
         pdfVerifyText description:"country", text: "Deutschland", regex: "true"
         pdfVerifyText description:"accountNo", text: "110280", regex: "true"
         pdfVerifyText description:"bankNo", text: "74391400", regex: "true"
@@ -125,7 +125,7 @@ class ContractRegistrationTests extends grails.util.WebTest {
         setInputField name: "addressLine2", value: "-"
         setInputField name: "zip", value: "6850"
         setInputField name: "city", value: "Dornbirn"
-        setInputField name: "country", value: "Österreich"
+        setSelectField description: "choosing the country", name: "country.id", value: "133"
         setInputField name: "email", value: "	eric.poscher@epe.at"
 
 
@@ -171,7 +171,7 @@ class ContractRegistrationTests extends grails.util.WebTest {
         setInputField name: "addressLine2", value: "-"
         setInputField name: "zip", value: "D-xxxxx"
         setInputField name: "city", value: "Lauf"
-        setInputField name: "country", value: "Deutschland"
+        setSelectField description: "choosing the country", name: "country.id", value: "38"
         setInputField name: "email", value: "martin-hilbrecht2@le-space.de"
 
         //Birthday !

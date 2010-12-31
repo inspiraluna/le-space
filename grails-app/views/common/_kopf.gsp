@@ -21,6 +21,7 @@
       <ul id="subnavi_text">
         <li class="first startseite"><a href="${createLinkTo(dir:'home')}">Startseite</a></li>
         <li class="anmeldung"><a href="${le.space.HelperTools.makeSSL(createLinkTo(dir:'anmeldung', absolute:true))}">Anmeldung</a></li>
+        <li class="agb"><a href="${createLinkTo(dir:'agb')}">AGB's</a></li>
         <li class="impressum"><a href="${createLinkTo(dir:'impressum')}">Impressum</a></li>
         <!--<li><a href="#">english</a></li>-->
       </ul>

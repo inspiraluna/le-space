@@ -44,7 +44,8 @@ class Customer {
     ShiroUser createdBy
     ShiroUser modifiedBy
 
-    static hasMany = [shiroUsers: ShiroUser, contracts:Contract]
+    static hasMany = [shiroUsers: ShiroUser, contracts:Contract, payments:Payment]
+
 
     public getSalutation(){
         if(getShiroUsers() && getShiroUsers().size()>0)

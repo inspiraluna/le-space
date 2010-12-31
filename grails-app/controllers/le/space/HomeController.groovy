@@ -22,5 +22,5 @@ class HomeController {
     def kontakt = {[bodyId:"kontakt",slogan: "Le Space ist im Leipziger Westen zu Hause."] }
     def impressum = {[bodyId:"impressum",slogan: "Vernetzung im realen Raum - virtuell reicht nicht."] }
     def anmeldung = {[bodyId:"anmeldung",slogan: "Jetzt anmelden und Fensterplätze sichern! :-)"] }
-    def coweek = {[bodyId:"coweek", slogan: "Eine Woche Coworking Week in ganz Deutschland :-)"] }
+    def agb = {[bodyId:"agb", slogan: "Allgemeine Geschäftsbedingungen der Le Space UG (haftungsbeschränkt)"] }
 }
