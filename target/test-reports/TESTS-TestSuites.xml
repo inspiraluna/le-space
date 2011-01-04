@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <testsuites>
-  <testsuite errors="0" failures="0" hostname="Nico.local" id="0" name="ContractRegistrationTests" package="le.space" tests="4" time="152.063" timestamp="2010-12-08T16:15:23">
+  <testsuite errors="0" failures="0" hostname="Nico.local" id="0" name="ContractRegistrationTests" package="le.space" tests="4" time="106.907" timestamp="2011-01-01T19:20:02">
       <properties />
 
-      <testcase classname="le.space.ContractRegistrationTests" name="testAddDayTicket" time="116.396" />
+      <testcase classname="le.space.ContractRegistrationTests" name="testAddDayTicket" time="83.719" />
 
-      <testcase classname="le.space.ContractRegistrationTests" name="testAddReverseChargeSystemContract" time="13.256" />
+      <testcase classname="le.space.ContractRegistrationTests" name="testAddReverseChargeSystemContract" time="9.155" />
 
-      <testcase classname="le.space.ContractRegistrationTests" name="testAdd10DayTicket" time="19.162" />
+      <testcase classname="le.space.ContractRegistrationTests" name="testAdd10DayTicket" time="10.652" />
 
-      <testcase classname="le.space.ContractRegistrationTests" name="testCustomerPublicationOnWebsite" time="3.086" />
+      <testcase classname="le.space.ContractRegistrationTests" name="testCustomerPublicationOnWebsite" time="3.24" />
 
       <system-out><![CDATA[--Output from testAddDayTicket--
 url: http://localhost:8081/le-space/ secureServerUrl: https://localhost:8443/le-space 

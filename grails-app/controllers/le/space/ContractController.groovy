@@ -232,13 +232,12 @@ class ContractController {
         def contractInstance = Contract.get(params.id)
         def customer = contractInstance.customer
 
-        log.debug "update of contract: ${contractInstance} ${customer}"
+        log.debug "update of contract: ${contractInstance} ${customer} ${contractInstance.allowedLoginDaysLeft} "
 
         if (contractInstance && customer) {
             if (params.version) {
                 def version = params.version.toLong()
-                if (contractInstance.version > version) {
-                    
+                if (contractInstance.version > version) {                
                     contractInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'contract.label', default: 'Contract')] as Object[], "Another user has updated this Contract while you were editing")
                     render(view: "show", model: [contractInstance: contractInstance])
                     return

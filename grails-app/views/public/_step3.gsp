@@ -69,7 +69,7 @@
   <g:hiddenField name="_name" value="contract" />
   <g:hiddenField name="_file" value="contract"  />
 
-  <p><input type="checkbox" name="agbs" value="false" onChange="javascript:document.contract.register.disabled=!this.checked"/>
+  <p><input type="checkbox" name="agbs" value="false" onChange="document.contract.register.disabled=!this.checked"/>
 ${g.message(code:'contract.agb_read')} <a href="${createLinkTo(dir:'agb')}" target="_blank">AGB's lesen</a>
   </p>
 

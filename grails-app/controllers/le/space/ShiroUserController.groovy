@@ -65,7 +65,7 @@ class ShiroUserController {
             customer.addToShiroUsers(shiroUserInstance)
             customer.save()
             log.debug "customer ${customer} saved... "
-            flash.message = "${message(code: 'default.created.message', args: [message(code: 'shiroUser.label', default: 'ShiroUser'), shiroUserInstance.id])}"
+            flash.message = "${message(code: 'default.update.message', args: [message(code: 'shiroUser.label', default: 'ShiroUser'), shiroUserInstance.id])}"
         }
         else{
             log.debug "shiroUserInstance has errors!"

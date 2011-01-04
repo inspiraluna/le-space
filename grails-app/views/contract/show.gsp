@@ -17,6 +17,16 @@
     <g:if test="${flash.message}">
       <div class="message">${flash.message}</div>
     </g:if>
+    <g:form controller="public">
+      <div class="buttons">
+        <g:hiddenField name="id" value="${contractInstance?.id}" />
+        <g:hiddenField name="_format" value="PDF" />
+        <g:hiddenField name="_inline" value="false" />
+        <g:hiddenField name="_name" value="contract" />
+        <g:hiddenField name="_file" value="contract"  />
+        <span class="button"><g:actionSubmit action="contractPdf"  value="${g.message(code:'contract.print')}" /></span>
+      </div>
+    </g:form>
     <g:form>
       <div class="buttons">
         <g:hiddenField name="id" value="${contractInstance?.id}" />
@@ -26,11 +36,6 @@
         <span class="button"><g:actionSubmit class="addFullPayment" action="addFullPayment" value="${message(code: 'default.button.addFullPayment.label', default: 'addFullPayment')}" /></span>
         <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
         <span class="button"><g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" /></span>
-        <g:hiddenField name="_format" value="PDF" />
-        <g:hiddenField name="_inline" value="false" />
-        <g:hiddenField name="_name" value="contract" />
-        <g:hiddenField name="_file" value="contract"  />
-        <span class="button"><g:actionSubmit action="contractPdf" controller="public" value="${g.message(code:'contract.print')}" /></span>
       </div>
       <div class="dialog">
         <table>
@@ -116,7 +121,8 @@
             <th align="left" valign="top" class="name"><g:message code="contract.valid.label" default="valid" /></th>
           <td valign="top" class="value"><g:checkBox name="paid" value="true" disabled="true" checked="${contractInstance.valid}"/></td>
           <th align="left" valign="top" class="name"><g:message code="contract.allowedLoginDaysLeft.label" default="allowedLoginDaysLeft" /></th>
-          <td valign="top" class="value">${fieldValue(bean:contractInstance,field:'allowedLoginDaysLeft')}</td>
+          <td valign="top" class="value"><input type="text" id="allowedLoginDaysLeft" name="allowedLoginDaysLeft" size="3" value="${fieldValue(bean:contractInstance,field:'allowedLoginDaysLeft')}" />
+</td>
           </tr>
           <tr class="prop">
             <th align="left" valign="top" class="name"><g:message code="contract.dateCreated.label" default="dateCreated" /></th>
@@ -162,7 +168,7 @@
         <tr>
           <th align="left" valign="top" class="name"><g:message code="customer.reverseChargeSystem.label" default="Paid" /></th>
         <td valign="top" class="value"><g:checkBox name="reverseChargeSystem" value="true"  checked="${contractInstance?.customer?.reverseChargeSystem}"/>
-        <input type="text" id="customer" name="customer" size="10" value="${contractInstance?.customer?.reverseChargeSystemID}" />
+        <input type="text" id="reverseChargeSystemID" name="reverseChargeSystemID" size="10" value="${contractInstance?.customer?.reverseChargeSystemID}" />
         </td>
         </tr>
         </table>

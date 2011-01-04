@@ -58,7 +58,7 @@
         <tbody>
         <g:each in="${contractInstanceList}" status="i" var="contractInstance">
           <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
-            <td valign="top"><g:link action="show" id="${contractInstance.id}"><g:if test="${contractInstance?.customer?.email}"><avatar:gravatar email="${contractInstance?.customer?.email}" defaultGravatarUrl="${createLinkTo(file:'favicon.ico')}"/></g:if></g:link></td>
+            <td valign="top"><g:link action="show" id="${contractInstance.id}"><g:if test="${contractInstance?.customer?.email}"><aavataragravatar email="${contractInstance?.customer?.email}" defaultGravatarUrl="${createLinkTo(file:'favicon.ico')}"/></g:if></g:link></td>
             <td valign="top"><g:link action="show" id="${contractInstance.id}">${fieldValue(bean: contractInstance, field: "id")}</g:link></td>
           <td valign="top" >${fieldValue(bean: contractInstance, field: "customer.company")}</td>
           <td valign="top" >${fieldValue(bean: contractInstance, field: "customer.firstname")}</td>

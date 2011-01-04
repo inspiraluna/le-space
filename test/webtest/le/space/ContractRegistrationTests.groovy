@@ -87,7 +87,8 @@ class ContractRegistrationTests extends grails.util.WebTest {
         verifyXPath description:"amountNet ", xpath:"//td[@id='amountNet']", text:"€ 8.40"
         verifyXPath description:"amountVat ", xpath:"//td[@id='amountVat']", text:"€ 1.60"
         verifyXPath description:"amountGross ", xpath:"//td[@id='amountGross']", text:"€ 10.00"
-
+        //setCheckbox   name: "agbs", checked:true
+        forceInputFieldAttribute name:"register", attributeName:"disabled", attributeValue:""
         clickButton "contract.register"
         clickButton "contract.print"
 
@@ -148,6 +149,8 @@ class ContractRegistrationTests extends grails.util.WebTest {
         verifyXPath description:"amountGross ", xpath:"//td[@id='amountGross']", text:"€ 100.00"
 
         clickButton "contract.forward"
+        //setCheckbox   name: "agbs", checked:true
+        forceInputFieldAttribute name:"register", attributeName:"disabled", attributeValue:""
         clickButton "contract.register"
         clickButton "contract.print"
 
@@ -209,7 +212,8 @@ class ContractRegistrationTests extends grails.util.WebTest {
         verifyXPath description:"amountVat ", xpath:"//td[@id='amountVat']", text:"€ 14.37"
         verifyXPath description:"amountGross ", xpath:"//td[@id='amountGross']", text:"€ 90.00"
 
-
+        //setCheckbox   name: "agbs", checked:true
+        forceInputFieldAttribute name:"register", attributeName:"disabled", attributeValue:""
         clickButton "contract.register"
         clickButton "contract.print"
 

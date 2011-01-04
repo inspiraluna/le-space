@@ -1,4 +1,3 @@
-
 <%@ page import="le.space.Link" %>
 <html>
     <head>
@@ -20,10 +19,8 @@
             <div class="list">
                 <table>
                     <thead>
-                        <tr>
-                        
-                            <g:sortableColumn property="id" title="${message(code: 'link.id.label', default: 'Id')}" />
-                        
+                        <tr>                        
+                            <g:sortableColumn property="id" title="${message(code: 'link.id.label', default: 'Id')}" />                       
                         </tr>
                     </thead>
                     <tbody>
