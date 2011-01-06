@@ -1,0 +1,718 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="UserContract" language="groovy" pageWidth="495" pageHeight="802" columnWidth="435" leftMargin="40" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="11"/>
+	<property name="ireport.y" value="120"/>
+	<field name="id" class="java.lang.String"/>
+	<field name="customer.salutation" class="java.lang.String"/>
+	<field name="customer.firstname" class="java.lang.String"/>
+	<field name="customer.lastname" class="java.lang.String"/>
+	<field name="customer.addressLine1" class="java.lang.String"/>
+	<field name="customer.addressLine2" class="java.lang.String"/>
+	<field name="customer.zip" class="java.lang.String"/>
+	<field name="customer.city" class="java.lang.String"/>
+	<field name="customer.country" class="java.lang.String"/>
+	<field name="customer.email" class="java.lang.String"/>
+	<field name="customer.tel1" class="java.lang.String"/>
+	<field name="customer.fax" class="java.lang.String"/>
+	<field name="customer.company" class="java.lang.String"/>
+	<field name="customer.reverseChargeSystemID" class="java.lang.String"/>
+	<field name="customer.reverseChargeSystem" class="java.lang.Boolean"/>
+	<field name="contractStart" class="java.util.Date"/>
+	<field name="contractEnd" class="java.util.Date"/>
+	<field name="selectedProducts" class="java.lang.String"/>
+	<field name="amountGross" class="java.lang.Double"/>
+	<field name="conditions" class="java.lang.String"/>
+	<field name="amountNet" class="java.lang.Double"/>
+	<field name="amountVAT" class="java.lang.Double"/>
+	<field name="quantity" class="java.lang.Integer"/>
+	<field name="customer.bankAccount.accountOwner" class="java.lang.String"/>
+	<field name="customer.bankAccount.accountNo" class="java.lang.String"/>
+	<field name="customer.bankAccount.bankNo" class="java.lang.String"/>
+	<field name="customer.bankAccount.bankName" class="java.lang.String"/>
+	<field name="customer.bankAccount.IBANNo" class="java.lang.String"/>
+	<field name="customer.bankAccount.BICNo" class="java.lang.String"/>
+	<field name="customer.bankAccount.directDebitPermission" class="java.lang.Boolean"/>
+	<field name="autoExtend" class="java.lang.Boolean"/>
+	<field name="customer.allowPublishNameOnWebsite" class="java.lang.Boolean"/>
+	<field name="customer.publicationHTML" class="java.lang.String"/>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="106">
+			<staticText>
+				<reportElement x="0" y="2" width="426" height="23"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nutzungsvertrag der Le Space UG (haftungsbeschränkt)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="26" width="263" height="15"/>
+				<textElement/>
+				<text><![CDATA[Lützner Str. 91, 04177 Leipzig]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="76" width="364" height="25"/>
+				<textElement/>
+				<text><![CDATA[vertreten durch den Geschäftsführer Nico Krause
+eingetragen im Amtsgericht Leipzig HRB 25885 / UstID Nr. DE27240660]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="43" width="430" height="15"/>
+				<textElement/>
+				<text><![CDATA[Tel.: +49 (0) 3 41 / 4 78 58 70 - Fax: +49 (0) 3 41 / 4 92 76 49]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="60" width="430" height="15"/>
+				<textElement/>
+				<text><![CDATA[Internet: www.le-space.de - Email: info@le-space.de]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="393">
+			<staticText>
+				<reportElement x="0" y="0" width="315" height="15"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[1. Vertragspartner der Nutzungsvereinbarung:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="40" width="150" height="12"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{customer.addressLine1}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="150" y="40" width="150" height="12"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{customer.addressLine2}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="55" width="58" height="6"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<text><![CDATA[Straße Nr. (Adresse)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="150" y="55" width="58" height="6"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<text><![CDATA[Adresse (Zeile2)]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="53" width="300" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="1" y="89" width="224" height="15"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[2. Leistung]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="104" width="126" height="12"/>
+				<textElement/>
+				<text><![CDATA[Die Nutzung beginnt am:]]></text>
+			</staticText>
+			<textField pattern="EEEEE dd. MMMMM yyyy" isBlankWhenNull="true">
+				<reportElement x="131" y="104" width="198" height="12"/>
+				<textElement/>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{contractStart}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="1" y="131" width="128" height="12"/>
+				<textElement/>
+				<text><![CDATA[Ticketanzahl / Menge:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="132" y="131" width="197" height="12" isPrintWhenDetailOverflows="true"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{quantity}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="104" y="32" width="82" height="6"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<text><![CDATA[Firma bzw. Vorname und Name]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="103" y="18" width="197" height="12"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[($F{customer.company}==null || $F{customer.company}=="")?$F{customer.salutation}+" "+$F{customer.firstname}+" "+$F{customer.lastname}:$F{customer.company}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="108" y="31" width="193" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="1" y="118" width="127" height="12"/>
+				<textElement/>
+				<text><![CDATA[Die Nutzung endet am:]]></text>
+			</staticText>
+			<textField pattern="EEEEE dd. MMMMM yyyy" isBlankWhenNull="true">
+				<reportElement x="131" y="118" width="198" height="12"/>
+				<textElement/>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{contractEnd}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="209" y="64" width="93" height="12"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{customer.country}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="78" width="58" height="6"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<text><![CDATA[PLZ]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="62" y="64" width="146" height="12"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{customer.city}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="2" y="77" width="300" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="209" y="78" width="58" height="6"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<text><![CDATA[Land]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="63" y="78" width="58" height="6"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<text><![CDATA[Stadt]]></text>
+			</staticText>
+			<textField pattern="dd. MMMMM yyyy" isBlankWhenNull="true">
+				<reportElement x="1" y="64" width="59" height="12"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{customer.zip}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="133" y="145" width="197" height="12" isPrintWhenDetailOverflows="true"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{selectedProducts}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="2" y="145" width="128" height="12"/>
+				<textElement/>
+				<text><![CDATA[Gewählter Tarif/Produkte:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="32" width="58" height="6"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<text><![CDATA[Vertragsnummer]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="18" width="100" height="12"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{id}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="31" width="300" height="1"/>
+			</line>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="132" y="158" width="198" height="12"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{conditions}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="158" width="129" height="12"/>
+				<textElement/>
+				<text><![CDATA[Vertragsbedingungen:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="248" y="253" width="182" height="12">
+					<printWhenExpression><![CDATA[$F{customer.bankAccount.directDebitPermission}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{customer.bankAccount.bankName}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="248" y="241" width="179" height="12">
+					<printWhenExpression><![CDATA[$F{customer.bankAccount.directDebitPermission}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{customer.bankAccount.accountOwner}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="55" y="241" width="117" height="12">
+					<printWhenExpression><![CDATA[$F{customer.bankAccount.directDebitPermission}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{customer.bankAccount.accountNo}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="55" y="253" width="117" height="12">
+					<printWhenExpression><![CDATA[$F{customer.bankAccount.directDebitPermission}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{customer.bankAccount.bankNo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="226" width="431" height="15">
+					<printWhenExpression><![CDATA[$F{customer.bankAccount.directDebitPermission}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[4. Einzugsermächtigung erteile ich jederzeit widerufbar für die Vertragslaufzeit:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="241" width="53" height="12">
+					<printWhenExpression><![CDATA[$F{customer.bankAccount.directDebitPermission}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[Kto. Nr.:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="253" width="53" height="12">
+					<printWhenExpression><![CDATA[$F{customer.bankAccount.directDebitPermission}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[BLZ:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="174" y="241" width="74" height="12">
+					<printWhenExpression><![CDATA[$F{customer.bankAccount.directDebitPermission}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[Kontoinhaber:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="174" y="253" width="74" height="12">
+					<printWhenExpression><![CDATA[$F{customer.bankAccount.directDebitPermission}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[Bank:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="267" width="429" height="28"/>
+				<textElement/>
+				<text><![CDATA[Ergänzend gelten die ausgelegten allgemeinen Geschäftsbedingungen der Le Space UG
+und die Hausordnung des Tapetenwerks]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="188" width="125" height="12"/>
+				<textElement/>
+				<text><![CDATA[Betrag (netto):]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="234" y="201" width="195" height="12">
+					<printWhenExpression><![CDATA[$F{customer.reverseChargeSystem}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<text><![CDATA[§13b (Reverse Charge System): Die Steuerschuld geht auf den Leistungsempfänger über!]]></text>
+			</staticText>
+			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="126" y="188" width="100" height="12"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{amountNet}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00" isBlankWhenNull="false">
+				<reportElement x="291" y="213" width="138" height="12">
+					<printWhenExpression><![CDATA[$F{customer.reverseChargeSystem}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{customer.reverseChargeSystemID}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="200" width="125" height="12"/>
+				<textElement/>
+				<text><![CDATA[MwSt:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="234" y="213" width="53" height="12">
+					<printWhenExpression><![CDATA[$F{customer.reverseChargeSystem}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[Ihre UstId:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="2" y="332" width="387" height="51">
+					<printWhenExpression><![CDATA[$F{customer.allowPublishNameOnWebsite}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{customer.publicationHTML}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="213" width="125" height="12"/>
+				<textElement/>
+				<text><![CDATA[Betrag (brutto):]]></text>
+			</staticText>
+			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="126" y="213" width="100" height="12"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{amountGross}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="126" y="200" width="100" height="12"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{amountVAT}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="173" width="225" height="15"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[3. Nutzungsgebühr]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="301" width="376" height="15">
+					<printWhenExpression><![CDATA[$F{customer.allowPublishNameOnWebsite}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[5. Veröffentlichung von Firmenname, Name, Beruf und Webadresse ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="316" width="404" height="13">
+					<printWhenExpression><![CDATA[$F{customer.allowPublishNameOnWebsite}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[Folgender Text wird ausschließlich auf unserer Webseite kostenfrei veröffentlicht.]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="111">
+			<staticText>
+				<reportElement x="7" y="22" width="133" height="6"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<text><![CDATA[Ort, Datum, Unterschrift Le Space UG (haftungsbeschränkt)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="189" y="22" width="133" height="6"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<text><![CDATA[Ort, Datum Unterschrift Nutzer]]></text>
+			</staticText>
+			<line>
+				<reportElement x="7" y="20" width="130" height="1"/>
+			</line>
+			<line>
+				<reportElement x="189" y="20" width="131" height="1"/>
+			</line>
+			<line>
+				<reportElement x="5" y="36" width="428" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="269" y="54" width="103" height="33"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<text><![CDATA[Bankverbindung Sparkasse Leipzig, 
+Bankleitzahl, 860 555 92
+Kto. Nr. 1100880298 
+IBAN: DE74860555921100880298 
+BIC-/SWIFT-Code: WELADE8L]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="5" y="9" width="140" height="10"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Leipzig,"+(new java.text.SimpleDateFormat("dd.MM.yyyy").format(new java.util.Date()))]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="188" y="10" width="133" height="10"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Leipzig,"+(new java.text.SimpleDateFormat("dd.MM.yyyy").format(new java.util.Date()))]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<lastPageFooter>
+		<band height="762">
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="205" height="762"/>
+				<textElement>
+					<font fontName="Helvetica" size="5"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[§ 1 Allgemeines
+(1) Die nachfolgenden Allgemeinen Geschäftsbedingungen gelten für
+sämtliche Leistungen der Le Space UG (haftungsbeschränkt), nachfolgend
+Le Space, die diese gegenüber ihren Kunden / Vertragspartnern erbringt.
+Geschäftsbedingungen des Kunden, die im Widerspruch zu diesen AGB
+stehen oder über diese hinausgehen, haben ohne eine ausdrückliche
+schriftliche Bestätigung durch Le Space keine Geltung.
+(2) Das Angebot richtet sich sowohl an Privatkunden, als auch an
+Unternehmer. Unternehmer ist jede natürliche oder juristische Person oder
+rechtsfähige Personengesellschaft, die beim Abschluss des Vertrages in
+Ausübung ihrer gewerblichen oder selbständigen beruflichen Tätigkeit
+handelt.
+
+§ 2 Leistungsbeschreibung
+(1) Gegenstand der Angebote und Dienstleistungen von Le Space ist die
+Bereitstellung von Büroarbeitsplätzen einschließlich der unbegrenzten
+Internetnutzung (W-Lan), der Bereitstellung von Seminarräumen,
+Briefkästen und Schließfächer. Le Space erbringt darüber hinaus weitere
+Servicedienstleistungen. Diese sind:
+- Durchführung von Veranstaltungen
+(2) Je nach gewählter Vertragsart / Tarif ist die Nutzungsmöglichkeit auf
+eine bestimmte Art der Nutzung und / oder bestimmte Zeit beschränkt.
+Folgende Tarife werden derzeit angeboten:
+1. Tageskarte: 1 Tag Nutzungsberechtigung an wechselnden Arbeitsplätzen inklusive unbegrenzter Internetnutzung (W-Lan) im Rahmen der Öffnungszeiten.
+2. Flexdesk Woche: 7 Woche Nutzungsberechtigung an wechselnden Arbeitsplätzen inklusive unbegrenzter Internetnutzung (W-Lan) im Rahmen der Öffnungszeiten.
+3. Flexdesk 10 Tage: 10 Tage Nutzungsberechtigung innerhalb 3 Monaten an wechselnden Arbeitsplätzen inklusive unbegrenzter Internetnutzung (W-Lan) im Rahmen der Öffnungszeiten.
+4. Flexdesk 12 Tage: 12 Tage Nutzungsberechtigung innerhalb einem Monat an wechselnden Arbeitsplätzen inklusive unbegrenzter Internetnutzung (W-Lan) im Rahmen der Öffnungszeiten.
+5. Flexdesk Monat: Nutzungsberechtigung an wechselnden Arbeitsplätzen inklusive unbegrenzter Internetnutzung (W-Lan) im Rahmen der Öffnungszeiten.
+6. Fixdesk Monat:  Nutzungsberechtigung eines bestimmten Arbeitsplatzes inklusive unbegrenzter Internetnutzung (W-Lan)im Rahmen der Öffnungszeiten.
+7. Briefkasten: Einrichtung eines Briefkastens. Postannahme.
+8. Schließfach: Bereitstellung eines abschließbaren Faches für Wertgegenstände.
+9. Schlüssel: Bereitstellung eines Schlüssels für die Nutzung der Räume außerhalb der Öffnungszeiten.
+(3) Die Büroarbeitsplätze sind ausgestattet mit: Tisch, Stuhl, Strom, WLAN
+(4) Der Kunde hat die Ausstattung vor Beginn des Vertragsverhältnisses ausführlich überprüft und deren Funktionsfähigkeit anerkannt.
+(5) Die Arbeitsplätze dürfen durch den Kunden nur für den bezeichneten Betrieb und den angegebenen Zweck benutzt werden. Eine Änderung des
+Betriebes bedarf der ausdrücklichen schriftlichen Zustimmung von Le Space. Ein Verstoß gegen diese Bestimmung berechtigt Le Space zur fristlosen Kündigung
+
+§ 3 Zugangsbedingungen und Verhaltensregeln
+Der Zugang zu Le Space ist für
+1. Kunden ohne Schlüssel nur während der allgemeinen Öffnungszeiten möglich.
+2. Nutzer mit dem persönlichen Zugangscode/Schlüssel stets möglich. Der Verlust des Schlüssels ist
+unverzüglich zu melden. Der Kunde verpflichtet sich bei Aushändigung eines Schlüssel über eine Schlüsselverlusthaftpflichtversicherung zu verfügen. Jeglicher Schaden, der durch den Verlust des Schlüssels
+entsteht, wird dem Kunden zur Last gelegt. Schuldhafter Zahlungsverzug des Mitglieds berechtigt Le Space zur Verweigerung des Zutritts bis der Rückstand ausgeglichen ist.
+
+§ 4 Anmeldung der Kunden
+Le Space betreibt die Homepage www.le-space.de mit evtl. der
+Möglichkeit von Onlinebuchungen. Kunden von Le Space, die einen
+Nutzervertrag online abschließen wollen, müssen sich vor dem
+Vertragsschluss wirksam anmelden und den nachfolgenden
+Geschäftsbedingungen zustimmen. Die Anmeldung ist kostenlos und kann
+jederzeit widerrufen werden. Bei der Anmeldung wählt der Kunde einen
+Nutzernamen und ein Passwort. Der Nutzername darf keine Rechte Dritter
+verletzen, sowie nicht gegen die guten Sitten verstoßen. Der Kunde wird
+sein Passwort geheim halten. Das Passwort wird von Le Space nicht an
+Dritte weitergegeben. Die bei der Anmeldung abgefragten Daten sind
+vollständig und korrekt wiederzugeben. Die Anmeldung einer juristischen
+Person darf nur durch einen Vertretungsberechtigten vorgenommen
+werden. Tritt nach der Anmeldung eine Änderung der angegebenen Daten
+ein, so ist der Kunde verpflichtet, die Änderungen gegenüber Le Space
+unverzüglich mitzuteilen.
+
+§ 5 Vertragsschluss
+(1) Mit der Buchung durch den Kunden kommt ein Vertrag mit Le Space
+entsprechend dem vom Kunden gewählten Tarif zustande.
+(2) Der Vertragsschluss erfolgt schriftlich oder über das Online –
+Buchungsverfahren. Bei der Onlinebuchung beauftragt der Kunde Le
+Space verbindlich mit Anklicken des Buttons „Jetzt Online buchen“. Vor der
+Auftragserteilung kann der Kunde die Daten jederzeit ändern und
+einsehen. Der Antrag kann jedoch nur abgegeben und übermittelt werden,
+wenn der Kunde durch Klicken auf den Button „AGB akzeptieren“ diese
+Geschäftsdingungen akzeptiert und dadurch in seinen Antrag
+aufgenommen hat. Mit der Buchung sichert der Kunde zu, dass die
+angegebenen Daten vollständig und wahrheitsgemäß sind. Der Kunde
+verpflichtet sich, die Änderung seiner persönlichen Daten unverzüglich
+anzuzeigen.
+(3) Ein Nutzervertrag zwischen dem Kunden und Le Space kommt erst
+durch Abgabe einer Annahmeerklärung / Buchungsbestätigung durch Le
+Space zustande. Diese kann schriftlich oder per E – Mail erfolgen.
+
+§ 6 Tarife und Zahlungsmodalitäten, Kaution
+(1) Alle Preise von Le Space sind Bruttopreise einschließlich der jeweils
+gültigen gesetzlichen Umsatzsteuer und beziehen sich nur auf die
+angegebenen Dienstleistungen. Darüber hinausgehende
+Servicedienstleistungen sind gesondert zu vergüten. Es gelten hierfür die
+jeweils gesondert ausgewiesenen Tarife / Preise von Le Space.
+(2) Der Kunde ermächtigt Le Space zur Einziehung des vereinbarten
+Entgelts per Lastschrift oder begleicht den fälligen Betrag sofort bar. Der
+Kunde kann die erteilte Einziehungsermächtigung jederzeit und ohne
+Angabe von Gründen widerrufen. Dem Kunden steht es ferner frei, die
+Zahlung gegen ein Entgelt auch auf anderem Wege (Überweisung, auf
+Rechnung - nur für Geschäftskunden) vorzunehmen.
+(3) Bankgebühren und Bearbeitungskosten, die Le Space infolge der
+Nichteinlösung der Lastschrift oder aufgrund eines Widerspruchs
+entstehen, gehen zu Lasten des Kunden.
+(4) Die Zahlung ist unmittelbar mit dem Vertragsschluss fällig. Soweit die
+Zahlung monatlich zu leisten ist, ist diese jeweils am Monatsersten fällig.
+Dabei ist der Zahlungseingang entscheidend. Ist die Fälligkeit der Zahlung
+nach dem Kalender bestimmt, so kommt der Kunde bereits durch
+Versäumung des ersten Termins in Verzug. In diesem Fall hat er Le Space
+Verzugszinsen in Höhe des gesetzlich normierten Zinssatzes zu zahlen.
+Die Verpflichtung zur Zahlung von Verzugszinsen schließt die
+Geltendmachung weiterer Verzugsschäden nicht aus.
+(5) Der Kunde der Tarife zu § 2 Absatz 2 Ziffer 3, 4, 5 und 6 zahlt an Le
+Space eine Schlüsselkaution in Höhe von 100,00 Euro pro Schlüssel. Die
+Kaution ist zu Beginn des Vertragsverhältnisses zu zahlen.
+
+§ 7 Datenschutz
+(1) Le Space wird die Vorschriften über den Datenschutz nach dem
+Bundesdatenschutzgesetz (BDSG) und den weiteren gesetzlichen
+Vorschriften zum Datenschutz beachten.
+(2) Der Kunde erklärt sein Einverständnis damit, dass seine für die
+Vertragsdurchführung notwendigen persönlichen Daten auf Datenträgern
+gespeichert werden. Der Kunde willigt ferner in die Übermittlung seiner zur
+Bonitätsprüfung notwendigen persönlichen Daten an ein Auskunftsbüro ein.
+Sämtliche Daten werden durch Le Space sowie berechtigte Dritte
+vertraulich behandelt.
+(3) Dem Kunden steht das Recht zu, seine Einwilligung jederzeit mit
+Wirkung für die Zukunft zu widerrufen. Le Space verpflichtet sich in diesem
+Fall zur sofortigen Löschung der persönlichen Daten des Kunden.]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="210" y="0" width="205" height="762"/>
+				<textElement>
+					<font fontName="Helvetica" size="5" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[§ 8 Kündigungen
+(1) Beide Parteien können das Vertragsverhältnis zur vertraglich
+vorgesehenen Frist ohne Angabe von Gründen kündigen. Das Recht zur
+vorzeitigen Kündigung aus wichtigem Grund bleibt für beide Seiten und für
+alle Fälle unberührt. Alle Kündigungen bedürfen der Schriftform.
+(2) Le Space kann das Vertragsverhältnis ohne Einhaltung einer
+Kündigungsfrist mit sofortiger Wirkung kündigen, wenn ein Grund zur
+außerordentlichen Kündigung vorliegt. Dieser liegt vor, wenn der Kunde mit
+seinen Zahlungsverpflichtungen zweimalig in Verzug gerät oder seine
+vertraglichen Pflichten in sonstiger Weise schuldhaft verletzt. Ferner, wenn
+die Grundlage für das Nutzungsverhältnis mit dem Kunden wegfällt
+(Beendigung des Hauptmietverhältnisses).
+(3) Der Kunde kann das Vertragsverhältnis ohne Einhaltung einer
+Kündigungsfrist mit sofortiger Wirkung kündigen, wenn ihm die Fortsetzung
+des Nutzungsverhältnisses nicht zugemutet werden kann.
+
+§ 9 Vertragsdurchführung
+(1) Der Kunde ist im Rahmen der FIXdesk Tarife berechtigt, eigene
+Einrichtungsgegenstände, insbesondere Mobiliar und technische
+Peripherie nach Abstimmung mit Le Space in den Räumen aufzustellen.
+(2) Der Kunde ist verpflichtet, Le Space seinen Arbeitsplatz in
+Ausnahmefällen in den Abendstunden zu Veranstaltungszwecken zur
+Verfügung zu stellen. Die Veranstaltung muss dem Kunden zuvor in einer
+angemessenen Frist (mindestens 2 Tage vorher) angekündigt werden. Die
+Zurverfügungstellung erfolgt in unmittelbarer Absprache zwischen dem
+Kunden und Le Space.
+(3) Die Untervermietung an Dritte ist ausgeschlossen.
+(4) (Technische) Veränderungen an den Arbeitsplätzen, die nicht in die
+Bausubstanz eingreifen, Um- und Einbauten, Installationen,
+Veränderungen der Sanitär- und Beleuchtungsanlagen sind nur nach
+schriftlicher Genehmigung durch Le Space durch den Kunden auf dessen
+Kosten zulässig. Auf Verlangen von Le Space ist der Kunde zur völligen
+fachgerechten Wiederherstellung des Arbeitsplatzes, spätestens bei
+Rückgabe verpflichtet. Ein Ersatzanspruch des Kunden besteht nicht –
+auch dann nicht, wenn Le Space auf die Wiederherstellung des
+ursprünglichen Zustands verzichtet. Im Falle der Zustimmung durch Le
+Space zur Veränderung des Arbeitsplatzes sind etwa erforderliche
+behördliche Genehmigungen, gleich welcher Art, durch den Kunden
+einzuholen. Hierdurch entstehende Kosten trägt der Kunde.
+(5) Le Space darf Ausbesserungen, Instandsetzungen und bauliche
+Veränderungen, die zur Erhaltung und zum Ausbau des Gebäudes oder
+des Arbeitsplatzes oder zur Abwendung von Gefahren oder zur
+Beseitigung von Schäden zweckmäßig sind, nach angemessener
+Fristsetzung, in Absprache mit dem Kunden, vornehmen. Bei Gefahr im
+Verzug bedarf es keiner Zustimmung des Kunden und keiner Fristsetzung.
+Der Kunde ist verpflichtet, seinen Arbeitsplätze für diesen Fall stets
+zugänglich zu halten und gegebenenfalls unverzüglich zu räumen.
+Sämtliche hieraus resultierende Kosten gehen zu seinen Lasten
+(Ersatzkosten, Verzögerungsschaden). Aufgrund von zweckmäßigen
+Arbeiten darf der Kunde das Nutzungsentgelt nicht mindern.
+Schadensersatzansprüche sind ausgeschlossen, es sei denn, dass der
+Gebrauch der Arbeitsplätze unverhältnismäßig lange Zeit behindert oder
+ausgeschlossen wird.
+
+§ 10 Gewährleistung, Haftung
+(1) Der Kunde hat die Arbeitsplätze vor Vertragsschluss eingehend
+besichtigt. Er hat zur Kenntnis genommen, dass sich die Arbeitsplätze in
+einem Grossraumbüro befinden und die angemieteten Arbeitsplätze nicht
+separat verschließbar sind. Er verzichtet wegen des ihm bekannten
+Zustands auf etwaige Ansprüche gemäß §§ 536, 536 a BGB.
+Minderungsansprüche bestehen insoweit nicht. Le Space übernimmt
+gegenüber dem Kunden bei Übergabe und für die Dauer der Nutzung keine
+Gewährleistung für den Zustand des jeweiligen Arbeitsplatzes. Der Kunde erkennt an, dass sich der jeweils von ihm genutzte Arbeitsplatz
+einschließlich sämtlicher Einrichtungsgegenstände vor Nutzungsbeginn in
+vertragsgemäßen Zustand befindet.
+(2) Dem Kunden ist bekannt, dass im Hause in absehbarer Zeit
+umfangreiche Modernisierungs- und Instandsetzungsarbeiten
+vorgenommen werden. Der Kunde erklärt bereits jetzt die Duldung dieser
+Arbeiten und versichert, dass er aus eventuellen Beeinträchtigungen am
+Arbeitsplatz keine Minderungsrechte bzw. Schadensersatzansprüche
+herleiten wird, sofern Le Space diese nicht vorsätzlich oder grob fahrlässig
+verursacht hat. Dem Kunden ist ferner bekannt, dass infolge der
+umfangreichen Modernisierungs- und Instandsetzungsarbeiten
+Einschränkungen der Internetnutzung nicht ausgeschlossen sind.
+Minderungs- bzw. Schadensersatzansprüche des Kunden sind auf Vorsatz
+und grobe Fahrlässigkeit beschränkt.
+(3) In allen Fällen, in denen Le Space im geschäftlichen Verkehr aufgrund
+vertraglicher oder gesetzlicher Anspruchsgrundlagen zum Schadens- oder
+Aufwendungsersatz verpflichtet ist, haftet Le Space nur, soweit ihr, ihren
+leitenden Angestellten oder Erfüllungsgehilfen Vorsatz, grobe
+Fahrlässigkeit, oder eine Verletzung von Leben, Körper oder Gesundheit
+zur Last fällt. Hiervon unberührt bleibt die Haftung für die schuldhafte
+Verletzung wesentlicher Vertragspflichten und Garantien. Die Haftung ist
+jedoch insofern auf den vorhersehbaren, vertragstypischen Schaden
+beschränkt. Die Haftung für Folgeschäden, insbesondere auf entgangenen
+Gewinn oder Ersatz von Schäden Dritter, wird ausgeschlossen, es sei
+denn, Le Space fällt Vorsatz oder grobe Fahrlässigkeit zur Last.
+(4) Le Space übernimmt keine Haftung für die Verletzung von
+Schutzrechten Dritter im Bezug auf Arbeiten der Kunden, sowie die
+Übermittlung von Daten und Datenträgern durch den Kunden. Der Kunde
+ist dafür verantwortlich, dass alle wettbewerbsrechtlichen,
+urheberrechtlichen, markenrechtlichen, datenrechtlichen oder sonstige
+Rechtsverstöße im Rahmen der Vertragsbeziehung zu Le Space
+unterbleiben. Sofern Le Space von derartigen Rechtsverstößen Kenntnis
+erhält, wird das Vertragsverhältnis unverzüglich gekündigt. Im Falle eines
+Rechtsverstoßes hält der Kunde Le Space von jeglichen Ansprüchen
+Dritter frei. Der Kunde ersetzt Le Space die Kosten der Rechtsverfolgung in
+der Höhe der gesetzlichen Anwaltsgebühren für den Fall, dass Le Space
+von Dritten infolge einer Rechtsverletzung in Anspruch genommen wird.
+
+§ 11 Beendigung des Nutzungsverhältnisses
+(1) Der Kunde hat die Gegenstände pfleglich zu behandeln und nach
+Beendigung der Nutzung in vertragsgemäßem, mangelfreiem und
+gebrauchsfähigen Zustand, gereinigt an Le Space zurück zu geben.
+Schäden hieran oder verlorene Einrichtungsgegenstände sind Le Space
+vollumfänglich vom Kunden zu ersetzen.
+(2) Der Kunde hat sämtliche, auch die von ihm selbst beschafften
+Schlüssel an Le Space zurück zu geben. Kommt der Kunde dieser
+Verpflichtung nicht oder nicht rechtzeitig nach, so kann Le Space die
+Arbeitsplätze öffnen und reinigen. Zurückgelassene Gegenstände kann Le
+Space auf Kosten des Kunden einlagern, wenn sie trotz Aufforderung nicht
+entfernt werden. Anlagen, Einrichtungen und Zubehör sind in
+gebrauchsfähigem Zustand zurück zu geben.
+(3) Gibt der Kunde den Arbeitsplatz nicht rechtzeitig heraus, haftet er Le
+Space für alle Schäden, die durch die verspätete Rückgabe bedingt sind,
+auch, wenn diese die Höhe des Nutzungsausfallentgelts hinausgehen.
+
+§ 12 Änderung der AGB
+Le Space behält sich vor, diese AGB jederzeit zu ändern. Die Änderung
+wird dem Kunden umgehend mitgeteilt. Sofern der Kunde der Änderung
+der AGB nicht innerhalb von 14 Tagen nach Zugang der
+Änderungsmitteilung widerspricht, gelten die geänderten AGB als
+angenommen.
+
+§ 13 Schlussbestimmungen
+(1) Allgemeine Geschäftsbedingungen des Kunden finden keine
+Anwendung, auch wenn der Einbeziehung nicht ausdrücklich
+widersprochen wurde.
+(2) Es gilt das Recht der Bundesrepublik Deutschland.
+(3) Der Gerichtsstand ist der Sitz von Le Space in Leipzig.
+(4) Sollten einzelne Bestimmungen ganz oder teilweise unwirksam
+sein, oder ihre Rechtswirksamkeit später verlieren, so soll hierdurch die
+Gültigkeit der Geschäftsbedingungen im Übrigen nicht berührt werden. Für
+diesen Fall verpflichten sich die Parteien, an Stelle der unwirksamen
+Regelung eine wirksame Regelung zu vereinbaren, die, soweit rechtlich
+möglich, den in diesen Geschäftsbedingungen zum Ausdruck
+gekommenen Interessen der Parteien am nächsten kommt. Das gleiche gilt
+für den Fall, dass eventuelle Ergänzungen notwendig werden.
+Stand der AGB]]></textFieldExpression>
+			</textField>
+		</band>
+	</lastPageFooter>
+</jasperReport>
