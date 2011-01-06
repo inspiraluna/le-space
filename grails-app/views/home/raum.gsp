@@ -18,8 +18,8 @@
 
         <div class="zweispaltig">
           <h2>Öffnungszeiten</h2>
-          <p>"Le Space (beta)" hat Montag bis Freitag von 09:00 Uhr bis 18:00 Uhr für alle Flexdesk - User (ohne Voranmeldung) geöffnet.<br />
-            Fixdesk - User können mit eigenem Schlüssel auch nach 18 Uhr und am Wochenende in den Space.</p>
+          <p>"Le Space (beta)" hat Montag bis Freitag von 09:00 Uhr bis 18:00 Uhr für alle Flexdesk - User (ohne Voranmeldung) ausgenommen an sächsischen Feiertagen geöffnet.<br />
+            Fixdesk - User können mit eigenem Schlüssel auch nach 18 Uhr und am Wochenende und sächsischen Feiertagen in den Space.</p>
           <h2 class="extra">Kostenlose Jellys</h2>
           <p>Jeden Freitag ab 10.00 Uhr veranstalten wir ein sogenanntes "Jelly", zu dem Ihr Eueren Laptop, Arbeit und Brötchen fürs gemeinsame Frühstück und anschließendem Coworking mitbringen könnt. Jelly's sind kostenlos.</p>
         </div>

@@ -77,7 +77,7 @@ class Contract {
 
         def val = ""
         getProducts().each{
-            val+=toolService.getMessage('contract.product.'+it.id)+"(€ "+toolService.formatNumber(it.priceNet)+" netto)\n"
+            val+=toolService.getMessage('contract.product.'+it.id)+" (€ "+toolService.formatNumber(it.priceNet)+" netto)\n"
         }
         selectedProducts = val
      

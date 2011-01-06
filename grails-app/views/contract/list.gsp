@@ -7,11 +7,9 @@
   <title><g:message code="default.list.label" args="[entityName]" /></title>
 </head>
 <body>
-  <div class="nav">
-    <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
-    <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
-  </div>
-  <div class="body">
+  <div id="koerper">
+<g:render template="/common/admin/infos" />
+<div id="inhalt">
     <h1><g:message code="default.list.label" args="[entityName]" /></h1>
     <g:if test="${flash.message}">
       <div class="message">${flash.message}</div>
@@ -37,7 +35,7 @@
         <thead>
           <tr>
         <g:sortableColumn align="left" valign="top" property="id" title="${message(code: 'contract.id.label', default: 'Id')}" />
-        <td>&nbsp;</td>
+
         <g:sortableColumn align="left" valign="top" property="customer.company" title="${message(code: 'contract.company.label', default: 'Customer')}" />
         <g:sortableColumn align="left" valign="top" property="customer.firstname" title="${message(code: 'contract.first.label', default: 'Firstname')}" />
         <g:sortableColumn align="left" valign="top" property="customer.lastname" title="${message(code: 'contract.lastname.label', default: 'Lastname')}" />
@@ -58,7 +56,6 @@
         <tbody>
         <g:each in="${contractInstanceList}" status="i" var="contractInstance">
           <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
-            <td valign="top"><g:link action="show" id="${contractInstance.id}"><g:if test="${contractInstance?.customer?.email}"><aavataragravatar email="${contractInstance?.customer?.email}" defaultGravatarUrl="${createLinkTo(file:'favicon.ico')}"/></g:if></g:link></td>
             <td valign="top"><g:link action="show" id="${contractInstance.id}">${fieldValue(bean: contractInstance, field: "id")}</g:link></td>
           <td valign="top" >${fieldValue(bean: contractInstance, field: "customer.company")}</td>
           <td valign="top" >${fieldValue(bean: contractInstance, field: "customer.firstname")}</td>
@@ -95,7 +92,8 @@
       <g:paginate  max="${max}" offset="${offset}" total="${totalCount}" />
       <export:formats formats="['csv', 'excel', 'ods', 'pdf', 'rtf', 'xml']" />
     </div>
-
+</div>
   </div>
+
 </body>
 </html>

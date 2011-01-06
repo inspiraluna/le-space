@@ -316,20 +316,19 @@
               <input type="text" id="amountNet" name="amountNet" value="${fieldValue(bean:contractInstance,field:'amountNet')}" />
             </td>
           </tr>
-
           <tr class="prop">
             <td valign="top" class="name">
               <label for="products"><g:message code="contract.products.label" default="Products" /></label>
             </td>
             <td valign="top" class="value ${hasErrors(bean: contractInstance, field: 'products', 'errors')}">
           <g:select name="products"
+                    valueMessagePrefix="contract.product"
                     from="${le.space.Product.list()}"
                     size="5" multiple="yes" optionKey="id"
                     value="${contractInstance?.products}" />
 
           </td>
           </tr>
-
           <tr class="prop">
             <td valign="top" class="name">
               <label for="amountVAT"><g:message code="contract.amountVAT.label" default="Amount VAT" /></label>

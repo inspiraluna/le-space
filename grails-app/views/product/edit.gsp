@@ -4,7 +4,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta name="layout" content="main" />
+        <meta name="layout" content="admin" />
         <g:set var="entityName" value="${message(code: 'product.label', default: 'Product')}" />
         <title><g:message code="default.edit.label" args="[entityName]" /></title>
     </head>
@@ -99,7 +99,9 @@
                                   <label for="option"><g:message code="product.option.label" default="Option" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: productInstance, field: 'option', 'errors')}">
-                                    <g:select optionKey="id" from="${le.space.Product.list()}" name="option.id" value="${productInstance?.option?.id}" noSelection="['null':'']"></g:select>
+                                    <g:select optionKey="id" from="${le.space.Product.list()}" name="option.id"
+                                              valueMessagePrefix="contract.product"
+                                              value="${productInstance?.option?.id}" noSelection="['null':'']"></g:select>
                                 </td>
                             </tr>
                         
@@ -108,7 +110,8 @@
                                   <label for="durationType"><g:message code="product.durationType.label" default="Duration Type" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: productInstance, field: 'durationType', 'errors')}">
-                                    <input type="text" id="durationType" name="durationType" value="${fieldValue(bean:productInstance,field:'durationType')}" />
+                                  <g:select id="durationType" name="durationType" from="${['1', '2']}" valueMessagePrefix="product.durationType" value="${fieldValue(bean:productInstance,field:'durationType')}" />
+                                
                                 </td>
                             </tr>
                         

@@ -12,6 +12,7 @@ class UrlMappings {
       "/kontakt"(controller:'home',action:'kontakt')
       "/impressum"(controller:'home',action:'impressum')
       "/agb"(controller:'home',action:'agb')
+      "/login"(controller:'home',action:'login')
       "/anmeldung"(controller:'public')
       "/$controller/$action?/$id?"{
             constraints {

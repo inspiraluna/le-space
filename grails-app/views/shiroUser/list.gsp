@@ -1,3 +1,4 @@
+
 <%@ page import="le.space.ShiroUser" %>
 <html>
     <head>
@@ -19,22 +20,38 @@
             <div class="list">
                 <table>
                     <thead>
-                        <tr>                        
+                        <tr>
+                        
                             <g:sortableColumn property="id" title="${message(code: 'shiroUser.id.label', default: 'Id')}" />
-                            <g:sortableColumn property="username" title="${message(code: 'shiroUser.username.label', default: 'Username')}" />                       
+                        
+                            <g:sortableColumn property="username" title="${message(code: 'shiroUser.username.label', default: 'Username')}" />
+                        
+                            <g:sortableColumn property="passwordHash" title="${message(code: 'shiroUser.passwordHash.label', default: 'Password Hash')}" />
+                        
                             <g:sortableColumn property="salutation" title="${message(code: 'shiroUser.salutation.label', default: 'Salutation')}" />
-                            <g:sortableColumn property="firstname" title="${message(code: 'shiroUser.firstname.label', default: 'Firstname')}" />                       
+                        
+                            <g:sortableColumn property="firstname" title="${message(code: 'shiroUser.firstname.label', default: 'Firstname')}" />
+                        
                             <g:sortableColumn property="lastname" title="${message(code: 'shiroUser.lastname.label', default: 'Lastname')}" />
+                        
                         </tr>
                     </thead>
                     <tbody>
                     <g:each in="${shiroUserInstanceList}" status="i" var="shiroUserInstance">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
-                            <td><g:link action="show" id="${shiroUserInstance.id}">${fieldValue(bean: shiroUserInstance, field: "id")}</g:link></td>                       
+                        
+                            <td><g:link action="show" id="${shiroUserInstance.id}">${fieldValue(bean: shiroUserInstance, field: "id")}</g:link></td>
+                        
                             <td>${fieldValue(bean: shiroUserInstance, field: "username")}</td>
-                            <td>${fieldValue(bean: shiroUserInstance, field: "salutation")}</td>                       
-                            <td>${fieldValue(bean: shiroUserInstance, field: "firstname")}</td>                     
+                        
+                            <td>${fieldValue(bean: shiroUserInstance, field: "passwordHash")}</td>
+                        
+                            <td>${fieldValue(bean: shiroUserInstance, field: "salutation")}</td>
+                        
+                            <td>${fieldValue(bean: shiroUserInstance, field: "firstname")}</td>
+                        
                             <td>${fieldValue(bean: shiroUserInstance, field: "lastname")}</td>
+                        
                         </tr>
                     </g:each>
                     </tbody>

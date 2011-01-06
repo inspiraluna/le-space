@@ -132,6 +132,15 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
+                                  <label for="optOutIamHereFunction"><g:message code="shiroUser.optOutIamHereFunction.label" default="Opt Out Iam Here Function" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: shiroUserInstance, field: 'optOutIamHereFunction', 'errors')}">
+                                    <g:checkBox name="optOutIamHereFunction" value="${shiroUserInstance?.optOutIamHereFunction}" ></g:checkBox>
+                                </td>
+                            </tr>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
                                   <label for="dateModified"><g:message code="shiroUser.dateModified.label" default="Date Modified" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: shiroUserInstance, field: 'dateModified', 'errors')}">
@@ -154,6 +163,22 @@
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: shiroUserInstance, field: 'modifiedBy', 'errors')}">
                                     <g:select optionKey="id" from="${le.space.ShiroUser.list()}" name="modifiedBy.id" value="${shiroUserInstance?.modifiedBy?.id}" noSelection="['null':'']"></g:select>
+                                </td>
+                            </tr>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                  <label for="logins"><g:message code="shiroUser.logins.label" default="Logins" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: shiroUserInstance, field: 'logins', 'errors')}">
+                                    
+<ul>
+<g:each var="l" in="${shiroUserInstance?.logins?}">
+    <li><g:link controller="login" action="show" id="${l.id}">${l?.encodeAsHTML()}</g:link></li>
+</g:each>
+</ul>
+<g:link controller="login" params="['shiroUser.id':shiroUserInstance?.id]" action="create">Add Login</g:link>
+
                                 </td>
                             </tr>
                         

@@ -9,15 +9,16 @@ import org.apache.shiro.web.util.WebUtils
 class AuthController {
     def shiroSecurityManager
 
-    def index = { redirect(action: "login", params: params) }
+    def index = { redirect(action: "login", controller:"home",params: params) }
 
     def login = {
-        return [ username: params.username, rememberMe: (params.rememberMe != null), targetUri: params.targetUri ]
+         redirect(action: "login", controller:"home",params: params)
+         //render(view: "login", controller:"home", model: [ username: params.username, rememberMe: (params.rememberMe != null), targetUri: params.targetUri ])
     }
 
     def signIn = {
         def authToken = new UsernamePasswordToken(params.username, params.password)
-
+        log.debug "username: ${params.username} password: ${params.password}"
         // Support for "remember me"
         if (params.rememberMe) {
             authToken.rememberMe = true

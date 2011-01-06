@@ -35,7 +35,14 @@
                             <td valign="top" class="value">${fieldValue(bean: shiroUserInstance, field: "username")}</td>
                             
                         </tr>
-
+                    
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="shiroUser.passwordHash.label" default="Password Hash" /></td>
+                            
+                            <td valign="top" class="value">${fieldValue(bean: shiroUserInstance, field: "passwordHash")}</td>
+                            
+                        </tr>
+                    
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="shiroUser.salutation.label" default="Salutation" /></td>
                             
@@ -100,6 +107,13 @@
                         </tr>
                     
                         <tr class="prop">
+                            <td valign="top" class="name"><g:message code="shiroUser.optOutIamHereFunction.label" default="Opt Out Iam Here Function" /></td>
+                            
+                            <td valign="top" class="value"><g:formatBoolean boolean="${shiroUserInstance?.optOutIamHereFunction}" /></td>
+                            
+                        </tr>
+                    
+                        <tr class="prop">
                             <td valign="top" class="name"><g:message code="shiroUser.dateCreated.label" default="Date Created" /></td>
                             
                             <td valign="top" class="value"><g:formatDate date="${shiroUserInstance?.dateCreated}" /></td>
@@ -124,6 +138,19 @@
                             <td valign="top" class="name"><g:message code="shiroUser.modifiedBy.label" default="Modified By" /></td>
                             
                             <td valign="top" class="value"><g:link controller="shiroUser" action="show" id="${shiroUserInstance?.modifiedBy?.id}">${shiroUserInstance?.modifiedBy?.encodeAsHTML()}</g:link></td>
+                            
+                        </tr>
+                    
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="shiroUser.logins.label" default="Logins" /></td>
+                            
+                            <td valign="top" style="text-align: left;" class="value">
+                                <ul>
+                                <g:each in="${shiroUserInstance.logins}" var="l">
+                                    <li><g:link controller="login" action="show" id="${l.id}">${l?.encodeAsHTML()}</g:link></li>
+                                </g:each>
+                                </ul>
+                            </td>
                             
                         </tr>
                     

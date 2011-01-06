@@ -129,6 +129,15 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
+                                    <label for="optOutIamHereFunction"><g:message code="shiroUser.optOutIamHereFunction.label" default="Opt Out Iam Here Function" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: shiroUserInstance, field: 'optOutIamHereFunction', 'errors')}">
+                                    <g:checkBox name="optOutIamHereFunction" value="${shiroUserInstance?.optOutIamHereFunction}" ></g:checkBox>
+                                </td>
+                            </tr>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
                                     <label for="dateModified"><g:message code="shiroUser.dateModified.label" default="Date Modified" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: shiroUserInstance, field: 'dateModified', 'errors')}">

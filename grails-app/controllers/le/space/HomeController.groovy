@@ -23,4 +23,6 @@ class HomeController {
     def impressum = {[bodyId:"impressum",slogan: "Vernetzung im realen Raum - virtuell reicht nicht."] }
     def anmeldung = {[bodyId:"anmeldung",slogan: "Jetzt anmelden und Fensterplätze sichern! :-)"] }
     def agb = {[bodyId:"agb", slogan: "Allgemeine Geschäftsbedingungen der Le Space UG (haftungsbeschränkt)"] }
+    def login = {[bodyId:"login", slogan: "nice to see you again ..."] }
+
 }

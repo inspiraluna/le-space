@@ -8,8 +8,6 @@ class LoginController {
 
     def radius = {
 
-        log.debug "secret:${grailsApplication.config.lespace.radiusServerSharedSecret}"
-
         def radiusServerIP = params.radiusServerIP?params.radiusServerIP:grailsApplication.config.lespace.radiusServerIP
         def String radiusServerSharedSecret = params.radiusServerSharedSecret?params.radiusServerSharedSecret:grailsApplication.config.lespace.radiusServerSharedSecret
         def radiusUsername = params.radiusUsername //?params.radiusUsername:grailsApplication.config.lespace.radiusUsername
@@ -18,7 +16,7 @@ class LoginController {
         boolean logged_in
 
         if(radiusUsername){
-            log.debug "try login into radius server: ${radiusServerIP} with secret: ${radiusServerSharedSecret} username:${radiusUsername} password:${radiusPassword}"
+            log.debug "try login into radius server: ${radiusServerIP} username:${radiusUsername}"
             try{
                 org.tinyradius.util.RadiusClient rc = new org.tinyradius.util.RadiusClient(radiusServerIP, radiusServerSharedSecret)
        

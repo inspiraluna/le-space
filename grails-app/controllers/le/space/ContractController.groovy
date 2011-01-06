@@ -2,6 +2,7 @@ package le.space
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import org.joda.time.*
 import org.joda.time.format.*
+import org.apache.shiro.SecurityUtils
 
 class ContractController {
 
@@ -9,29 +10,27 @@ class ContractController {
 
     def loginService 
     def exportService
-    
-    def stat = {
-        //select sum(amount_gross), month(contract_start), year(contract_start) from contract group by month(contract_start), year(contract_start) order by 1 desc
-        def hql = "select sum(amountGross) as amount, month(contractStart)||' '||year(contractStart) "
-        hql+="  from le.space.Contract  c "
-        hql+=" group by month(contractStart), year(contractStart)"
-        hql+= " order by sum(amountGross) desc "
-        def hparams = []
 
-        def revenueByMonth = Contract.executeQuery(hql,hparams)
+    def profile = {
 
-        hql = "select sum(amountGross) as amount, customer.id "
-        hql+="  from le.space.Contract  c "
-        hql+=" group by customer.id"
-        hql+= " order by sum(amountGross) desc "
+        //            if(SecurityUtils.subject.hasRole('Administrator'))
+        def shiroUser = le.space.ShiroUser.findByUsername(SecurityUtils.getSubject().principal)
+        
+        def hql="select co from le.space.Contract  co "
+        hql+="inner join co.customer cu "
+        hql+="inner join cu.shiroUsers u "
+        hql+="WHERE u.username=:username "
+        hql+="ORDER BY co.contractStart desc"
+            
+        def hparams = [username:shiroUser.username]
 
-        hparams = []
+        def contractList = Contract.executeQuery(hql,hparams)
+        def contract = contractList[0]
 
-        def revenueByCustomer = Contract.executeQuery(hql,hparams)
-        log.debug "revenueByMonth.size() ${revenueByMonth.size}"
-
-        [revenueByMonth: revenueByMonth,revenueByCustomer:revenueByCustomer]
+      
+        [shiroUser:shiroUser,contract:contract]
     }
+
     def list = {
         int max = 10
         int offset = 0
@@ -287,7 +286,7 @@ class ContractController {
         //def shiroUser = ShiroUser.get()
 
         log.debug "logging in userId:${params.userId} contract: ${params.id}"
-        loginService.login(params.userId)
+        loginService.login(params.userId,null)
 
        
         redirect(action: "list")
@@ -326,5 +325,27 @@ class ContractController {
           
         }
         redirect(action: "show",id:params.id)
+    }
+    def stat = {
+        //select sum(amount_gross), month(contract_start), year(contract_start) from contract group by month(contract_start), year(contract_start) order by 1 desc
+        def hql = "select sum(amountGross) as amount, month(contractStart)||' '||year(contractStart) "
+        hql+="  from le.space.Contract  c "
+        hql+=" group by month(contractStart), year(contractStart)"
+        hql+= " order by sum(amountGross) desc "
+        def hparams = []
+
+        def revenueByMonth = Contract.executeQuery(hql,hparams)
+
+        hql = "select sum(amountGross) as amount, customer.id "
+        hql+="  from le.space.Contract  c "
+        hql+=" group by customer.id"
+        hql+= " order by sum(amountGross) desc "
+
+        hparams = []
+
+        def revenueByCustomer = Contract.executeQuery(hql,hparams)
+        log.debug "revenueByMonth.size() ${revenueByMonth.size}"
+
+        [revenueByMonth: revenueByMonth,revenueByCustomer:revenueByCustomer]
     }
 }

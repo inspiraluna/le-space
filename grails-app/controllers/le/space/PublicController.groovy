@@ -1,5 +1,5 @@
 package le.space
-
+import org.apache.shiro.crypto.hash.Sha512Hash
 class PublicController {
 
     def index = {     
@@ -84,6 +84,7 @@ class PublicController {
             shiroUser.properties = params
 
             shiroUser.username = params.email
+            shiroUser.password_hash = new Sha512Hash(params.email).toHex()
             contract.products = session.products
             customer.bankAccount = bankAccount
             
