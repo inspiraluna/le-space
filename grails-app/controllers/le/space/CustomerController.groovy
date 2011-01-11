@@ -4,6 +4,37 @@ class CustomerController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
+    def customerData = {
+
+        def customerInstance = Customer.get(params.id)
+        def contract = Contract.get(params.contract.id)
+        if (customerInstance) {
+            if (params.version) {
+                def version = params.version.toLong()
+                if (customerInstance.version > version) {                  
+                    customerInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'customer.label', default: 'Customer')] as Object[], "Another user has updated this Customer while you were editing")
+                    render(view: "edit", model: [customerInstance: customerInstance])
+                    return
+                }
+            }
+            customerInstance.properties = params
+            if (!customerInstance.hasErrors() && customerInstance.save(flush: true)) {
+                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'customer.label', default: 'Customer'), customerInstance])}"
+                log.debug flash.message
+                render(view: "customerData", model: [customerInstance: customerInstance,contract:contract])
+                
+            }
+            else {
+                render(view: "customerData",  model: [customerInstance: customerInstance,contract:contract])
+            }
+        }
+        else {
+            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'customer.label', default: 'Customer'), params.id])}"
+            render(view: "customerData", model: [contract: contract])
+        }
+    }
+
+
     def index = {
         redirect(action: "list", params: params)
     }

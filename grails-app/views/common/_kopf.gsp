@@ -11,10 +11,12 @@
         <li class="preise"><a href="${createLinkTo(dir:'preise')}">Preise</a></li>
         <li class="faq"><a href="${createLinkTo(dir:'faq')}">FAQ</a></li>
         <li class="kontakt"><a href="${createLinkTo(dir:'kontakt')}">Kontakt</a><div class="clear"></div></li>
+
       </ul>
       <ul>
         <li class="first"><a href="http://www.facebook.com/pages/Leipzig-Germany/le-space/288080760878?v=app_2344061033&amp;ref=ts" target="_blank" class="extern">Veranstaltungen<img src="img/navigation/externerlink_w.gif" alt="(extern)" /></a></li>
-        <li><a href="http://www.coworking-leipzig.de/" target="_blank" class="extern">Blog<img src="img/navigation/externerlink_w.gif" alt="(extern)" /></a><div class="clear"></div></li>
+        <li><a href="http://www.coworking-leipzig.de/" target="_blank" class="extern">Blog<img src="img/navigation/externerlink_w.gif" alt="(extern)" /></a><shiro:isNotLoggedIn><div class="clear"></div></shiro:isNotLoggedIn></li>
+        <shiro:isLoggedIn><li class="logout"><g:link controller="auth" action="signOut"><shiro:principal/> <g:message code="contract.login.signOut" /></g:link></shiro:isLoggedIn><div class="clear"></div></li>
       </ul>
     </div>
     <div id="subnavi">

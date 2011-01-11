@@ -250,3 +250,9 @@ hr {
     background-color:#787878;
     border:0;
 }
+.odd {
+    background: #f7f7f7;
+}
+.even {
+    background: #fff;
+}

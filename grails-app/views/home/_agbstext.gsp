@@ -23,7 +23,7 @@
       eine bestimmte Art der Nutzung und / oder bestimmte Zeit beschränkt.
       Folgende Tarife werden derzeit angeboten:</p>
     <br/>1. Tageskarte: 1 Tag Nutzungsberechtigung an wechselnden Arbeitsplätzen inklusive unbegrenzter Internetnutzung (W-Lan) im Rahmen der Öffnungszeiten.
-    <br/>2. Flexdesk Woche: 7 Woche Nutzungsberechtigung an wechselnden Arbeitsplätzen inklusive unbegrenzter Internetnutzung (W-Lan) im Rahmen der Öffnungszeiten.
+    <br/>2. Flexdesk Woche: 1 Woche Nutzungsberechtigung an wechselnden Arbeitsplätzen inklusive unbegrenzter Internetnutzung (W-Lan) im Rahmen der Öffnungszeiten.
     <br/>3. Flexdesk 10 Tage: 10 Tage Nutzungsberechtigung innerhalb 3 Monaten an wechselnden Arbeitsplätzen inklusive unbegrenzter Internetnutzung (W-Lan) im Rahmen der Öffnungszeiten.
     <br/>4. Flexdesk 12 Tage: 12 Tage Nutzungsberechtigung innerhalb einem Monat an wechselnden Arbeitsplätzen inklusive unbegrenzter Internetnutzung (W-Lan) im Rahmen der Öffnungszeiten.
     <br/>5. Flexdesk Monat: Nutzungsberechtigung an wechselnden Arbeitsplätzen inklusive unbegrenzter Internetnutzung (W-Lan) im Rahmen der Öffnungszeiten.

@@ -1,5 +1,9 @@
 package le.space
 import org.apache.shiro.crypto.hash.Sha512Hash
+import org.apache.shiro.authc.AuthenticationException
+import org.apache.shiro.authc.UsernamePasswordToken
+import org.apache.shiro.SecurityUtils
+
 class ShiroUserController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
@@ -98,7 +102,7 @@ class ShiroUserController {
         }
     }
 
-        def shiroUserAdd = {
+    def shiroUserAdd = {
         log.debug "shiroUser add called... with contract id ${params.contract.id} "
         def contractInstance
         def shiroUserInstance = new ShiroUser()
@@ -106,7 +110,7 @@ class ShiroUserController {
         shiroUserInstance.properties = params
         shiroUserInstance.username = shiroUserInstance.email
         if(params.password)
-         shiroUserInstance.passwordHash = new Sha512Hash(params.password).toHex()
+        shiroUserInstance.passwordHash = new Sha512Hash(params.password).toHex()
 
         if (shiroUserInstance.validate() && shiroUserInstance.save()) {
             log.debug "shiroUser ${shiroUserInstance} saved... "
@@ -130,7 +134,7 @@ class ShiroUserController {
 
         render(view: "_customerUsers", model: [contractInstance: contractInstance])
     }
-   def shiroUserUpdate = {
+    def shiroUserUpdate = {
         log.debug "shiroUser update called... with contract id ${params.contract.id} ${params.id} "
         def contractInstance
         def shiroUserInstance = ShiroUser.get(params.id)
@@ -138,7 +142,7 @@ class ShiroUserController {
         shiroUserInstance.properties = params
         shiroUserInstance.username = shiroUserInstance.email
         if(params.password)
-            shiroUserInstance.passwordHash = new Sha512Hash(params.password).toHex()
+        shiroUserInstance.passwordHash = new Sha512Hash(params.password).toHex()
 
         if (shiroUserInstance.validate() && shiroUserInstance.save()) {
             log.debug "shiroUser ${shiroUserInstance} saved... "
@@ -163,7 +167,7 @@ class ShiroUserController {
         render(view: "_customerUsers", model: [contractInstance: contractInstance])
     }
     def shiroUserRemove = {
-         log.debug "shiroUser update called... with contract id ${params.contract.id} ${params.id} "
+        log.debug "shiroUser update called... with contract id ${params.contract.id} ${params.id} "
         def shiroUserInstance = ShiroUser.get(params.id)
         def contractInstance = Contract.get(params.contract.id)
         if (shiroUserInstance && contractInstance) {
@@ -183,5 +187,33 @@ class ShiroUserController {
 
         }
         render(view: "_customerUsers", model: [contractInstance: contractInstance])
+    }
+
+    //Changes the Password of a User
+    def passwordChange = {
+
+        log.debug "shiroUser.passwordChange called with shiroUser id ${params.id} ${params.passwordOld} ${params.passwordNewAgain} ${params.passwordNew}"
+
+        def shiroUser = ShiroUser.get(params.id)
+
+        if(params && params.passwordNew ==params.passwordNewAgain){
+            try{
+                def authToken = new UsernamePasswordToken(shiroUser.username, params.passwordOld)
+                SecurityUtils.subject.login(authToken)
+
+                //Change Password here.
+
+                flash.message = message(code: "login.passwordChanged")
+            }
+            catch (AuthenticationException ex){
+                log.info "Authentication failure for user '${shiroUser}'."
+                flash.message = message(code: "login.failed.wrongPassword")
+            }
+        }
+        else{
+            flash.message = message(code: "login.failed.passwordDontMatch")
+        }
+        
+        [shiroUser:shiroUser]
     }
 }

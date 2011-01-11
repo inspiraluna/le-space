@@ -28,7 +28,8 @@ class ContractController {
         def contract = contractList[0]
 
       
-        [shiroUser:shiroUser,contract:contract]
+        [bodyId:"profile", slogan: g.message(code: 'contract.profile.welcome', args: [shiroUser.firstname,shiroUser.lastname,shiroUser.email]),
+                    shiroUser:shiroUser,contract:contract,contractList:contractList]
     }
 
     def list = {

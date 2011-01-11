@@ -69,14 +69,11 @@
   <g:hiddenField name="_name" value="contract" />
   <g:hiddenField name="_file" value="contract"  />
 
-  <p><input type="checkbox" name="agbs" value="false" onChange="document.contract.register.disabled=!this.checked"/>
-${g.message(code:'contract.agb_read')} <a href="${createLinkTo(dir:'agb')}" target="_blank">AGB's lesen</a>
-  </p>
-
+  <p><input type="checkbox" name="agbs" value="false" onChange="javascript:document.contract.register.disabled=!this.checked"/>${g.message(code:'contract.agb_read')} <a href="${createLinkTo(dir:'agb')}" target="_blank">AGB's lesen</a></p>
   <g:if test="${contract.paymentMethod==0}">
     <g:submitToRemote update="update" action="step1" controller="public" name="back" value="${g.message(code:'contract.back')}" /></g:if>
   <g:if test="${contract.paymentMethod==1}">
     <g:submitToRemote update="update" action="step2" controller="public" name="back" value="${g.message(code:'contract.back')}" /></g:if>
 
-  <input type="button" value="${g.message(code:'contract.register')}" disabled="disabled" name="register" onclick="new Ajax.Updater('update','${createLinkTo(dir:'/public/register')}',{asynchronous:true,evalScripts:true,parameters:Form.serialize(this.form)});return false">
+  <input type="button" value="${g.message(code:'contract.register')}" disabled="disabled" id="register" name="register" onclick="new Ajax.Updater('update','${createLinkTo(dir:'/public/register')}',{asynchronous:true,evalScripts:true,parameters:Form.serialize(this.form)});return false">
 </g:form>
