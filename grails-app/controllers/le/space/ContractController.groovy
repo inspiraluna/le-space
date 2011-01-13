@@ -26,10 +26,13 @@ class ContractController {
 
         def contractList = Contract.executeQuery(hql,hparams)
         def contract = contractList[0]
-
       
-        [bodyId:"profile", slogan: g.message(code: 'contract.profile.welcome', args: [shiroUser.firstname,shiroUser.lastname,shiroUser.email]),
-                    shiroUser:shiroUser,contract:contract,contractList:contractList]
+        [bodyId:"profile", 
+            slogan: g.message(code: 'contract.profile.welcome',
+            args: [shiroUser.firstname,shiroUser.lastname,shiroUser.email]),
+            shiroUser:shiroUser,
+            contract:contract,
+            contractList:contractList]
     }
 
     def list = {
@@ -170,6 +173,22 @@ class ContractController {
             searchText:searchText,params:params]
     }
 
+    
+    def addContract = {
+
+        def contractInstance = new Contract(params)
+        def customer = Customer.get(params.customer.id)
+        log.debug "adding new contract to customer ${customer}"
+
+        contractInstance.customer = customer
+        
+        if (contractInstance.save(flush: true)) {
+            flash.message = "${message(code: 'default.created.message', args: [message(code: 'contract.label', default: 'Contract'), contractInstance.id])}"
+            //redirect(action: "show", id: contractInstance.id)
+        }
+        //render(view: "customerContracts", controller:"customer", model: [contractInstance: contractInstance] )
+    }
+
     def create = {
         def contractInstance = new Contract()
         contractInstance.properties = params
@@ -304,7 +323,6 @@ class ContractController {
         def contractInstance = Contract.get(params.id)
         if (contractInstance) {
 
-
             double amountGross = contractInstance.amountGross
             double sumPaid = contractInstance.amountPaid
             
@@ -316,17 +334,14 @@ class ContractController {
             double amountToPay = amountGross - sumPaid
 
             if(amountToPay>0){
-                def payment = new Payment(amount:amountToPay,paymentDate:new Date(),paymentMethod:Payment.PM_DIRECT_DEBIT,contract:contractInstance).save()
-                log.debug "saved new payment"
-                contractInstance.customer.addToPayments(payment)
-                contractInstance.customer.save()
-                
-                log.debug "added payment ${payment} to contract ${contractInstance}"
-            }
-          
+                def payment = new Payment(amount:amountToPay,paymentDate:new Date(),paymentMethod:Payment.PM_DIRECT_DEBIT,customer:contractInstance.customer).save()
+                log.debug "saved new payment"               
+                log.debug "added payment ${payment} to customer ${contractInstance.customer}"
+            }        
         }
         redirect(action: "show",id:params.id)
     }
+    
     def stat = {
         //select sum(amount_gross), month(contract_start), year(contract_start) from contract group by month(contract_start), year(contract_start) order by 1 desc
         def hql = "select sum(amountGross) as amount, month(contractStart)||' '||year(contractStart) "

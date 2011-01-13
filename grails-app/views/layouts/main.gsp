@@ -21,7 +21,20 @@
 <script src="${createLinkTo(dir:'js',file:'scriptaculous.js?load=effects,builder')}" type="text/javascript"></script>
 <script src="${createLinkTo(dir:'js',file:'lightbox.js')}" type="text/javascript"></script>
 <script src="${createLinkTo(dir:'js',file:'humane.js')}" type="text/javascript"></script>
-
+<g:javascript>
+//Dieser Teil ist für die Schieber verantwortlich.
+var oldLayer = null;
+function schiebe(layer){
+  //schließe alten layer
+  //	if(oldLayer!=null)
+  //         Effect.toggle(oldLayer, 'slide');
+  //speichere neuen layer als es als altes element
+  Effect.toggle(layer, 'slide');
+  //öffne neues element
+  oldLayer = layer;
+  //return false;
+  }
+</g:javascript>
 <title>Le Space (beta) - Coworking in Leipzig</title>
 <meta name="description" content="Le Space ist Leipzigs erster Coworking Space. Wir bieten flexible und fixe Arbeitsplätze, WLAN und Drucker." />
 <meta name="keywords" content="Coworking, Coworking Space, Büro, Arbeitsplatz, Arbeitsraum" />

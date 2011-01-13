@@ -26,6 +26,4 @@ class Payment {
     " amount: ${amount} \n"+
     " paymentDate:${paymentDate} \n"
     }
-
-
 }

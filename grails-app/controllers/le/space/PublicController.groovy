@@ -2,8 +2,10 @@ package le.space
 import org.apache.shiro.crypto.hash.Sha512Hash
 class PublicController {
 
-    def index = {     
+    def index = {
+
         log.debug " registration called..."
+        
         session.contract=new Contract()
         session.bankAccount = new BankAccount()
         session.customer = new Customer()
@@ -76,28 +78,27 @@ class PublicController {
         def customer = session.customer
         def shiroUser = session.shiroUser
 
-        if(params.email || params.email == ''){
-            log.debug "here we go!"
-            
+        if(params.email || params.email == ''){          
             contract.properties = params
             customer.properties = params
             shiroUser.properties = params
 
             shiroUser.username = params.email
-            shiroUser.password_hash = new Sha512Hash(params.email).toHex()
+            shiroUser.passwordH ash = new Sha512Hash(params.email).toHex()
             contract.products = session.products
             customer.bankAccount = bankAccount
             
             contract.customer = customer
             customer.addToShiroUsers(shiroUser)
         }
+        
         contract.calculateAmounts()
         session.customer = customer
         session.shiroUser = shiroUser
         session.contract = contract
         session.products = contract.products
 
-        log.debug "${contract}\n${shiroUser}\n${customer} ${contract.paymentMethod}"
+        log.debug "${contract}\n ${shiroUser}\n ${customer} ${contract.paymentMethod}"
 
         if(!contract.validate()){
             log.debug "contract has errors!"
@@ -199,7 +200,7 @@ class PublicController {
         customer.addToShiroUsers(shiroUser)
         contract.customer = customer
 
-        log.debug "contract:${contract}\nshiroUser:${shiroUser}\ncustomer:${customer}"
+        log.debug "contract:${contract}\n shiroUser:${shiroUser}\n customer:${customer}"
         
         if(shiroUser.validate() && shiroUser.save() && 
             customer.validate() && customer.save() &&

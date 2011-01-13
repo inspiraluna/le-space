@@ -42,7 +42,7 @@
     <tr>
       <td><input type="text" id="amount" name="amount" size="10" value="${payment?.amount}" /></td>
       <td><g:datePicker precision="day" name="paymentDate" value="${payment?.paymentDate}" defaultValue="${new Date()}" /></td>
-    <td><g:select name="paymentMethod" from="${[0,1,2,3]}" valueMessagePrefix="payment.paymentMethod" /></td>
+    <td><g:select name="paymentMethod" from="${[0,1,2,3]}" valueMessagePrefix="contract.paymentMethod" /></td>
     </tr>
     <tr>
       <td colspan="4">

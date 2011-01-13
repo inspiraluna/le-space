@@ -36,6 +36,10 @@ Rechnungstatus ist: <b>${contract.paid?message(code: 'contract.profile.paid'):me
 <div id="customerContracts">
  <g:render template="/customer/customerContracts" />
 </div>
+<div class="ausklappen"><a href="javascript:schiebe('addContract');"><g:message code="contract.profile.addContract.label" default="Add Contract" /></a></div>
+<div id="addContract">
+ <g:render template="/customer/addContract" />
+</div
 <div class="ausklappen"><a href="javascript:schiebe('bankAccount');"><g:message code="contract.profile.bankAccount.label" default="Bank Account" /></a></div>
 <div id="bankAccount">
  <g:render template="/contract/bankAccount" />

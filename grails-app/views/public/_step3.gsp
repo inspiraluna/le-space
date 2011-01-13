@@ -39,7 +39,7 @@
 
 <tr><td><g:message code="contract.products.label" />:</td><td class="value">
 <g:each in="${contract.products}">
-  <p>${g.message(code:'contract.product.'+it.id)}  (${g.formatNumber(number:it.priceGross,format:'€ ###,##0.00')}/${g.formatNumber(number:it.priceNet,format:'€ ###,##0.00')})</p>
+  <p>${it.name}  (${g.formatNumber(number:it.priceGross,format:'€ ###,##0.00')}/${g.formatNumber(number:it.priceNet,format:'€ ###,##0.00')})</p>
 </g:each>
 </td></tr>
 <tr><td><g:message code="contract.autoExtend.label" />:</td><td class="value">
@@ -68,12 +68,11 @@
   <g:hiddenField name="_inline" value="false" />
   <g:hiddenField name="_name" value="contract" />
   <g:hiddenField name="_file" value="contract"  />
-
-  <p><input type="checkbox" name="agbs" value="false" onChange="javascript:document.contract.register.disabled=!this.checked"/>${g.message(code:'contract.agb_read')} <a href="${createLinkTo(dir:'agb')}" target="_blank">AGB's lesen</a></p>
+  <p><input type="checkbox" name="agbs" value="false" onChange="javascript:document.getElementById('register').disabled = !document.getElementById('register').disabled"/>${g.message(code:'contract.agb_read')} <a href="${createLinkTo(dir:'agb')}" target="_blank">AGB's lesen</a></p>
   <g:if test="${contract.paymentMethod==0}">
     <g:submitToRemote update="update" action="step1" controller="public" name="back" value="${g.message(code:'contract.back')}" /></g:if>
   <g:if test="${contract.paymentMethod==1}">
     <g:submitToRemote update="update" action="step2" controller="public" name="back" value="${g.message(code:'contract.back')}" /></g:if>
 
-  <input type="button" value="${g.message(code:'contract.register')}" disabled="disabled" id="register" name="register" onclick="new Ajax.Updater('update','${createLinkTo(dir:'/public/register')}',{asynchronous:true,evalScripts:true,parameters:Form.serialize(this.form)});return false">
+ <input type="button" value="${g.message(code:'contract.register')}" id="register"  disabled="disabled" name="register" onclick="new Ajax.Updater('update','${createLinkTo(dir:'/public/register')}',{asynchronous:true,evalScripts:true,parameters:Form.serialize(this.form)});return false">
 </g:form>

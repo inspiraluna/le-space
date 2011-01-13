@@ -91,7 +91,7 @@ Briefkasten: 50 Euro<br>
 </div>
 <script type="text/javascript">
 //Dieser Teil ist für die Schieber verantwortlich.
-var oldLayer = null;
+/** var oldLayer = null;
 function schiebe(layer){
   //schließe alten layer
   //	if(oldLayer!=null)
@@ -100,7 +100,7 @@ function schiebe(layer){
   Effect.toggle(layer, 'slide');
   //öffne neues element
   oldLayer = layer;
-  //return false;
+  //return false; */
   }
 
 $('faq01').hide();
