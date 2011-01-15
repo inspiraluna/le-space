@@ -196,13 +196,15 @@ class ShiroUserController {
 
         def shiroUser = ShiroUser.get(params.id)
 
-        if(params && params.passwordNew ==params.passwordNewAgain){
+        if(params && params.passwordNew == params.passwordNewAgain){
             try{
                 def authToken = new UsernamePasswordToken(shiroUser.username, params.passwordOld)
                 SecurityUtils.subject.login(authToken)
 
                 //Change Password here.
-
+                shiroUser.passwordHash = new Sha512Hash(params.passwordNew).toHex()
+                shiroUser.save(flush:true)
+                
                 flash.message = message(code: "login.passwordChanged")
             }
             catch (AuthenticationException ex){

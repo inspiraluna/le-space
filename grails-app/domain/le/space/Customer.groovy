@@ -108,15 +108,17 @@ class Customer {
         dateCreated = new Date()
         dateModified = new Date()
         try { //during startup no securityManager!
+            log.debug "inserted by: ${SecurityUtils.getSubject().principal} "
             createdBy = SecurityUtils.getSubject().principal?ShiroUser.findByUsername(SecurityUtils.getSubject().principal):null
-        }catch(Exception ex){createdBy=ShiroUser.get(1)}
+        }catch(Exception ex){createdBy=Customer.get(1)}
     }
 
     def beforeUpdate = {
         dateModified = new Date()
         try{ //during startup no securityManager!
+            log.debug "modified by: ${SecurityUtils.getSubject().principal} "
             modifiedBy = SecurityUtils.getSubject().principal?ShiroUser.findByUsername(SecurityUtils.getSubject().principal):null
-        }catch(Exception ex){modifiedBy=ShiroUser.get(1)}
+        }catch(Exception ex){modifiedBy=Customer.get(1)}
     }
 
     def afterLoad = {

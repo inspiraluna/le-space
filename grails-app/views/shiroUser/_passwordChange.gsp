@@ -11,8 +11,8 @@
         </table>
       </td>
    </tr>
-   <tr><td valign="top" align="left"><g:if test="${flash.message}"><div class="message">${flash.message}</div></g:if></td></tr>
-   <tr><th colspan="2" align="center"><span class="button"><g:submitToRemote update="passwordChange" class="passwordChange" action="passwordChange" controller="shiroUser" name="passwordChange" value="${g.message(code:'shiroUser.passwordChangeButton.label')}" /></span></th></tr>
+   <tr><td valign="top" colspan="2"  align="middle"><g:if test="${flash.message}"><div class="message">${flash.message}</div></g:if></td></tr>
+   <tr><th colspan="2" align="left"><span class="button"><g:submitToRemote update="passwordChange" class="passwordChange" action="passwordChange" controller="shiroUser" name="passwordChange" value="${g.message(code:'shiroUser.passwordChangeButton.label')}" /></span></th></tr>
   </table>
 </g:form>
 

@@ -84,7 +84,7 @@ class PublicController {
             shiroUser.properties = params
 
             shiroUser.username = params.email
-            shiroUser.passwordH ash = new Sha512Hash(params.email).toHex()
+            shiroUser.passwordHash = new Sha512Hash(params.email).toHex()
             contract.products = session.products
             customer.bankAccount = bankAccount
             

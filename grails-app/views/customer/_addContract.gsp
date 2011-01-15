@@ -6,7 +6,7 @@
       dateFormat="%d.%m.%Y"
       name="contractStart"
       defaultValue="${new Date()}"
-      value="${contract?.contractStart}"/>
+      />
     </td>
     </tr>
     <tr><th align="left"><g:message code="contract.quantity.label" />:</th><td class="value ${hasErrors(bean: contract, field: 'quantity', 'errors')}">
@@ -24,15 +24,9 @@
     <g:radio name="autoExtend" value="true" checked="${contract?.autoExtend}" onChange="autoExtend(this.value);"/>&nbsp;<g:message code="contract.autoExtend.true" /><br>
     <g:radio name="autoExtend" value="false" checked="${!contract?.autoExtend}" onChange="autoExtend(this.value);"/>&nbsp;<g:message code="contract.autoExtend.false" />
     </td></tr>
-    <tr><th  align="left" class="value ${hasErrors(bean: customer, field: 'reverseChargeSystem', 'errors')}"><g:message code="customer.reverseChargeSystem.label" />:</td><td><g:checkBox name="reverseChargeSystem" value="${contract?.customer?.reverseChargeSystem}" onChange="loadSubOptions(document.contract.product.value);"/>
-    &nbsp;<g:message code="customer.reverseChargeSystemID.label" />:&nbsp;<g:textField name="reverseChargeSystemID" value="${contract?.customer?.reverseChargeSystemID}" />&nbsp;
-    </td></tr>
     <tr><th align="left"><g:message code="contract.products.label" />:</th><td class="value ${hasErrors(bean: contract, field: 'products', 'errors')}">
-
-    <testselect valueMessagePrefix="contract.product">
-
+      
     <g:select name="product"  from="${le.space.Product.findAll('from Product as p where p.option is null and p.publicProduct=true')}"
-              value="${(contract?.getProducts() && contract?.getProducts()?.size()>0)?(contract.getProducts().toArray().sort{it.id})[0].id:null}"
               noSelection="${['0':g.message(code:'contract.chooseSomething')]}"
               optionKey="id" onChange="loadSubOptions(this.value);" /></td>
     </tr>
@@ -47,8 +41,6 @@
     product: document.contract.product.value,
     contractStart: document.contract.contractStart.value,
     paymentMethod:document.contract.paymentMethod.value,
-    reverseChargeSystem:document.contract.reverseChargeSystem.checked,
-    reverseChargeSystemID:document.contract.reverseChargeSystemID.value,
     quantity:document.contract.quantity.value
     }
     });

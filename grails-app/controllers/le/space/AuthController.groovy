@@ -12,11 +12,13 @@ class AuthController {
     def index = { redirect(action: "login", controller:"home",params: params) }
 
     def login = {
+         flash.message = flash.message
          redirect(action: "login", controller:"home",params: params)
          //render(view: "login", controller:"home", model: [ username: params.username, rememberMe: (params.rememberMe != null), targetUri: params.targetUri ])
     }
 
     def signIn = {
+        
         def authToken = new UsernamePasswordToken(params.username, params.password)
         log.debug "username: ${params.username} password: ${params.password}"
         // Support for "remember me"
@@ -40,8 +42,8 @@ class AuthController {
             // will be thrown if the username is unrecognised or the
             // password is incorrect.
             SecurityUtils.subject.login(authToken)
-
             log.info "Redirecting to '${targetUri}'."
+            
             redirect(uri: targetUri)
         }
         catch (AuthenticationException ex){
@@ -63,8 +65,10 @@ class AuthController {
             }
 
             // Now redirect back to the login page.
+            //chain(view:"login", controller:"home", model:m)
             redirect(action: "login", params: m)
         }
+       // redirect(view:"login", controller:"home")
     }
 
     def signOut = {

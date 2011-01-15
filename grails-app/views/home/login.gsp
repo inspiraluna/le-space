@@ -16,7 +16,7 @@
           </g:if>
           <g:form controller="auth" action="signIn">
             <input type="hidden" name="targetUri" value="${targetUri?targetUri:'/contract/profile'}" />
-            <table border="0">
+            <table>
               <thead>
                 <tr>
                   <td><g:message code="contract.login.username" />:</td>
