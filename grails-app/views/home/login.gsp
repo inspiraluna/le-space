@@ -28,7 +28,7 @@
                 </tr>
               <tr>
                 <td />
-                <td><input type="submit" value="${message(code: 'contract.login.signIn', default: 'Sign In')}" /></td>
+                <td><input type="submit" id="signIn" value="${message(code: 'contract.login.signIn')}" /></td>
               </tr>
               </thead>
             </table>

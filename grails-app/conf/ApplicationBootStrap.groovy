@@ -17,10 +17,14 @@ class ApplicationBootStrap {
         
             def adminRole = new ShiroRole(name: "Administrator").save()
             log.info("added Administrator role to db")
+            adminRole.addToPermissions("*:*")
+            adminRole.save()
 
             def userRole = new ShiroRole(name: "User").save()
             log.info("added User role to db")
-
+            userRole.addToPermissions("*:*")
+            userRole.save()
+            
             adminUser = new ShiroUser(username: "admin@le-space.de",
                 passwordHash: new Sha512Hash("admin").toHex(),
                 firstname: "Administrator",
@@ -216,11 +220,7 @@ class ApplicationBootStrap {
         server.start(true, true)
 
         log.debug "le space radius server started"
-
-       
-
-
-        
+ 
     }
 
     def destroy = {

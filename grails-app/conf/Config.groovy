@@ -6,14 +6,14 @@ grails {
     mail {
         host = "www.le-space.de"
         port = 465
-    //    port = 25
+        //    port = 25
         username = "kontakt@le-space.de"
         password = "hurra2010"
         props = ["mail.smtp.auth":"true",
               "mail.smtp.socketFactory.port":"465",
               "mail.smtp.socketFactory.class":"javax.net.ssl.SSLSocketFactory",
               "mail.smtp.socketFactory.fallback":"true"]
-        }
+    }
 }
 
 
@@ -31,22 +31,22 @@ grails.mime.file.extensions = true // enables the parsing of file extensions fro
 grails.mime.use.accept.header = false
 
 grails.mime.types = [ html: ['text/html','application/xhtml+xml'],
-                      xml: ['text/xml', 'application/xml'],
-                      text: 'text-plain',
-                      js: 'text/javascript',
-                      rss: 'application/rss+xml',
-                      atom: 'application/atom+xml',
-                      css: 'text/css',
-                      csv: 'text/csv',
-                      pdf: 'application/pdf',
-                      rtf: 'application/rtf',
-                      excel: 'application/vnd.ms-excel',
-                      ods: 'application/vnd.oasis.opendocument.spreadsheet',
-                      all: '*/*',
-                      json: ['application/json','text/json'],
-                      form: 'application/x-www-form-urlencoded',
-                      multipartForm: 'multipart/form-data'
-                    ]
+    xml: ['text/xml', 'application/xml'],
+    text: 'text-plain',
+    js: 'text/javascript',
+    rss: 'application/rss+xml',
+    atom: 'application/atom+xml',
+    css: 'text/css',
+    csv: 'text/csv',
+    pdf: 'application/pdf',
+    rtf: 'application/rtf',
+    excel: 'application/vnd.ms-excel',
+    ods: 'application/vnd.oasis.opendocument.spreadsheet',
+    all: '*/*',
+    json: ['application/json','text/json'],
+    form: 'application/x-www-form-urlencoded',
+    multipartForm: 'multipart/form-data'
+]
 
 // The default codec used to encode data with ${}
 grails.views.default.codec="none" // none, html, base64
@@ -114,15 +114,21 @@ environments {
     }
     test {
         dataSource {
-            grails.serverURL = "http://localhost:8081/le-space/" //${appName}
-            grails.secureServerURL  = "https://localhost:8443/le-space"
-            dbCreate = "update"
-            url = "jdbc:hsqldb:mem:testDb"
+            dbCreate = "create-drop"
+            url = "jdbc:mysql://localhost:3306/le-space-test?autoReconnect=true&zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8"
+            driverClassName = "com.mysql.jdbc.Driver"
+            username = "root"
+            password = "fdwwieg"
+            /*url = "jdbc:hsqldb:mem:testDb"  you can put a direct jdbc connection url here if you don't like to use JNDI*/
+            /**           jndiName = "java:comp/env/jdbc/webanizer" **/
+            dialect = org.hibernate.dialect.MySQLInnoDBDialect
         }
         log4j = {
+            // in development mode, let's see all my log messages
             debug 'grails.app'
         }
     }
+
     production {
         dataSource {
             grails.serverURL = "http://www.le-space.de"

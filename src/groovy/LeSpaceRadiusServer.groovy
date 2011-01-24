@@ -37,6 +37,8 @@ class LeSpaceRadiusServer extends org.tinyradius.util.RadiusServer {
         def shiroUser = le.space.ShiroUser.findByUsername(accessRequest.getUserName())
         //accessRequest.setAuthProtocol(AccessRequest.AUTH_PAP); //
         System.out.println("try radius login of:"+accessRequest.getUserName())
+        if(!shiroUser)
+            throw RadiusException
        // System.out.println("accessRequest.getUserPassword()"+accessRequest.getUserPassword())
        // System.out.println("new Sha1Hash(accessRequest.getUserPassword()).toHex()"+new Sha512Hash(accessRequest.getUserPassword()).toHex())
         //System.out.println("shiroUser.findByUsername(username).passwordHash"+shiroUser.passwordHash)

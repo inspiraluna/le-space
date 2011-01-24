@@ -1,5 +1,7 @@
 package le.space
 import org.apache.shiro.crypto.hash.Sha512Hash
+
+
 class PublicController {
 
     def index = {

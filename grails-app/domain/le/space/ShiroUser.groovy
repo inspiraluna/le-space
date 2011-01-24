@@ -1,5 +1,6 @@
 package le.space
 import org.apache.shiro.SecurityUtils
+
 class ShiroUser {
 
     String username

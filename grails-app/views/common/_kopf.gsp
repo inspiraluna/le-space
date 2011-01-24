@@ -16,15 +16,15 @@
       <ul>
         <li class="first"><a href="http://www.facebook.com/pages/Leipzig-Germany/le-space/288080760878?v=app_2344061033&amp;ref=ts" target="_blank" class="extern">Veranstaltungen<img src="img/navigation/externerlink_w.gif" alt="(extern)" /></a></li>
         <li><a href="http://www.coworking-leipzig.de/" target="_blank" class="extern">Blog<img src="img/navigation/externerlink_w.gif" alt="(extern)" /></a><shiro:isNotLoggedIn><div class="clear"></div></shiro:isNotLoggedIn></li>
-        <shiro:isLoggedIn><li class="logout"><g:link controller="auth" action="signOut"><shiro:principal/> <g:message code="contract.login.signOut" /></g:link></shiro:isLoggedIn><div class="clear"></div></li>
+        <li><a href="http://wiki.le-space.de/" target="_blank" class="extern">Wiki</a></li>
+        <shiro:isLoggedIn><li class="logout"><g:link controller="auth" id="logout" action="signOut"><shiro:principal/> <g:message code="contract.login.signOut" /></g:link></shiro:isLoggedIn><div class="clear"></div></li>
       </ul>
     </div>
     <div id="subnavi">
       <ul id="subnavi_text">
         <li class="first startseite"><a href="${createLinkTo(dir:'home')}">Startseite</a></li>
-         <li class="login"><a href="${le.space.HelperTools.makeSSL(createLinkTo(dir:'login', absolute:true))}">Login</a></li>
-        <li class="agb"><a href="${createLinkTo(dir:'agb')}">AGB's</a></li>
-        <li class="wiki"><a href="${createLinkTo(dir:'wiki')}">Wiki</a></li>
+        <li class="login"><a href="${le.space.HelperTools.makeSSL(createLinkTo(dir:'login', absolute:true))}">Login</a></li>
+        <li class="agb"><a href="${createLinkTo(dir:'agb')}">AGB's</a></li>   
         <li class="impressum"><a href="${createLinkTo(dir:'impressum')}">Impressum</a></li>
         <!--<li><a href="#">english</a></li>-->
       </ul>

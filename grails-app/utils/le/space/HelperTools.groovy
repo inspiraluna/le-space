@@ -119,9 +119,8 @@ class HelperTools {
         def config = ConfigurationHolder.config
         def serverURL = config.grails.serverURL
         def secureServerURL = config.grails.secureServerURL
-        println "url: ${serverURL} secureServerUrl: ${secureServerURL} "
-        urlToMakeSSL.replace(serverURL,secureServerURL)
 
+        urlToMakeSSL.replace("${serverURL}","${secureServerURL}")
     }
 
     def static getServerName = {request ->

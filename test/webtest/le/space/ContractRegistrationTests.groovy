@@ -4,10 +4,6 @@ package le.space
 
 class ContractRegistrationTests extends grails.util.WebTest {
 
-    void suite() {
-        testAddDayTicket()
-        testAdd10DayTicket()
-    }
 
     void testAddDayTicket() {
         config easyajax: 'true', easyajaxdelay: '10000';
@@ -127,7 +123,7 @@ class ContractRegistrationTests extends grails.util.WebTest {
         setInputField name: "zip", value: "6850"
         setInputField name: "city", value: "Dornbirn"
         setSelectField description: "choosing the country", name: "country.id", value: "133"
-        setInputField name: "email", value: "	eric.poscher@epe.at"
+        setInputField name: "email", value:"eric.poscher@epe.at"
 
 
         setCheckbox   name: "allowPublishNameOnWebsite", checked:true
@@ -232,6 +228,5 @@ class ContractRegistrationTests extends grails.util.WebTest {
         verifyText "Hilbrecht"
         verifyText "Nico"
         verifyText "Krause"
-
     }
 }
