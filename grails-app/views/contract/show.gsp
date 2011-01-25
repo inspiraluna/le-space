@@ -119,7 +119,7 @@
           <td valign="top" class="value"><g:checkBox name="paid" value="true" disabled="true" checked="${contractInstance.valid}"/></td>
           <th align="left" valign="top" class="name"><g:message code="contract.allowedLoginDaysLeft.label" default="allowedLoginDaysLeft" /></th>
           <td valign="top" class="value"><input type="text" id="allowedLoginDaysLeft" name="allowedLoginDaysLeft" size="3" value="${fieldValue(bean:contractInstance,field:'allowedLoginDaysLeft')}" />
-</td>
+          </td>
           </tr>
           <tr class="prop">
             <th align="left" valign="top" class="name"><g:message code="contract.dateCreated.label" default="dateCreated" /></th>
@@ -131,6 +131,10 @@
         </table></td>
         <td valign="top">
           <table>
+            <tr class="prop">
+              <th align="left" valign="top" class="name"><g:message code="customer.id.label" default="Customer Id" /></th>
+            <td valign="top" class="value">${contractInstance?.customer?.id}</td>
+            </tr>
             <tr class="prop">
               <th align="left" valign="top" class="name"><g:message code="customer.company.label" default="Company" /></th>
             <td valign="top" class="value"><input type="text" id="company" name="company" size="20" value="${contractInstance?.customer?.company}" /></td>

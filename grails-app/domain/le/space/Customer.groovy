@@ -27,9 +27,6 @@ class Customer {
 
     BankAccount bankAccount
     
-    static belongsTo = [Contract]
-
-    
     /*
      *
      * http://evatr.bff-online.de/eVatR/

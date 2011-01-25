@@ -26,20 +26,17 @@ class ShiroUser {
     ShiroUser modifiedBy
 
 
-    static hasMany = [roles: ShiroRole, permissions: String,logins: Login]
+    static hasMany = [roles: ShiroRole, permissions: String, logins: Login]
 
     static constraints = {
         username(nullable: false, blank: false, unique:true)
         passwordHash(nullable:true,blank:true)
-
         salutation(nullable:true,blank:true)
         firstname(nullable:false,blank:false)
         lastname(nullable:false,blank:false)
         email(nullable:false,email:true,blank:false)
-        
         birthday(nullable:true,blank:true)
         telMobile(nullable:true,blank:true)
-
         occupation(nullable:true,blank:true)
         twitterName(nullable:true,blank:true)
         facebookName(nullable:true,blank:true)

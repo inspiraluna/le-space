@@ -308,7 +308,6 @@ class ContractController {
         log.debug "logging in userId:${params.userId} contract: ${params.id}"
         loginService.login(params.userId,null)
 
-       
         redirect(action: "list")
     }
 

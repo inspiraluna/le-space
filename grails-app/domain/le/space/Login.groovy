@@ -9,7 +9,6 @@ class Login {
 
     static belongsTo = [ShiroUser]
 
-
     static constraints = {
         user(nullable:true,blank:true)
         ipAddress(nullable:true,blank:true)

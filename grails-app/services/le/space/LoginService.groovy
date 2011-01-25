@@ -13,19 +13,25 @@ class LoginService {
 
     def login(String id, InetSocketAddress client) {
 
-        ShiroUser.withTransaction{
-            def shiroUser = le.space.ShiroUser.get(id)
-            log.debug "shiroUser:${shiroUser} userId:${id} "
-            if (shiroUser) {
+        def shiroUser = le.space.ShiroUser.get(id)
+        log.debug "shiroUser:${shiroUser} userId:${id} "
+        if (shiroUser) {
+            ShiroUser.withTransaction{
                 String macAddr = ""
 
-                def login = new Login(user:shiroUser,ipAddress:client?client.getAddress().toString():null,macAddress:macAddr,loginStart:new Date()).save(flush:true)
+                def login = new Login(user:shiroUser,ipAddress:client?client.getAddress().toString():null,macAddress:macAddr,loginStart:new Date()).save()
                 log.debug "saved new login ${login}"
 
+                def roles = shiroUser.roles
+                def logins = shiroUser.logins
+                def permissions = shiroUser.permissions
+                
                 shiroUser.addToLogins(login)
-                shiroUser.save(flush:true)
-            
-           
+                
+                shiroUser.save()
+                
+            }
+            Contract.withTransaction{
                 //letzten aktiven vertrag eines users heraussuchen
                 //  hql = "select sum(amountGross) as amount, customer.id "
                 def hql="select co from le.space.Contract  co "
@@ -49,14 +55,18 @@ class LoginService {
                 today.setSecondOfMinute(0)
                 log.debug "todays login ${today}"
                 if(contractInstance.lastLogin < today.toDateTime().toDate() && contractInstance.getProducts().toArray()[0].allowedLoginDays>0){
+                    
                     contractInstance.allowedLoginDaysLeft--
                     contractInstance.loginDays++
 
                     log.debug "login was counted. allowedLoginDayLeft now:${contractInstance.allowedLoginDaysLeft} and loginDays now: ${contractInstance.loginDays}"
                 }
                 contractInstance.lastLogin = new Date()
-                contractInstance.save(flush:true)
+                
+                contractInstance.save()
+                
             }
         }
     }
 }
+

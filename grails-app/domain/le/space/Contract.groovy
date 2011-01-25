@@ -48,7 +48,7 @@ class Contract {
     static transients = ["selectedProducts"]
 
     static hasMany = [products: Product]
-
+    static belongsTo = [Customer]
 
     static constraints = {
 
@@ -166,7 +166,7 @@ class Contract {
         try { //during startup no securityManager!
             modifiedBy = SecurityUtils.getSubject().principal?ShiroUser.findByUsername(SecurityUtils.getSubject().principal):null
         }catch(Exception ex){createdBy=ShiroUser.get(1)}
-        
+  
         calculateAmounts()
     }
 

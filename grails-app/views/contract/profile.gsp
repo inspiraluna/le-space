@@ -44,10 +44,10 @@ Rechnungstatus ist: <b>${contract.paid?message(code: 'contract.profile.paid'):me
 <div id="bankAccount">
  <g:render template="/contract/bankAccount" />
 </div
-<div class="ausklappen"><a href="javascript:schiebe('customerUsers');"><g:message code="contract.profile.customerUsers.label" default="Benutzer und Geräte" /></a></div>
+<!-- <div class="ausklappen"><a href="javascript:schiebe('customerUsers');"><g:message code="contract.profile.customerUsers.label" default="Benutzer und Geräte" /></a></div>
 <div id="customerUsers">
  <g:render template="/shiroUser/customerUsers" />
-</div
+</div> -->
 
 
 </div>
@@ -70,6 +70,7 @@ function schiebe(layer){
 
 $('passwordChange').hide();
 $('customerData').hide();
+$('addContract').hide();
 $('customerContracts').hide();
 $('bankAccount').hide();
 </script>
