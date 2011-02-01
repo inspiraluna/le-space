@@ -50,12 +50,7 @@
         </td>
       </tr>
     </table></td>       
-    <td>
-      <div class="loginAdd" id="loginAdd">
-        <grender template="/shiroUser/userLogins" model="['shiroUser':shiroUser,'contractInstance':contractInstance]"/>
-      </div>
-    </td></tr></table>
-
+    </tr></table>
   </g:form>
 </g:each>
 <g:form>

@@ -70,17 +70,19 @@
             <td valign="top" align="left">${fieldValue(bean: contractInstance, field: "selectedProducts")}</td>
             <td valign="top" align="right">${fieldValue(bean: contractInstance, field: "allowedLoginDaysLeft")}</td>
             <td valign="top" align="right">${fieldValue(bean: contractInstance, field: "loginDays")}</td>
-            <td valign="top" align="left"><g:formatDate date="${contractInstance.lastLogin}" format="dd.MM.yyyy hh:mm:ss"/></td>
+            <td valign="top" align="left"><g:formatDate date="${contractInstance.lastLogin}" format="dd.MM.yyyy HH:mm:ss"/></td>
             <td valign="top" align="left">
-            <g:if test="${contractInstance?.lastLogin?.getTime()<=(new org.joda.time.DateTime().withTime(0,0,0,0).toDate().getTime())}">
-              <g:each in="${contractInstance?.customer?.shiroUsers}" var="user">
+           
+              <g:each in="${contractInstance?.customer?.shiroUsers}" var="user">            
+                 <g:if test="${user?.getLogins().size()>0 && (user?.getLogins()?.toArray().sort{it.loginStart})[user?.getLogins().size()-1].loginStart?.getTime()<=(new org.joda.time.DateTime().withTime(0,0,0,0).toDate().getTime())}">
                 <g:form name="login" action="addLogin">
                   <g:hiddenField name="id" value="${contractInstance?.id}" />
                   <g:hiddenField name="userId" value="${user?.id}" />
-                  <g:actionSubmit class="input login" value="${g.message(code:'contract.login')}" action="addLogin" />
+                  <g:actionSubmit class="input login" value="${user?.username} ${g.message(code:'contract.login')}" action="addLogin" />
                 </g:form>
+                  </g:if>
               </g:each>
-            </g:if>
+          
             </td>
             </tr>
           </g:each>

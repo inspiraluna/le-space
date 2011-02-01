@@ -19,7 +19,7 @@
         <g:hiddenField name="id" value="${contractInstance?.id}" />
         <g:hiddenField name="_format" value="PDF" />
         <g:hiddenField name="_inline" value="false" />
-        <g:hiddenField name="_name" value="contract" />
+        <g:hiddenField name="_name" value="contract_${contractInstance?.id}_${contractInstance?.customer?.company?.replace(' ','_')}" />
         <g:hiddenField name="_file" value="contract"  />
         <span class="button"><g:actionSubmit action="contractPdf"  value="${g.message(code:'contract.print')}" /></span>
       </div>
@@ -29,7 +29,7 @@
         <g:hiddenField name="id" value="${contractInstance?.id}" />
         <span class="button"><g:actionSubmit class="previous" action="previous" value="${message(code: 'default.button.previous.label', default: 'previous')}" /></span>
         <span class="button"><g:actionSubmit class="next" action="next" value="${message(code: 'default.button.next.label', default: 'next')}" /></span>
-        <span class="button"><g:actionSubmit class="duplicate" action="duplicate" value="${message(code: 'default.button.duplicate.label', default: 'Duplicate')}" /></span>
+        <!--<span class="button"><g:actionSubmit class="duplicate" action="duplicate" value="${message(code: 'default.button.duplicate.label', default: 'Duplicate')}" /></span> -->
         <span class="button"><g:actionSubmit class="addFullPayment" action="addFullPayment" value="${message(code: 'default.button.addFullPayment.label', default: 'addFullPayment')}" /></span>
         <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
         <span class="button"><g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" /></span>
@@ -159,7 +159,7 @@
               <th align="left" valign="top" class="name"><g:message code="customer.country.label" default="country" /></th>
             <th align="left" valign="top" class="value">
             <g:select name="country.id"  from="${le.space.Country.list()}"
-                      value="${contractInstance?.customer?.country.id}" noSelection="${['0':g.message(code:'contract.chooseSomething')]}"
+                      value="${contractInstance?.customer?.country?.id}" noSelection="${['0':g.message(code:'contract.chooseSomething')]}"
                       optionKey="id"/></th>
             </tr>
             <tr>
@@ -177,6 +177,9 @@
         </table>
       </div>
     </g:form>
+    <div class="userLogins" id="userLogins">
+      <g:render template="/shiroUser/userLogins"/>
+    </div>
     <div class="shiroUserAdd" id="shiroUserAdd">
       <g:render template="/shiroUser/customerUsers" />
     </div>

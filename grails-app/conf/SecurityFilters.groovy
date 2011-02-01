@@ -8,6 +8,7 @@ class SecurityFilters {
             before = {
                 // Ignore direct views (e.g. the default main index page).
                 if (controllerName=='home') return true
+                if (controllerName=='door') return true
                 if (controllerName=='public') return true
                 if (controllerName=='jasper') return true
                 if (controllerName=='admin') return true

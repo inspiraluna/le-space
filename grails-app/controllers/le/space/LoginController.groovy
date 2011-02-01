@@ -30,13 +30,13 @@ class LoginController {
                     flash.message="wrong password"
                 }
             }catch(org.tinyradius.util.RadiusException rex){
-              flash.message="RadiusException - malformed packet: ${rex.getMessage()}"
-              logged_in = false
-           }
-           catch(java.io.IOException rex){
-              flash.message="java.io.IOException - communication error ${rex.getMessage()}"
-              logged_in = false
-           }
+                flash.message="RadiusException - malformed packet: ${rex.getMessage()}"
+                logged_in = false
+            }
+            catch(java.io.IOException rex){
+                flash.message="java.io.IOException - communication error ${rex.getMessage()}"
+                logged_in = false
+            }
         }        
         [radiusServerIP:radiusServerIP,radiusServerSharedSecret:radiusServerSharedSecret,radiusUsername:radiusUsername,radiusPassword:radiusPassword,logged_in:logged_in]
     }

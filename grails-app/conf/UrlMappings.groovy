@@ -19,6 +19,11 @@ class UrlMappings {
                 // apply constraints here
             }
         }
+
+      "/door/$id?"(controller:"door"){
+            //action = [GET:"open", PUT:"update", DELETE:"delete", POST:"save"]
+            action = [POST:"open"]
+      }
       //"/"(view:"/index")
         "500"(view:'/error')
     }

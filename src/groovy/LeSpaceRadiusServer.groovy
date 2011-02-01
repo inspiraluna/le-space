@@ -37,16 +37,17 @@ class LeSpaceRadiusServer extends org.tinyradius.util.RadiusServer {
         def shiroUser = le.space.ShiroUser.findByUsername(accessRequest.getUserName())
         //accessRequest.setAuthProtocol(AccessRequest.AUTH_PAP); //
         System.out.println("try radius login of:"+accessRequest.getUserName())
-       // if(!shiroUser)
-       //     throw RadiusException
-       // System.out.println("accessRequest.getUserPassword()"+accessRequest.getUserPassword())
-       // System.out.println("new Sha1Hash(accessRequest.getUserPassword()).toHex()"+new Sha512Hash(accessRequest.getUserPassword()).toHex())
+        // if(!shiroUser)
+        //     throw RadiusException
+        // System.out.println("accessRequest.getUserPassword()"+accessRequest.getUserPassword())
+        // System.out.println("new Sha1Hash(accessRequest.getUserPassword()).toHex()"+new Sha512Hash(accessRequest.getUserPassword()).toHex())
         //System.out.println("shiroUser.findByUsername(username).passwordHash"+shiroUser.passwordHash)
 
         //http://www.dd-wrt.com/wiki/index.php/How_to_configure_DD-WRT,_Chillispot,_Apache2,_FreeRadius,_freeradius-dialupadmin,_and_MySQL_on_Debian_4.0
 
         if (shiroUser && new Sha512Hash(accessRequest.getUserPassword()).toHex() == shiroUser.passwordHash){
             type = RadiusPacket.ACCESS_ACCEPT;
+            System.out.println(accessRequest.getUserName()+" logged in.")
             try {
                 if (persistenceInterceptor) {
                     //log.debug("opening persistence context")
@@ -54,31 +55,32 @@ class LeSpaceRadiusServer extends org.tinyradius.util.RadiusServer {
                 } else {
                     //log.debug("no persistence interceptor")
                 }
-                loginService.login(shiroUser.id.toString(),client)
+                loginService.login(shiroUser.id.toString(),client,null)
             } finally {
                 if (persistenceInterceptor) {
                     //log.debug("destroying persistence context for listener" )
-                        persistenceInterceptor.flush()
-                        persistenceInterceptor.destroy()
-                    }
+                    persistenceInterceptor.flush()
+                    persistenceInterceptor.destroy()
                 }
+            }
             
-            }//if
+        }//if
 
-            RadiusPacket answer = new RadiusPacket(type, accessRequest.getPacketIdentifier());
-            copyProxyState(accessRequest, answer);
-            return answer;
-        }
+        RadiusPacket answer = new RadiusPacket(type, accessRequest.getPacketIdentifier());
+        copyProxyState(accessRequest, answer);
+        return answer;
+    }
 
 
-        public String getSharedSecret(InetSocketAddress arg0) {
-           ConfigurationHolder.config.lespace.radiusServerSharedSecret
+    public String getSharedSecret(InetSocketAddress arg0) {
+        ConfigurationHolder.config.lespace.radiusServerSharedSecret
         //"testing123"
-        }
+    }
 
 
-        org.tinyradius.packet.RadiusPacket accountingRequestReceived(org.tinyradius.packet.AccountingRequest request, InetAddress client){
-             System.out.println("access Request Received")
-        }
-        }
+    org.tinyradius.packet.RadiusPacket accountingRequestReceived(org.tinyradius.packet.AccountingRequest request, InetAddress client){
+        System.out.println("access Request Received")
+    }
+
+}
 

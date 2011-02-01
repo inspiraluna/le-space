@@ -9,41 +9,37 @@ import java.net.UnknownHostException
 
 class LoginService {
 
-    static transactional = true
+    static transactional = false
 
-    def login(String id, InetSocketAddress client) {
+    def login(String id, InetSocketAddress client, String macAddress) {
 
         def shiroUser = le.space.ShiroUser.get(id)
-        log.debug "shiroUser:${shiroUser} userId:${id} "
+        log.debug "shiroUser:${shiroUser} userId:${id}"
+
         if (shiroUser) {
-            ShiroUser.withTransaction{
-                String macAddr = ""
-
-                def login = new Login(user:shiroUser,ipAddress:client?client.getAddress().toString():null,macAddress:macAddr,loginStart:new Date()).save()
-                log.debug "saved new login ${login}"
-
-                def roles = shiroUser.roles
-                def logins = shiroUser.logins
-                def permissions = shiroUser.permissions
-                
+            
+            //ShiroUser.withTransaction{
+                def login = new Login(user:shiroUser,ipAddress:client?client.getAddress().toString():null,macAddress:macAddress,loginStart:new Date()).save()
                 shiroUser.addToLogins(login)
+                shiroUser.save()           
+            //}
+
+            //Contract.withTransaction{
                 
-                shiroUser.save()
-                
-            }
-            Contract.withTransaction{
                 //letzten aktiven vertrag eines users heraussuchen
                 //  hql = "select sum(amountGross) as amount, customer.id "
+                
                 def hql="select co from le.space.Contract  co "
-                hql+="inner join co.customer cu "
-                hql+="inner join cu.shiroUsers u "
+                hql+="left join co.customer cu "
+                hql+="left join cu.shiroUsers u "
                 hql+="WHERE u.username=:username "
                 hql+="ORDER BY co.contractStart desc"
             
                 def hparams = [username:shiroUser.username]
 
                 def contractList = Contract.executeQuery(hql,hparams)
-                // log.debug "contractList: ${contractList}"
+                log.debug "contractList: ${contractList.size()}"
+
                 def contractInstance = contractList[0]
 
                 log.debug "Product ${contractInstance} has durationType: contractInstance.products[0].durationType"
@@ -64,8 +60,9 @@ class LoginService {
                 contractInstance.lastLogin = new Date()
                 
                 contractInstance.save()
-                
-            }
+   
+            //}
+            
         }
     }
 }

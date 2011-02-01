@@ -12,7 +12,15 @@
 <div id="inhalt">
 <div class="zweispaltig">
 <h1><g:message code="contract.profile.label" default="Profil" /></h1>
-<p>&nbsp;</p> 
+<p>&nbsp;</p>
+
+<g:if test="${session.loginParams}">
+  <g:form name="contract">
+         <g:actionSubmit class="redirect" action="redirect" value="${message(code: 'contract.profile.redirect', default: 'redirect')}" /></span>
+  </g:form>
+</g:if>
+
+</g>
 <p>
 Ihr Vertrag läuft vom:
   <b><g:formatDate date="${contract.contractStart}" format="dd.MM.yyyy"/></b>

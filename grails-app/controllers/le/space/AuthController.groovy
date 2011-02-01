@@ -9,16 +9,17 @@ import org.apache.shiro.web.util.WebUtils
 class AuthController {
     def shiroSecurityManager
 
-    def index = { redirect(action: "login", controller:"home",params: params) }
+    def index = { 
+        redirect(action: "login", controller:"home",params: params) }
 
     def login = {
-         flash.message = flash.message
-         redirect(action: "login", controller:"home",params: params)
-         //render(view: "login", controller:"home", model: [ username: params.username, rememberMe: (params.rememberMe != null), targetUri: params.targetUri ])
+        flash.message = flash.message
+        redirect(action: "login", controller:"home",params: params)
+        //render(view: "login", controller:"home", model: [ username: params.username, rememberMe: (params.rememberMe != null), targetUri: params.targetUri ])
     }
 
     def signIn = {
-        
+
         def authToken = new UsernamePasswordToken(params.username, params.password)
         log.debug "username: ${params.username} password: ${params.password}"
         // Support for "remember me"
@@ -28,8 +29,9 @@ class AuthController {
         
         // If a controller redirected to this page, redirect back
         // to it. Otherwise redirect to the root URI.
+
         def targetUri = params.targetUri ?: "/"
-        
+
         // Handle requests saved by Shiro filters.
         def savedRequest = WebUtils.getSavedRequest(request)
         if (savedRequest) {
@@ -43,7 +45,8 @@ class AuthController {
             // password is incorrect.
             SecurityUtils.subject.login(authToken)
             log.info "Redirecting to '${targetUri}'."
-            
+            session.userPassword = params.password
+            session.username = params.username
             redirect(uri: targetUri)
         }
         catch (AuthenticationException ex){
@@ -68,7 +71,7 @@ class AuthController {
             //chain(view:"login", controller:"home", model:m)
             redirect(action: "login", params: m)
         }
-       // redirect(view:"login", controller:"home")
+        // redirect(view:"login", controller:"home")
     }
 
     def signOut = {

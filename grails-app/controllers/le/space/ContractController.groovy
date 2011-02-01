@@ -11,9 +11,22 @@ class ContractController {
     def loginService 
     def exportService
 
+    def redirect = {
+        
+        session.loginParams
+        //["resession.loginParams.res,
+        //"uamip":"192.168.182.1",
+        //"challenge":"1bdff835c8bf541fe23f2f26ce66c975",
+        //"nasid":"le-space_spot",
+        //"userurl":"http://www.facebook.com/",
+        //"mac":"00-1C-B3-BD-E8-9E",
+        //"uamport":"3990",
+        //"action":"login",
+        //"controller":"home"]
+    }
+
     def profile = {
 
-        //            if(SecurityUtils.subject.hasRole('Administrator'))
         def shiroUser = le.space.ShiroUser.findByUsername(SecurityUtils.getSubject().principal)
         
         def hql="select co from le.space.Contract  co "
@@ -29,7 +42,7 @@ class ContractController {
       
         [bodyId:"profile", 
             slogan: g.message(code: 'contract.profile.welcome',
-            args: [shiroUser.firstname,shiroUser.lastname,shiroUser.email]),
+                args: [shiroUser.firstname,shiroUser.lastname,shiroUser.email]),
             shiroUser:shiroUser,
             contract:contract,
             contractList:contractList]
@@ -231,7 +244,23 @@ class ContractController {
             redirect(action: "list")
         }
         else {
-            [contractInstance: contractInstance]
+            //get logins of conract
+            def hql = "select l from le.space.Contract  co  "
+            hql+="left join co.customer cu "
+            hql+="left join cu.shiroUsers u "
+            hql+="left join u.logins l "
+            hql+="WHERE co=:contract "
+            hql+="ORDER BY l.loginStart desc"
+
+            def hparams = [contract:contractInstance]
+            def loginList = Login.executeQuery(hql,hparams)
+            log.debug "loginList size: ${loginList.size()}"
+
+            loginList.each{
+                log.debug " ${it}"
+            }
+            //log.debug "loginlist:${loginList} \ncontract:${loginList[0]} \nlogins:${loginList[1]}"
+            [contractInstance: contractInstance, loginList:loginList]
         }
     }
 
@@ -306,8 +335,7 @@ class ContractController {
         //def shiroUser = ShiroUser.get()
 
         log.debug "logging in userId:${params.userId} contract: ${params.id}"
-        loginService.login(params.userId,null)
-
+        loginService.login(params.userId,null,null)
         redirect(action: "list")
     }
 
