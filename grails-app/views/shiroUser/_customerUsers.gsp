@@ -3,7 +3,7 @@
 <g:if test="${flash.message}">
   <div class="message">${flash.message}</div>
 </g:if>
-<g:each in="${contractInstance?.customer?.shiroUsers}" status="i" var="shiroUser">
+<g:each in="${contractInstance?.customer?.shiroUsers?.toArray()?.sort{it.username}}" status="i" var="shiroUser">
   <g:form>
     <table>
       <tr>

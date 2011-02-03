@@ -37,6 +37,10 @@ class LeSpaceRadiusServer extends org.tinyradius.util.RadiusServer {
         def shiroUser = le.space.ShiroUser.findByUsername(accessRequest.getUserName())
         //accessRequest.setAuthProtocol(AccessRequest.AUTH_PAP); //
         System.out.println("try radius login of:"+accessRequest.getUserName())
+
+        accessRequest.getAttributes().each{
+            System.out.println("attribute:"+it.getAttributeTypeObject().getName()+":"+it.getAttributeValue() )
+        }
         // if(!shiroUser)
         //     throw RadiusException
         // System.out.println("accessRequest.getUserPassword()"+accessRequest.getUserPassword())
@@ -49,13 +53,18 @@ class LeSpaceRadiusServer extends org.tinyradius.util.RadiusServer {
             type = RadiusPacket.ACCESS_ACCEPT;
             System.out.println(accessRequest.getUserName()+" logged in.")
             try {
+                //def loginService
                 if (persistenceInterceptor) {
                     //log.debug("opening persistence context")
                     persistenceInterceptor.init()
                 } else {
                     //log.debug("no persistence interceptor")
                 }
-                loginService.login(shiroUser.id.toString(),client,null)
+                
+                loginService.login(shiroUser.id.toString(),
+                    accessRequest?.getAttribute("Framed-IP-Address")?.getAttributeValue()
+                    ,accessRequest?.getAttribute("Calling-Station-Id")?.getAttributeValue())
+
             } finally {
                 if (persistenceInterceptor) {
                     //log.debug("destroying persistence context for listener" )

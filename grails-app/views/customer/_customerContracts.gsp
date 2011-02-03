@@ -12,6 +12,7 @@
   <g:sortableColumn align="left" valign="top" property="allowedLoginDaysLeft" title="${message(code: 'contract.allowedLoginDaysLeft', default: 'Logins left')}" />
   <g:sortableColumn align="left" valign="top" property="loginDays" title="${message(code: 'contract.loginDays', default: 'number of logins')}" />
   <g:sortableColumn align="left" valign="top" property="lastLogin" title="${message(code: 'contract.lastLogin', default: 'lastLogin')}" />
+  <td></td>
 </tr>
 </thead>
 <tbody>
@@ -28,6 +29,16 @@
   <td valign="top" align="right">${fieldValue(bean: contractInstance, field: "allowedLoginDaysLeft")}</td>
   <td valign="top" align="right">${fieldValue(bean: contractInstance, field: "loginDays")}</td>
   <td valign="top" align="left"><g:formatDate date="${contractInstance.lastLogin}" format="dd.MM.yyyy hh:mm:ss"/></td>
+  <td valign="top" align="left"> <g:form controller="public">
+      <div class="buttons">
+        <g:hiddenField name="id" value="${contractInstance?.id}" />
+        <g:hiddenField name="_format" value="PDF" />
+        <g:hiddenField name="_inline" value="false" />
+        <g:hiddenField name="_name" value="contract_${contractInstance?.id}_${contractInstance?.customer?.company?.replace(' ','_')}" />
+        <g:hiddenField name="_file" value="contract"  />
+        <span class="button"><g:actionSubmit action="contractPdf"  value="${g.message(code:'contract.print')}" /></span>
+      </div>
+    </g:form></td>
   </tr>
 </g:each>
 </tbody>

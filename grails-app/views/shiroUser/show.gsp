@@ -1,4 +1,3 @@
-
 <%@ page import="le.space.ShiroUser" %>
 <html>
     <head>

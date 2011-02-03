@@ -115,6 +115,12 @@
           <td align="left" valign="top" class="value"><g:formatDate date="${contractInstance.lastLogin}" format="dd.MM.yyyy hh:mm:ss"/></td>
           </tr>
           <tr class="prop">
+            <th align="left" valign="top" class="name"><g:message code="contract.amountPaid.label" default="amountPaid" /></th>
+          <td align="left" valign="top" class="value">${formatNumber(number: contractInstance.amountPaid, format: '##0.00')}</td>
+          <th align="left" valign="top" class="name"><g:message code="contract.amountDue.label" default="amountDue" /></th>
+          <td align="left" valign="top" class="value">${formatNumber(number: contractInstance.amountDue, format: '##0.00')}</td>
+          </tr>
+          <tr class="prop">
             <th align="left" valign="top" class="name"><g:message code="contract.valid.label" default="valid" /></th>
           <td valign="top" class="value"><g:checkBox name="paid" value="true" disabled="true" checked="${contractInstance.valid}"/></td>
           <th align="left" valign="top" class="name"><g:message code="contract.allowedLoginDaysLeft.label" default="allowedLoginDaysLeft" /></th>

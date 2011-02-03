@@ -254,12 +254,7 @@ class ContractController {
 
             def hparams = [contract:contractInstance]
             def loginList = Login.executeQuery(hql,hparams)
-            log.debug "loginList size: ${loginList.size()}"
-
-            loginList.each{
-                log.debug " ${it}"
-            }
-            //log.debug "loginlist:${loginList} \ncontract:${loginList[0]} \nlogins:${loginList[1]}"
+            
             [contractInstance: contractInstance, loginList:loginList]
         }
     }
@@ -349,18 +344,18 @@ class ContractController {
     def addFullPayment = {
         def contractInstance = Contract.get(params.id)
         if (contractInstance) {
-
+            /**
             double amountGross = contractInstance.amountGross
             double sumPaid = contractInstance.amountPaid
             
             if(contractInstance.autoExtend){
-                Months months = Months.monthsBetween(new DateTime(contractInstance.contractStart).withTime(0,0,0,0), new DateTime().withTime(23,59,59,999))
-                int monthsGone = months.getMonths()            
-                amountGross = amountGross*(monthsGone+1)
+            Months months = Months.monthsBetween(new DateTime(contractInstance.contractStart).withTime(0,0,0,0), new DateTime().withTime(23,59,59,999))
+            int monthsGone = months.getMonths()
+            amountGross = amountGross*(monthsGone+1)
             }
             double amountToPay = amountGross - sumPaid
-
-            if(amountToPay>0){
+             */
+            if(contractInstance.amountDue>0){
                 def payment = new Payment(amount:amountToPay,paymentDate:new Date(),paymentMethod:Payment.PM_DIRECT_DEBIT,customer:contractInstance.customer).save()
                 log.debug "saved new payment"               
                 log.debug "added payment ${payment} to customer ${contractInstance.customer}"
@@ -371,24 +366,48 @@ class ContractController {
     
     def stat = {
         //select sum(amount_gross), month(contract_start), year(contract_start) from contract group by month(contract_start), year(contract_start) order by 1 desc
-        def hql = "select sum(amountGross) as amount, month(contractStart)||' '||year(contractStart) "
+        def hql = "select sum(amountGross) as amount, year(contractStart)||' '||month(contractStart) "
         hql+="  from le.space.Contract  c "
         hql+=" group by month(contractStart), year(contractStart)"
         hql+= " order by sum(amountGross) desc "
         def hparams = []
-
         def revenueByMonth = Contract.executeQuery(hql,hparams)
+
+        //select sum(amount_gross), month(contract_start), year(contract_start) from contract group by month(contract_start), year(contract_start) order by 1 desc
+        hql = "select sum(amountGross) as amount, year(contractStart)||'-'||month(contractStart) as monthyear "
+        hql+="  from le.space.Contract  c "
+        hql+=" group by month(contractStart), year(contractStart)"
+        hql+= " order by contractStart desc "
+        hparams = []
+        def revenueByMonthOrderByDateDesc = Contract.executeQuery(hql,hparams)
 
         hql = "select sum(amountGross) as amount, customer.id "
         hql+="  from le.space.Contract  c "
         hql+=" group by customer.id"
         hql+= " order by sum(amountGross) desc "
+        hparams = []
+        def revenueByCustomer = Contract.executeQuery(hql,hparams)
+
+
+        hql = "select count(id), year(loginStart)||'-'||month(loginStart) as monthyear from le.space.Login "
+        hql+= "group by year(loginStart)||'-'||month(loginStart) "
+        hql+= "order by loginStart desc "
+        hparams = []
+        def loginsByMonthYear = Contract.executeQuery(hql,hparams)
+
+        hql = "select count(id), date(loginStart) from le.space.Login "
+        hql+= "group by date(loginStart)  "
+        hql+= "order by date(loginStart) desc "
 
         hparams = []
+        def loginsByDate = Contract.executeQuery(hql,hparams)
 
-        def revenueByCustomer = Contract.executeQuery(hql,hparams)
-        log.debug "revenueByMonth.size() ${revenueByMonth.size}"
-
-        [revenueByMonth: revenueByMonth,revenueByCustomer:revenueByCustomer]
+        [
+            revenueByMonth: revenueByMonth,
+            revenueByMonthOrderByDateDesc:revenueByMonthOrderByDateDesc,
+            revenueByCustomer:revenueByCustomer,
+            loginsByMonthYear:loginsByMonthYear,
+            loginsByDate:loginsByDate
+        ]
     }
 }

@@ -1,5 +1,4 @@
 <div id="infos">
-<img src="${createLinkTo(dir:'img',file:'logo_LeSpace.gif')}" alt="Le Space - Coworking in Leipzig" width="163" height="163" />
 <p>&nbsp;</p>
 <h2 class="first">Öffnungszeiten</h2>
 <p>Mo-Fr, 9-18 Uhr<br />

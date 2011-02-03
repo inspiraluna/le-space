@@ -1,4 +1,5 @@
 <div id="kopf">
+  <div id="logo"><img src="${createLinkTo(dir:'img',file:'logo_LeSpace.gif')}" alt="Le Space - Coworking in Leipzig" width="163" height="163" /></div>
   <div id="navi_slogan">
      <shiro:hasRole name="Administrator"><div id="hauptnavi">
       <ul>

@@ -37,7 +37,10 @@ class Contract {
     double amountNet = 0
     double amountVAT = 0
     double amountPaid = 0
+    double amountDue = 0
+    double amountTotal = 0
 
+    Date cancelationDate = new Date()
     Date dateCreated = new Date()
     Date dateModified = new Date()
     ShiroUser createdBy
@@ -58,6 +61,7 @@ class Contract {
         contractEnd(nullable:true,blank:true)
         autoExtend()
         valid(nullable:true,blank:true)
+        cancelationDate(nullable:true,blank:true)
         dateCreated(nullable:true,blank:true)
         dateModified(nullable:true,blank:true)
         createdBy(nullable:true,blank:true)
@@ -68,10 +72,25 @@ class Contract {
 
     def calculateAmounts(){
         
-       // log.debug "getting sum for contract ${this.id} ${getProducts()} "
+
         if(this.id){
             def sum = Contract.executeQuery("select sum(amount) from le.space.Payment p where p.customer.id=:id",[id:this.customer.id])
             amountPaid = (sum==null || sum[0]==null)?0:sum[0]
+
+            //suche alle verträge raus und sie nach was jeder einzelne bis heute zu zahlen hätte! Cancelation Date
+            amountTotal
+            def l = Contract.findByCustomer(this.customer)
+            l.each{
+              //  log.debug "contract:${it.id}:${it.amountGross} (${it.cancelationDate})"
+
+                if(it.autoExtend){
+                int monthsGone = Months.monthsBetween(
+                    new DateTime(it.contractStart).withTime(0,0,0,0),
+                    cancelationDate?new DateTime(it.contractStart).withTime(0,0,0,0):new DateTime().withTime(23,59,59,999)).getMonths()
+                amountTotal += it.amountGross*monthsGone+1
+                }
+                amountTotal += it.amountGross
+            }
         }
 
 
@@ -120,17 +139,18 @@ class Contract {
 
         //automatisch verlängernde Verträge heraussuchen und anzahl der noch nicht bezahlten Monate heraussuchen und mit Vertragspreis multiplizieren.
         boolean autoExtendPaid = false
-        Months months = Months.monthsBetween(new DateTime(contractStart).withTime(0,0,0,0), new DateTime().withTime(23,59,59,999))
-        int monthsGone = months.getMonths()
+       
         //log.debug "autoExtend:${autoExtend} amountPaid:${amountPaid} monthsGone:${monthsGone} amountGross*monthsGone:${amountGross*monthsGone}"
-        if(autoExtend && amountPaid >=amountGross*(monthsGone+1)){
+        if(autoExtend && amountPaid >=amountTotal){
             autoExtendPaid = true
         }
+       
+        amountDue = amountTotal - amountPaid
         
         if((!autoExtend && amountPaid >=amountGross) || (autoExtend && autoExtendPaid))
-        paid = true
+            paid = true
         else
-        paid = false
+            paid = false
 
 
         boolean tmpValid = false
