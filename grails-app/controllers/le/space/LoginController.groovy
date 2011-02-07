@@ -9,7 +9,7 @@ class LoginController {
     def radius = {
 
         def radiusServerIP = params.radiusServerIP?params.radiusServerIP:grailsApplication.config.lespace.radiusServerIP
-        def String radiusServerSharedSecret = params.radiusServerSharedSecret?params.radiusServerSharedSecret:grailsApplication.config.lespace.radiusServerSharedSecret
+        def radiusServerSharedSecret = params.radiusServerSharedSecret //?params.radiusServerSharedSecret:grailsApplication.config.lespace.radiusServerSharedSecret
         def radiusUsername = params.radiusUsername //?params.radiusUsername:grailsApplication.config.lespace.radiusUsername
         def radiusPassword = params.radiusPassword //?params.radiusPassword:grailsApplication.config.lespace.radiusPassword
         

@@ -39,13 +39,16 @@ class ContractController {
 
         def contractList = Contract.executeQuery(hql,hparams)
         def contract = contractList[0]
-      
+        def loginList = loginService.getDayLogins(contract)
+
+        log.debug " logins.. ${loginList}"
+        
         [bodyId:"profile", 
             slogan: g.message(code: 'contract.profile.welcome',
                 args: [shiroUser.firstname,shiroUser.lastname,shiroUser.email]),
             shiroUser:shiroUser,
             contract:contract,
-            contractList:contractList]
+            contractList:contractList,loginList:loginList]
     }
 
     def list = {
@@ -93,7 +96,8 @@ class ContractController {
         //log.debug "ShiroUsers:${le.space.ShiroUser.list()}"
 
         def hql = "select distinct c from le.space.Contract  c "
-        hql+= " inner join c.customer.shiroUsers u "
+        hql+= " left join c.customer cu"
+        hql+= " left join c.customer.shiroUsers u "
         
         if(paid && paid!="all"){
             first = false
@@ -123,6 +127,7 @@ class ContractController {
 
             if(HelperTools.isNumeric(searchText)){
                 hql+=" c.id=:id "
+                hql+=" or cu.id=:id "
                 hparams.put("id",new Long(searchText))
             }
             else{
@@ -244,18 +249,8 @@ class ContractController {
             redirect(action: "list")
         }
         else {
-            //get logins of conract
-            def hql = "select l from le.space.Contract  co  "
-            hql+="left join co.customer cu "
-            hql+="left join cu.shiroUsers u "
-            hql+="left join u.logins l "
-            hql+="WHERE co=:contract "
-            hql+="ORDER BY l.loginStart desc"
 
-            def hparams = [contract:contractInstance]
-            def loginList = Login.executeQuery(hql,hparams)
-            
-            [contractInstance: contractInstance, loginList:loginList]
+            [contractInstance: contractInstance, loginList:loginService.getDayLogins(contractInstance)]
         }
     }
 
@@ -344,19 +339,9 @@ class ContractController {
     def addFullPayment = {
         def contractInstance = Contract.get(params.id)
         if (contractInstance) {
-            /**
-            double amountGross = contractInstance.amountGross
-            double sumPaid = contractInstance.amountPaid
-            
-            if(contractInstance.autoExtend){
-            Months months = Months.monthsBetween(new DateTime(contractInstance.contractStart).withTime(0,0,0,0), new DateTime().withTime(23,59,59,999))
-            int monthsGone = months.getMonths()
-            amountGross = amountGross*(monthsGone+1)
-            }
-            double amountToPay = amountGross - sumPaid
-             */
+  
             if(contractInstance.amountDue>0){
-                def payment = new Payment(amount:amountToPay,paymentDate:new Date(),paymentMethod:Payment.PM_DIRECT_DEBIT,customer:contractInstance.customer).save()
+                def payment = new Payment(amount:contractInstance.amountDue,paymentDate:new Date(),paymentMethod:Payment.PM_DIRECT_DEBIT,customer:contractInstance.customer).save()
                 log.debug "saved new payment"               
                 log.debug "added payment ${payment} to customer ${contractInstance.customer}"
             }        
@@ -398,11 +383,44 @@ class ContractController {
         hql = "select count(id), date(loginStart) from le.space.Login "
         hql+= "group by date(loginStart)  "
         hql+= "order by date(loginStart) desc "
-
         hparams = []
-        def loginsByDate = Contract.executeQuery(hql,hparams)
 
+        def loginsByDate = Contract.executeQuery(hql,hparams)
+        /**
+        def c = Contract.get(96)
+        log.debug "contract: ${c.id}"
+        hparams = [contractStart:c.contractStart]
+        hql = "select date(l.loginStart) from le.space.Login l "
+        hql+= "where l.loginStart >= :contractStart "
+
+        if(c.cancelationDate){
+        hql+= "and (l.loginStart <= :cancelationDate) "
+        hparams.put("cancelationDate",c.cancelationDate)
+        }
+        else if(c.contractEnd){
+        hql+= "and (l.loginStart <= :contractEnd) "
+        hparams.put("contractEnd",c.contractEnd)
+        }
+        hql+=" and ("
+
+        int i = 0
+        c.customer.shiroUsers.each{
+        if(i>0)
+        hql+=" or "
+        hql+="l.user=:shiroUser"+i
+        hparams.put("shiroUser"+i,it)
+        i++
+        }
+        hql+= ") "
+        hql+= "group by date(l.loginStart)  "
+        // hql+= "order by date(l.loginStart) desc "
+        log.debug hql
+        log.debug hparams
+        def loginsByCustomer = Contract.executeQuery(hql, hparams).size()
+         */
+        loginsByCustomer = null
         [
+            loginsByCustomer: loginsByCustomer,
             revenueByMonth: revenueByMonth,
             revenueByMonthOrderByDateDesc:revenueByMonthOrderByDateDesc,
             revenueByCustomer:revenueByCustomer,

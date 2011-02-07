@@ -4,14 +4,12 @@ import org.tinyradius.packet.AccessRequest
 import org.tinyradius.packet.RadiusPacket
 import org.tinyradius.util.RadiusException
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
+import org.codehaus.groovy.grails.commons.ApplicationHolder;
+import org.springframework.context.ApplicationContext;
 /**
- *
- * @author nico
+ * LeSpaceRadiusServer
  */
 class LeSpaceRadiusServer extends org.tinyradius.util.RadiusServer {
-
-    def loginService = new le.space.LoginService()
-    def persistenceInterceptor
 
     // This method should check whether the passed client is allowed to communicate with the Radius server. If this is the case, it should return the shared secret that secures the communication to the client.
     public String getUserPassword(String username) {
@@ -41,6 +39,7 @@ class LeSpaceRadiusServer extends org.tinyradius.util.RadiusServer {
         accessRequest.getAttributes().each{
             System.out.println("attribute:"+it.getAttributeTypeObject().getName()+":"+it.getAttributeValue() )
         }
+        
         // if(!shiroUser)
         //     throw RadiusException
         // System.out.println("accessRequest.getUserPassword()"+accessRequest.getUserPassword())
@@ -50,29 +49,15 @@ class LeSpaceRadiusServer extends org.tinyradius.util.RadiusServer {
         //http://www.dd-wrt.com/wiki/index.php/How_to_configure_DD-WRT,_Chillispot,_Apache2,_FreeRadius,_freeradius-dialupadmin,_and_MySQL_on_Debian_4.0
 
         if (shiroUser && new Sha512Hash(accessRequest.getUserPassword()).toHex() == shiroUser.passwordHash){
-            type = RadiusPacket.ACCESS_ACCEPT;
-            System.out.println(accessRequest.getUserName()+" logged in.")
-            try {
-                //def loginService
-                if (persistenceInterceptor) {
-                    //log.debug("opening persistence context")
-                    persistenceInterceptor.init()
-                } else {
-                    //log.debug("no persistence interceptor")
-                }
-                
-                loginService.login(shiroUser.id.toString(),
-                    accessRequest?.getAttribute("Framed-IP-Address")?.getAttributeValue()
-                    ,accessRequest?.getAttribute("Calling-Station-Id")?.getAttributeValue())
+            type = RadiusPacket.ACCESS_ACCEPT;          
 
-            } finally {
-                if (persistenceInterceptor) {
-                    //log.debug("destroying persistence context for listener" )
-                    persistenceInterceptor.flush()
-                    persistenceInterceptor.destroy()
-                }
-            }
-            
+            ApplicationContext ctx = (ApplicationContext)ApplicationHolder.getApplication().getMainContext();
+            le.space.java.LoginServiceIf loginService = (le.space.java.LoginServiceIf) ctx.getBean("loginService");
+
+            loginService.login(shiroUser.id.toString(),
+                accessRequest?.getAttribute("Framed-IP-Address")?.getAttributeValue()
+                ,accessRequest?.getAttribute("Calling-Station-Id")?.getAttributeValue())
+                       
         }//if
 
         RadiusPacket answer = new RadiusPacket(type, accessRequest.getPacketIdentifier());
@@ -85,7 +70,6 @@ class LeSpaceRadiusServer extends org.tinyradius.util.RadiusServer {
         ConfigurationHolder.config.lespace.radiusServerSharedSecret
         //"testing123"
     }
-
 
     org.tinyradius.packet.RadiusPacket accountingRequestReceived(org.tinyradius.packet.AccountingRequest request, InetAddress client){
         System.out.println("access Request Received")

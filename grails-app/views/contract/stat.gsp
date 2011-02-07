@@ -11,6 +11,14 @@
 
 <h1>Stats</h1>
 
+      <h2>logins by customer id 119</h2>
+      <table>
+      <g:each in="${loginsByCustomer}" status="j" var="i">
+        <tr>
+          <td>${i}</td>
+        </tr>
+      </g:each>
+      </table>
 
       <h2>logins by month order by month</h2>
       <table>

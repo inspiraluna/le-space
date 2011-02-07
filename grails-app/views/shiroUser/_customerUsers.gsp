@@ -6,18 +6,15 @@
 <g:each in="${contractInstance?.customer?.shiroUsers?.toArray()?.sort{it.username}}" status="i" var="shiroUser">
   <g:form>
     <table>
+      <g:hiddenField name="id" value="${shiroUser?.id}" />
+      <g:hiddenField name="contract.id" value="${contractInstance?.id}" />
+      <g:hiddenField name="version" value="${shiroUser?.version}" />
       <tr>
-        <td>
-          <table>
-            <g:hiddenField name="id" value="${shiroUser?.id}" />
-            <g:hiddenField name="contract.id" value="${contractInstance?.id}" />
-            <g:hiddenField name="version" value="${shiroUser?.version}" />
-            <tr>
-              <th align="left"><g:message code="shiroUser.salutation.label" default="country" /></th>
-            <th align="left"><g:message code="shiroUser.firstname.label" default="firstname" /></th>
-            <th align="left"><g:message code="shiroUser.lastname.label" default="lastname" /></th>
-            <th align="left"><g:message code="shiroUser.email.label" default="email" /></th>
-            <th align="left"><g:message code="shiroUser.birthday.label" default="birthday" /></th>
+        <th align="left"><g:message code="shiroUser.salutation.label" default="country" /></th>
+      <th align="left"><g:message code="shiroUser.firstname.label" default="firstname" /></th>
+      <th align="left"><g:message code="shiroUser.lastname.label" default="lastname" /></th>
+      <th align="left"><g:message code="shiroUser.email.label" default="email" /></th>
+      <th align="left"><g:message code="shiroUser.birthday.label" default="birthday" /></th>
       </tr>
 
       <tr>
@@ -49,8 +46,7 @@
           <span class="button"><g:submitToRemote update="shiroUserAdd" class="shiroUserRemove" action="shiroUserRemove" controller="shiroUser" name="shiroUserRemove" value="${g.message(code:'default.button.delete.label')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');"/></span>
         </td>
       </tr>
-    </table></td>       
-    </tr></table>
+    </table>
   </g:form>
 </g:each>
 <g:form>

@@ -110,7 +110,7 @@
                                   <label for="durationType"><g:message code="product.durationType.label" default="Duration Type" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: productInstance, field: 'durationType', 'errors')}">
-                                  <g:select id="durationType" name="durationType" from="${['1', '2']}" valueMessagePrefix="product.durationType" value="${fieldValue(bean:productInstance,field:'durationType')}" />
+                                  <g:select id="durationType" name="durationType" from="${['0', '1']}" valueMessagePrefix="product.durationType" value="${fieldValue(bean:productInstance,field:'durationType')}" />
                                 
                                 </td>
                             </tr>

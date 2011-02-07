@@ -5,7 +5,9 @@ import org.joda.time.format.*
 import org.apache.shiro.SecurityUtils
 
 class Contract {
-	
+
+    def loginService
+
     static final int PM_CASH = 0
     static final int PM_DIRECT_DEBIT = 1
     static final int PM_PAYPAL = 2
@@ -48,7 +50,7 @@ class Contract {
     
     def toolService
    	
-    static transients = ["selectedProducts"]
+    static transients = ["selectedProducts","loginService"]
 
     static hasMany = [products: Product]
     static belongsTo = [Customer]
@@ -72,27 +74,24 @@ class Contract {
 
     def calculateAmounts(){
         
-
         if(this.id){
             def sum = Contract.executeQuery("select sum(amount) from le.space.Payment p where p.customer.id=:id",[id:this.customer.id])
             amountPaid = (sum==null || sum[0]==null)?0:sum[0]
 
-            //suche alle verträge raus und sie nach was jeder einzelne bis heute zu zahlen hätte! Cancelation Date
-            amountTotal
+            //Collect all contracts
+            amountTotal = 0
             def l = Contract.findByCustomer(this.customer)
             l.each{
-              //  log.debug "contract:${it.id}:${it.amountGross} (${it.cancelationDate})"
-
+                //if contract entends automatically calculate all months gone sofar and mulitplay with amountGross for amountTotal!
                 if(it.autoExtend){
-                int monthsGone = Months.monthsBetween(
-                    new DateTime(it.contractStart).withTime(0,0,0,0),
-                    cancelationDate?new DateTime(it.contractStart).withTime(0,0,0,0):new DateTime().withTime(23,59,59,999)).getMonths()
-                amountTotal += it.amountGross*monthsGone+1
+                    int monthsGone = Months.monthsBetween(
+                        new DateTime(it.contractStart).withTime(0,0,0,0),
+                        cancelationDate?new DateTime(it.cancelationDate).withTime(0,0,0,0):new DateTime().withTime(23,59,59,999)).getMonths()
+                    amountTotal += it.amountGross*(monthsGone)
                 }
                 amountTotal += it.amountGross
             }
         }
-
 
         def val = ""
         getProducts().each{
@@ -144,18 +143,16 @@ class Contract {
         if(autoExtend && amountPaid >=amountTotal){
             autoExtendPaid = true
         }
-       
         amountDue = amountTotal - amountPaid
         
-        if((!autoExtend && amountPaid >=amountGross) || (autoExtend && autoExtendPaid))
-            paid = true
+        if((!autoExtend && amountPaid >=amountTotal) || (autoExtend && autoExtendPaid))
+        paid = true
         else
-            paid = false
-
+        paid = false
 
         boolean tmpValid = false
 
-        if(autoExtend && autoExtendPaid && new DateTime(contractStart).withTime(0,0,0,0).toDate().getTime()<=new Date().getTime() && allowedLoginDaysLeft>-1){
+        if(autoExtend && autoExtendPaid && new DateTime(cancelationDate).withTime(0,0,0,0).toDate().getTime()>=new Date().getTime() && new DateTime(contractStart).withTime(0,0,0,0).toDate().getTime()<=new Date().getTime() && allowedLoginDaysLeft>-1){
             tmpValid = true
         }
 
@@ -191,10 +188,10 @@ class Contract {
     }
 
     def afterLoad = {
-        calculateAmounts()
+      // loginService.recalculateLoginsOfContract(this)
     }
 
     String toString(){
-        "${contractStart} ${contractEnd} ${paymentMethod} ${amountGross} ${amountNet}"
+        "${id} ${contractStart} ${contractEnd} ${paymentMethod} ${amountGross} ${amountNet}"
     }
 }

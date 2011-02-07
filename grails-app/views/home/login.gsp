@@ -20,7 +20,7 @@
               <thead>
                 <tr>
                   <td><g:message code="contract.login.username" />:</td>
-                  <td><input type="text" name="username" value="${username}" /></td>
+                  <td><input type="text" id="username" name="username" value="${username}" /></td>
                 </tr>
                 <tr>
                   <td><g:message code="contract.login.password" />:</td>
@@ -35,12 +35,13 @@
           </g:form>
         </div>
         <div class="einspaltig">
-          <div id="twitterFeed" class="feed"><g:render template="/common/twitterFeed" /></div>
-          <g:render template="/common/coworkingFeed" />
-          <g:render template="/common/facebookFeed" />
+         &nbsp;
         </div>
         <div class="clear"></div>
       </div></div>
+  <g:javascript>
+    document.getElementById('username').focus();
+  </g:javascript>
   </body>
 </html>
 

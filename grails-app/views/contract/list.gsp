@@ -38,12 +38,13 @@
 ${message(code: 'contract.lastname.label', default: 'Lastname')} ${message(code: 'contract.email.label', default: 'Email')}</th>
           <g:sortableColumn align="left" valign="top" property="contractStart" title="${message(code: 'contract.contractStart.label', default: 'Contract Start')}" />
           <g:sortableColumn align="left" valign="top" property="contractEnd" title="${message(code: 'contract.contractEnd.label', default: 'Contract End')}" />
-          <g:sortableColumn align="left" valign="top" property="paid" title="${message(code: 'contract.paid.label', default: 'paid')}" />
+          <th>${message(code: 'contract.amountTotal.label', default: 'amountTotal')}/${message(code: 'contract.amountPaid.label', default: 'amountPaid')}/${message(code: 'contract.amountDue.label', default: 'amountDue')}</th>
           <g:sortableColumn align="left" valign="top" property="valid" title="${message(code: 'contract.valid.label', default: 'valid')}" />
           <g:sortableColumn align="left" valign="top" property="amountGross" title="${message(code: 'contract.amountGross.label', default: 'amountGross')}" />
           <g:sortableColumn align="left" valign="top" property="selectedProducts" title="${message(code: 'contract.selectedProducts.label', default: 'Selected Products')}" />
 
-          <th>${message(code: 'contract.loginDays', default: 'number of logins')} / ${message(code: 'contract.allowedLoginDaysLeft', default: 'Logins left')}</th>
+          <th>${message(code: 'contract.loginDays', default: 'logins')}/${message(code: 'contract.loginDaysleft', default: 'left')}/${message(code: 'contract.loginDaysGesamt.label', default: 'left')}
+          </th>
           <g:sortableColumn align="left" valign="top" property="lastLogin" title="${message(code: 'contract.lastLogin', default: 'lastLogin')}" />
           <th>Login!</th>
           </tr>
@@ -57,14 +58,18 @@ ${fieldValue(bean: contractInstance, field: "customer.firstname")}
 ${fieldValue(bean: contractInstance, field: "customer.lastname")}
               (${fieldValue(bean: contractInstance, field: "customer.email")})</td>
             <td valign="top" ><g:formatDate date="${contractInstance.contractStart}" format="dd.MM.yyyy"/></td>
-
-            <g:if test="${(contractInstance.contractEnd && !contractInstance.autoExtend)} ">
+            <td valign="top">
+            <g:if test="${(!contractInstance.autoExtend)}">
               <g:formatDate date="${contractInstance.contractEnd}" format="dd.MM.yyyy"/>
             </g:if>
-            <g:else>test${message(code: 'contract.autoExtend.true', default: 'autoExtend')}
+            <g:else>
+${message(code: 'contract.autoExtend.true', default: 'autoExtend')}
             </g:else>
-            <td valign="top" ><g:formatDate date="${contractInstance.contractEnd}" format="dd.MM.yyyy"/></td>
-            <td valign="top" nowrap>${fieldValue(bean: contractInstance, field: "paid")} <g:formatNumber number="${contractInstance.amountDue}" format="€ ###,##0.00" /></td>
+            </td>
+
+            <td valign="top" nowrap><g:formatNumber number="${contractInstance.amountTotal}" format="€ ###,##0.00" />/
+            <g:formatNumber number="${contractInstance.amountPaid}" format="€ ###,##0.00" />/
+            <g:formatNumber number="${contractInstance.amountDue}" format="€ ###,##0.00" /></td>
             <td valign="top" >${fieldValue(bean: contractInstance, field: "valid")}</td>
             <td valign="top" align="right" nowrap><g:formatNumber number="${contractInstance.amountGross}" format="€ ###,##0.00" /></td>
             <td valign="top" align="left" nowrap>${fieldValue(bean: contractInstance, field: "quantity")} x ${fieldValue(bean: contractInstance, field: "selectedProducts")}</td>
@@ -72,7 +77,7 @@ ${fieldValue(bean: contractInstance, field: "customer.lastname")}
             <td valign="top" align="left" nowrap><g:formatDate date="${contractInstance.lastLogin}" format="dd.MM.yyyy HH:mm:ss"/></td>
             <td valign="top" align="left">     
             <g:each in="${contractInstance?.customer?.shiroUsers}" var="user">
-              <g:if test="${user?.getLogins().size()>0 && (user?.getLogins()?.toArray().sort{it.loginStart})[user?.getLogins().size()-1].loginStart?.getTime()<=(new org.joda.time.DateTime().withTime(0,0,0,0).toDate().getTime())}">
+              <g:if test="${(!user?.getLogins()) || (user?.getLogins()?.toArray().sort{it.loginStart})[user?.getLogins().size()-1].loginStart?.getTime()<=(new org.joda.time.DateTime().withTime(0,0,0,0).toDate().getTime())}">
                 <g:form name="login" action="addLogin">
                   <g:hiddenField name="id" value="${contractInstance?.id}" />
                   <g:hiddenField name="userId" value="${user?.id}" />

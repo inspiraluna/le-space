@@ -1,6 +1,11 @@
 package le.space
 
+import org.joda.time.*
+import org.joda.time.format.*
+
 class Login {
+
+    def loginService
 
     ShiroUser user
     String ipAddress = ""
@@ -8,7 +13,8 @@ class Login {
     Date loginStart = new Date()
 
     static belongsTo = [ShiroUser]
-
+    static transients = ["loginService"]
+    
     static constraints = {
         user(nullable:true,blank:true)
         ipAddress(nullable:true,blank:true)
@@ -19,6 +25,19 @@ class Login {
     String toString(){
         " user: ${user} "+" loginStart: ${loginStart} "+" macAddress: ${macAddress} "+
         " ipAddress:${ipAddress}"
+    }
+
+    /**
+     * 0. find last contract
+     * 1. update loginDays of contract
+     * 2. udpate loginDaysleft of contract
+     */
+    def afterInsert(){
+
+        Contract.withNewSession {
+            def contract = loginService.getLastContractOfUser(this.user)
+            loginService.recalculateLoginsOfContract(contract)
+        }
     }
 
 }
