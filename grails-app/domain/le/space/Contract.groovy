@@ -94,12 +94,14 @@ class Contract {
         }
 
         def val = ""
-        getProducts().each{
-            val+=toolService.getMessage('contract.product.'+it.id)+" (€ "+toolService.formatNumber(it.priceNet)+" netto)\n"
+        this.getProducts().each{
+            //log.debug it
+           // val+=toolService.getMessage('contract.product.'+it.id)+" (€ "+toolService.formatNumber(it.priceNet)+" netto)\n"
+            val+=it.name+" (€ "+toolService.formatNumber(it.priceNet)+" netto)\n"
         }
         selectedProducts = val
      
-        if(!autoExtend && getProducts()){
+        if(!autoExtend && this.getProducts()){
             def ld = new DateTime(contractStart).withTime(23,59,59,999)
 
             if(getProducts()?.size()>0 && getProducts().toArray()[0].durationType==Product.DUR_MONTH)
@@ -117,7 +119,7 @@ class Contract {
         double aNet = 0.00
         double aVAT = 0.00
 
-        getProducts().each{
+        this.getProducts().each{
             double iNet = it.priceNet*quantity
             aNet+=iNet
             aGross+=iNet+(iNet*it.vat/100)
@@ -188,6 +190,8 @@ class Contract {
     }
 
     def afterLoad = {
+        calculateAmounts()
+
       // loginService.recalculateLoginsOfContract(this)
     }
 

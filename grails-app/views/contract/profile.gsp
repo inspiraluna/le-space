@@ -26,7 +26,11 @@ Ihr Vertrag läuft vom:
   <b><g:formatDate date="${contract.contractStart}" format="dd.MM.yyyy"/></b>
  bis: <b><g:formatDate date="${contract.contractEnd}" format="dd.MM.yyyy"/></b><br/>
 und verlängert sich <b>${!contract.autoExtend?"<font color='red'>nicht</font>":""} automatisch.</b><br/>
-ihr gewählten Produkte sind: <b>${contract.selectedProducts}</b><br/>
+ihr gewählten Produkte sind: <ul><b>
+   <g:each in="${contract.getProducts()}" status="i" var="p">
+     <li>${p.name}</g:each></b></ul>
+
+
 Sie waren <b>${contract.loginDays}</b> Tage im Coworking Space und dürfen noch <b>${contract.allowedLoginDaysLeft} Tage kommen.</b> <br/>
 Ihr letzter Login: <b><g:formatDate date="${contract.lastLogin}" format="dd.MM.yyyy hh:mm:ss"/></b><br/>
 Rechnungstatus ist: <b>${contract.paid?message(code: 'contract.profile.paid'):message(code: 'contract.profile.unpaid')}</b><br/>

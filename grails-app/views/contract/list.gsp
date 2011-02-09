@@ -14,12 +14,16 @@
         <div class="message">${flash.message}</div>
       </g:if>
       <g:form name="list" action="list">
-        <table id="searchTasks" width="890">
+        <table id="searchTasks">
           <tr>
-            <td align="left" valign="middle"><g:message code="contract.searchText" />:</td>
-          <td align="left" valign="middle"><g:textField name="searchText" value="${searchText}"/>
+            <td align="left" valign="middle" nowrap><g:message code="contract.searchText" />:</td>
+          <td align="left" valign="middle" nowrap><g:textField name="searchText" value="${searchText}"/>
           </td>
-          <td><g:message code="contract.valid" /><g:select name="valid" from="${['all','true', 'false']}" value="${valid}" onchange="document.list.submit();"/>+</td>
+          <td nowrap><g:message code="contract.contractStart" />:<calendar:datePicker dateFormat="%d.%m.%Y" name="dateFrom" value="${dateFrom}" defaultValue="${null}" years="2009,2999"/>
+          </td>
+          <td nowrap><g:message code="contract.contractEnd" />:<calendar:datePicker dateFormat="%d.%m.%Y" name="dateTo" value="${dateTo}" defaultValue="${null}" years="2009,2999"/>
+          </td>
+          <td><g:message code="contract.valid" /><g:select name="valid" from="${['all','true', 'false']}" value="${valid}" onchange="document.list.submit();"/></td>
           <td><g:message code="contract.paid" /><g:select name="paid" from="${['all','true', 'false']}" value="${paid}" onchange="document.list.submit();"/></td>
           <td><div class="buttons">
               <span class="button">
