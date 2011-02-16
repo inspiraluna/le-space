@@ -4,6 +4,40 @@ class PaymentController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
+    def paymentAdd = {
+        def paymentInstance = new Payment(params)
+        if (paymentInstance.save(flush: true)) {
+            flash.message = "${message(code: 'default.created.message', args: [message(code: 'payment.label', default: 'Payment'), paymentInstance.id])}"
+        }
+
+        render(view: "customerPayments", model: [contractInstance: Contract.get(params.contract.id)])
+    }
+    
+    def paymentUpdate = {
+        def paymentInstance = Payment.get(params.id)
+        if (paymentInstance) {
+            if (params.version) {
+                def version = params.version.toLong()
+                if (paymentInstance.version > version) {
+
+                    paymentInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'payment.label', default: 'Payment')] as Object[], "Another user has updated this Payment while you were editing")
+                    render(view: "edit", model: [paymentInstance: paymentInstance])
+                    return
+                }
+            }
+            paymentInstance.properties = params
+            if (!paymentInstance.hasErrors() && paymentInstance.save(flush: true)) {
+                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'payment.label', default: 'Payment'), paymentInstance.id])}"
+            }
+        }
+        else {
+            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'payment.label', default: 'Payment'), params.id])}"
+          
+        }
+        render(view: "customerPayments", model: [contractInstance: Contract.get(params.contract.id)])
+    }
+
+
     def index = {
         redirect(action: "list", params: params)
     }

@@ -12,7 +12,7 @@ class ToolService {
         log.debug "loading contract with id ${id}"
         if(id){
             def contract = Contract.get(id)
-            contract.save()
+           // contract.save()
         }
     }
 

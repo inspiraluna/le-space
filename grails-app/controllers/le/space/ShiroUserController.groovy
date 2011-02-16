@@ -104,7 +104,7 @@ class ShiroUserController {
 
     def shiroUserAdd = {
         log.debug "shiroUser add called... with contract id ${params.contract.id} "
-        def contractInstance
+        def contract
         def shiroUserInstance = new ShiroUser()
 
         shiroUserInstance.properties = params
@@ -117,9 +117,9 @@ class ShiroUserController {
             shiroUserInstance.addToPermissions("*:*")
             shiroUserInstance.addToRoles(ShiroRole.findByName("User"))
             shiroUserInstance.save()
-            contractInstance = Contract.get(params.contract.id)
-            log.debug "contractInstance ${contractInstance} "
-            def customer = contractInstance.customer
+            contract = Contract.get(params.contract.id)
+            log.debug "contract ${contract} "
+            def customer = contract.customer
             customer.addToShiroUsers(shiroUserInstance)
             customer.save()
             log.debug "customer ${customer} saved... "
@@ -132,11 +132,11 @@ class ShiroUserController {
             }
         }
 
-        render(view: "_customerUsers", model: [contractInstance: contractInstance])
+        render(view: "_customerUsers", model: [contract: contract])
     }
     def shiroUserUpdate = {
         log.debug "shiroUser update called... with contract id ${params.contract.id} ${params.id} "
-        def contractInstance
+        def contract
         def shiroUserInstance = ShiroUser.get(params.id)
 
         shiroUserInstance.properties = params
@@ -149,9 +149,9 @@ class ShiroUserController {
             shiroUserInstance.addToPermissions("*:*")
             shiroUserInstance.addToRoles(ShiroRole.findByName("User"))
             shiroUserInstance.save()
-            contractInstance = Contract.get(params.contract.id)
-            log.debug "contractInstance ${contractInstance} "
-            def customer = contractInstance.customer
+            contract = Contract.get(params.contract.id)
+            log.debug "contract ${contract} "
+            def customer = contract.customer
             customer.addToShiroUsers(shiroUserInstance)
             customer.save()
             log.debug "customer ${customer} saved... "
@@ -164,15 +164,15 @@ class ShiroUserController {
             }
         }
 
-        render(view: "_customerUsers", model: [contractInstance: contractInstance])
+        render(view: "_customerUsers", model: [contract: contract])
     }
     def shiroUserRemove = {
         log.debug "shiroUser update called... with contract id ${params.contract.id} ${params.id} "
         def shiroUserInstance = ShiroUser.get(params.id)
-        def contractInstance = Contract.get(params.contract.id)
-        if (shiroUserInstance && contractInstance) {
+        def contract = Contract.get(params.contract.id)
+        if (shiroUserInstance && contract) {
             try {
-                contractInstance.customer.removeFromShiroUsers(shiroUserInstance)
+                contract.customer.removeFromShiroUsers(shiroUserInstance)
                 shiroUserInstance.delete(flush: true)
                 flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'shiroUser.label', default: 'ShiroUser'), params.username])}"
 
@@ -186,7 +186,7 @@ class ShiroUserController {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'shiroUser.label', default: 'ShiroUser'), params.id])}"
 
         }
-        render(view: "_customerUsers", model: [contractInstance: contractInstance])
+        render(view: "_customerUsers", model: [contract: contract])
     }
 
     //Changes the Password of a User

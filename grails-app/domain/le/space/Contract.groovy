@@ -7,6 +7,7 @@ import org.apache.shiro.SecurityUtils
 class Contract {
 
     def loginService
+    def paymentService
 
     static final int PM_CASH = 0
     static final int PM_DIRECT_DEBIT = 1
@@ -42,7 +43,7 @@ class Contract {
     double amountDue = 0
     double amountTotal = 0
 
-    Date cancelationDate = new Date()
+    Date cancelationDate
     Date dateCreated = new Date()
     Date dateModified = new Date()
     ShiroUser createdBy
@@ -50,7 +51,7 @@ class Contract {
     
     def toolService
    	
-    static transients = ["selectedProducts","loginService"]
+    static transients = ["loginService"]
 
     static hasMany = [products: Product]
     static belongsTo = [Customer]
@@ -74,29 +75,10 @@ class Contract {
 
     def calculateAmounts(){
         
-        if(this.id){
-            def sum = Contract.executeQuery("select sum(amount) from le.space.Payment p where p.customer.id=:id",[id:this.customer.id])
-            amountPaid = (sum==null || sum[0]==null)?0:sum[0]
-
-            //Collect all contracts
-            amountTotal = 0
-            def l = Contract.findByCustomer(this.customer)
-            l.each{
-                //if contract entends automatically calculate all months gone sofar and mulitplay with amountGross for amountTotal!
-                if(it.autoExtend){
-                    int monthsGone = Months.monthsBetween(
-                        new DateTime(it.contractStart).withTime(0,0,0,0),
-                        cancelationDate?new DateTime(it.cancelationDate).withTime(0,0,0,0):new DateTime().withTime(23,59,59,999)).getMonths()
-                    amountTotal += it.amountGross*(monthsGone)
-                }
-                amountTotal += it.amountGross
-            }
-        }
-
         def val = ""
         this.getProducts().each{
             //log.debug it
-           // val+=toolService.getMessage('contract.product.'+it.id)+" (€ "+toolService.formatNumber(it.priceNet)+" netto)\n"
+            // val+=toolService.getMessage('contract.product.'+it.id)+" (€ "+toolService.formatNumber(it.priceNet)+" netto)\n"
             val+=it.name+" (€ "+toolService.formatNumber(it.priceNet)+" netto)\n"
         }
         selectedProducts = val
@@ -137,36 +119,7 @@ class Contract {
             amountVAT  = 0.00
             amountGross = amountNet
         }
-
-        //automatisch verlängernde Verträge heraussuchen und anzahl der noch nicht bezahlten Monate heraussuchen und mit Vertragspreis multiplizieren.
-        boolean autoExtendPaid = false
-       
-        //log.debug "autoExtend:${autoExtend} amountPaid:${amountPaid} monthsGone:${monthsGone} amountGross*monthsGone:${amountGross*monthsGone}"
-        if(autoExtend && amountPaid >=amountTotal){
-            autoExtendPaid = true
-        }
-        amountDue = amountTotal - amountPaid
-        
-        if((!autoExtend && amountPaid >=amountTotal) || (autoExtend && autoExtendPaid))
-        paid = true
-        else
-        paid = false
-
-        boolean tmpValid = false
-
-        if(autoExtend && autoExtendPaid && new DateTime(cancelationDate).withTime(0,0,0,0).toDate().getTime()>=new Date().getTime() && new DateTime(contractStart).withTime(0,0,0,0).toDate().getTime()<=new Date().getTime() && allowedLoginDaysLeft>-1){
-            tmpValid = true
-        }
-
-        if(!autoExtend && paid && new DateTime(contractStart).withTime(0,0,0,0).toDate().getTime()<=new Date().getTime() && new DateTime(contractEnd).withTime(23,59,59,999).toDate().getTime()>=new Date().getTime() && allowedLoginDaysLeft>-1){
-            tmpValid  = true
-        }
-
-        if(tmpValid!=valid){
-            log.debug "contract${id} is not ${valid} anymore. "
-            valid = tmpValid
-            toolService.persistContractAgain(id)
-        }      
+             
     }
 
     def beforeInsert = {
@@ -177,6 +130,7 @@ class Contract {
             createdBy = SecurityUtils.getSubject().principal?ShiroUser.findByUsername(SecurityUtils.getSubject().principal):null
         }catch(Exception ex){createdBy=ShiroUser.get(1)}
         allowedLoginDaysLeft=getProducts()?getProducts().toArray()[0].allowedLoginDays*quantity:0
+        log.debug "beforeInsert"
         calculateAmounts()
     }
 
@@ -185,14 +139,22 @@ class Contract {
         try { //during startup no securityManager!
             modifiedBy = SecurityUtils.getSubject().principal?ShiroUser.findByUsername(SecurityUtils.getSubject().principal):null
         }catch(Exception ex){createdBy=ShiroUser.get(1)}
-  
+        log.debug "beforeUpdate"
         calculateAmounts()
     }
-
+/**
     def afterLoad = {
+        log.debug "afterload"
         calculateAmounts()
+    }
+  */
+    def afterInsert = {
+        // paymentService.calculatePayments(this)
+    }
 
-      // loginService.recalculateLoginsOfContract(this)
+    def afterUpdate = {
+
+        //paymentService.calculatePayments(this)
     }
 
     String toString(){

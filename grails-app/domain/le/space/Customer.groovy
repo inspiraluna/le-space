@@ -46,28 +46,28 @@ class Customer {
 
     public getSalutation(){
         if(getShiroUsers() && getShiroUsers().size()>0)
-        getShiroUsers().toArray()[0].salutation
+        (getShiroUsers().toArray().sort{it.id})[0].salutation
         else
         ""
     }
 
     public getFirstname(){
         if(getShiroUsers() && getShiroUsers().size()>0)
-        getShiroUsers().toArray()[0].firstname
+        (getShiroUsers().toArray().sort{it.id})[0].firstname
         else
         ""
     }
 
     public getLastname(){
         if(getShiroUsers() && getShiroUsers().size()>0)
-        getShiroUsers().toArray()[0].lastname
+        (getShiroUsers().toArray().sort{it.id})[0].lastname
         else
         ""
     }
     
     public getEmail(){
         if(getShiroUsers() && getShiroUsers().size()>0)
-        getShiroUsers().toArray()[0].email
+        (getShiroUsers().toArray().sort{it.id})[0].email
         else
         ""
     }

@@ -3,11 +3,11 @@
 <g:if test="${flash.message}">
   <div class="message">${flash.message}</div>
 </g:if>
-<g:each in="${contractInstance?.customer?.payments}" status="i" var="payment">
+<g:each in="${contract?.customer?.payments}" status="i" var="payment">
   <g:form>
     <table>
       <g:hiddenField name="id" value="${payment?.id}" />
-      <g:hiddenField name="contract.id" value="${contractInstance?.id}" />
+      <g:hiddenField name="contract.id" value="${contract?.id}" />
       <g:hiddenField name="version" value="${payment?.version}" />
       <tr>
         <th align="left"><g:message code="payment.amount.label" default="amount" /></th>
@@ -32,7 +32,7 @@
 <g:form>
   <table>
     <g:hiddenField name="id" value="${payment?.id}" />
-    <g:hiddenField name="contract.id" value="${contractInstance?.id}" />
+    <g:hiddenField name="contract.id" value="${contract?.id}" />
     <g:hiddenField name="version" value="${payment?.version}" />
     <tr>
       <th align="left"><g:message code="payment.amount.label" default="amount" /></th>

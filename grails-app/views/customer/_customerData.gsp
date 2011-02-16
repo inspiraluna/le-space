@@ -1,7 +1,6 @@
 <g:form>
-  <g:hiddenField name="id" value="${contract?.customer?.id}" />
-  <g:hiddenField name="contract.id" value="${contract?.id}" />
-  <g:hiddenField name="version" value="${contract?.customer?.version}" />
+  <g:hiddenField name="id" value="${contract?.customer?.bankAccount.id}" />
+  <g:hiddenField name="version" value="${contract?.customer?.bankAccount.id}" />
   <table>
     <tr><th align="left"><g:message code="customer.id.label" />*:</th><td class="value">${contract?.customer?.id}</td></tr>
     <tr><th align="left"><g:message code="customer.company.label" />*:</th><td class="value ${hasErrors(bean: shiroUser, field: 'company', 'errors')}"><g:textField name="company" value="${contract?.customer?.company}" size="30" /></td></tr>

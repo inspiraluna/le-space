@@ -3,11 +3,11 @@
 <g:if test="${flash.message}">
   <div class="message">${flash.message}</div>
 </g:if>
-<g:each in="${contractInstance?.customer?.shiroUsers?.toArray()?.sort{it.username}}" status="i" var="shiroUser">
+<g:each in="${contract?.customer?.shiroUsers?.toArray()?.sort{it.id}}" status="i" var="shiroUser">
   <g:form>
     <table>
       <g:hiddenField name="id" value="${shiroUser?.id}" />
-      <g:hiddenField name="contract.id" value="${contractInstance?.id}" />
+      <g:hiddenField name="contract.id" value="${contract?.id}" />
       <g:hiddenField name="version" value="${shiroUser?.version}" />
       <tr>
         <th align="left"><g:message code="shiroUser.salutation.label" default="country" /></th>
@@ -52,7 +52,7 @@
 <g:form>
   <table>
     <g:hiddenField name="id" value="${shiroUser?.id}" />
-    <g:hiddenField name="contract.id" value="${contractInstance?.id}" />
+    <g:hiddenField name="contract.id" value="${contract?.id}" />
     <g:hiddenField name="version" value="${shiroUser?.version}" />
     <tr>
       <th align="left"><g:message code="shiroUser.salutation.label" default="country" /></th>

@@ -1,1 +1,1 @@
-<g:render template="customerData" />
+<g:render template="/customer/customerData" />

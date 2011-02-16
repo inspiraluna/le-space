@@ -4,8 +4,33 @@ class CustomerController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
-    def customerData = {
 
+    def bankAccount = {
+        log.debug "updateBankAccount"
+        def bankAccountInstance = BankAccount.get(params.id)
+        if (bankAccountInstance) {
+            if (params.version) {
+                def version = params.version.toLong()
+                if (bankAccountInstance.version > version) {
+                    bankAccountInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'bankAccount.label', default: 'BankAccount')] as Object[], "Another user has updated this BankAccount while you were editing")
+                    render(view: "edit", model: [bankAccountInstance: bankAccountInstance])
+                    return
+                }
+            }
+            bankAccountInstance.properties = params
+            if (!bankAccountInstance.hasErrors() && bankAccountInstance.save(flush: true)) {
+                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'bankAccount.label', default: 'BankAccount'), bankAccountInstance.id])}"
+                //redirect(action: "show", id: bankAccountInstance.id)
+            }
+        }
+        else {
+            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'bankAccount.label', default: 'BankAccount'), params.id])}"      
+        }
+        [contract:Contract.get(params.contract.id)]
+    }
+
+    def customerData = {
+        log.debug "customerData called!"
         def customerInstance = Customer.get(params.id)
         def contract = Contract.get(params.contract.id)
         if (customerInstance) {
@@ -33,7 +58,7 @@ class CustomerController {
             render(view: "customerData", model: [contract: contract])
         }
     }
-
+    
     def addContract = {
 
         def contractInstance = new Contract(params)

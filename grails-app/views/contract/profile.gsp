@@ -60,7 +60,7 @@ Rechnungstatus ist: <b>${contract.paid?message(code: 'contract.profile.paid'):me
 
 <div class="ausklappen"><a href="javascript:schiebe('bankAccount');"><g:message code="contract.profile.bankAccount.label" default="Bank Account" /></a></div>
 <div id="bankAccount">
- <g:render template="/contract/bankAccount" />
+ <g:render template="/customer/bankAccount" />
 </div>
 
 <div class="ausklappen"><a href="javascript:schiebe('passwordChange');"><g:message code="contract.profile.changePassword.label" default="Change Password" /></a></div>

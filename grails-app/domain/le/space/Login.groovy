@@ -7,23 +7,23 @@ class Login {
 
     def loginService
 
-    ShiroUser user
+    //ShiroUser user
     String ipAddress = ""
     String macAddress = ""
     Date loginStart = new Date()
 
-    static belongsTo = [ShiroUser]
+    static belongsTo = [user:ShiroUser]
     static transients = ["loginService"]
     
     static constraints = {
-        user(nullable:true,blank:true)
+        //        user(nullable:true,blank:true)
         ipAddress(nullable:true,blank:true)
         macAddress(nullable:true,blank:true)
         loginStart(nullable:false,blank:false)
     }
 
     String toString(){
-        " user: ${user} "+" loginStart: ${loginStart} "+" macAddress: ${macAddress} "+
+        " user:${user} loginStart: ${loginStart} "+" macAddress: ${macAddress} "+
         " ipAddress:${ipAddress}"
     }
 
@@ -32,12 +32,10 @@ class Login {
      * 1. update loginDays of contract
      * 2. udpate loginDaysleft of contract
      */
-    def afterInsert(){
+   // def afterInsert(){
 
-        Contract.withNewSession {
-            def contract = loginService.getLastContractOfUser(this.user)
-            loginService.recalculateLoginsOfContract(contract)
-        }
-    }
+
+       
+    //}
 
 }

@@ -22,6 +22,15 @@ class Payment {
         customer(nullable:false,blank:false)
     }
 
+    def afterInsert(){
+        //calculateAmount()
+    }
+
+    def afterUpdate(){
+       // calculateAmount()
+    }
+    
+    
     String toString(){
     " amount: ${amount} \n"+
     " paymentDate:${paymentDate} \n"
