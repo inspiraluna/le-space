@@ -11,27 +11,14 @@ class ContractController {
     def loginService 
     def exportService
     def paymentService
+    def contractService
 
-    def calculatePayments = {
-
-        paymentService.calculatePayments(Contract.get(params.id))
-        flash.message = "${message(code: 'contract.calculatePayments.recalculated', args: [message(code: 'contract.label', default: 'Contract recalculated'), params.id])}"
-        redirect(action: "show",id:params.id)
-    }
 
     def profile = {
 
-        def shiroUser = le.space.ShiroUser.findByUsername(SecurityUtils.getSubject().principal)
-        
-        def hql="select co from le.space.Contract  co "
-        hql+="inner join co.customer cu "
-        hql+="inner join cu.shiroUsers u "
-        hql+="WHERE u.username=:username "
-        hql+="ORDER BY co.contractStart desc"
-            
-        def hparams = [username:shiroUser.username]
-
-        def contractList = Contract.executeQuery(hql,hparams)
+        def username = SecurityUtils.getSubject().principal
+        def shiroUser = ShiroUser.findByUsername(username)
+        def contractList = contractService.getContractsOfUsername(username)
         def contract = contractList[0]
         def loginList = loginService.getDayLogins(contract)
 
@@ -318,8 +305,10 @@ class ContractController {
             redirect(action: "list")
         }
         else {
-
-            [contract: contract, loginList:loginService.getDayLogins(contract)]
+            //def username = SecurityUtils.getSubject().principal
+            def contractList = contractService.getContractsOfCustomer(contract.customer)
+            log.debug "contractList.size():${contractList.size()}"
+            [contract: contract, loginList:loginService.getDayLogins(contract),contractList:contractList]
         }
     }
 
@@ -407,10 +396,16 @@ class ContractController {
   
             if(contract.amountDue>0){
                 def payment = new Payment(amount:contract.amountDue,paymentDate:new Date(),paymentMethod:Payment.PM_DIRECT_DEBIT,customer:contract.customer).save()
-                log.debug "saved new payment"
+               
                 log.debug "added payment ${payment} to customer ${contract.customer}"
+                paymentService.calculatePayments(Contract.get(params.id))
             }
         }
+        redirect(action: "show",id:params.id)
+    }
+    def calculatePayments = {
+        paymentService.calculatePayments(Contract.get(params.id))
+        flash.message = "${message(code: 'contract.calculatePayments.recalculated', args: [message(code: 'contract.label', default: 'Contract recalculated'), params.id])}"
         redirect(action: "show",id:params.id)
     }
     

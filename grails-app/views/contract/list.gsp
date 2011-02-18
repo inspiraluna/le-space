@@ -76,7 +76,10 @@ ${message(code: 'contract.autoExtend.true', default: 'autoExtend')}
             <g:formatNumber number="${contractInstance.amountDue}" format="€ ###,##0.00" /></td>
             <td valign="top" >${fieldValue(bean: contractInstance, field: "valid")}</td>
             <td valign="top" align="right" nowrap><g:formatNumber number="${contractInstance.amountGross}" format="€ ###,##0.00" /></td>
-            <td valign="top" align="left">${fieldValue(bean: contractInstance, field: "quantity")} x ${fieldValue(bean: contractInstance, field: "selectedProducts")}</td>
+            <td valign="top" align="left">${fieldValue(bean: contractInstance, field: "quantity")} x <ul><g:each in="${contractInstance?.getProducts()}" status="j" var="p">
+                  <li>${p.name}</li>
+                </g:each>
+      </ul></td>
             <td valign="top" align="right">${fieldValue(bean: contractInstance, field: "loginDays")} / ${fieldValue(bean: contractInstance, field: "allowedLoginDaysLeft")}</td>
             <td valign="top" align="left" nowrap><g:formatDate date="${contractInstance.lastLogin}" format="dd.MM.yyyy HH:mm:ss"/></td>
             <td valign="top" align="left">     

@@ -20,8 +20,7 @@ class PaymentController {
                 def version = params.version.toLong()
                 if (paymentInstance.version > version) {
 
-                    paymentInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'payment.label', default: 'Payment')] as Object[], "Another user has updated this Payment while you were editing")
-                    render(view: "edit", model: [paymentInstance: paymentInstance])
+                    paymentInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'payment.label', default: 'Payment')] as Object[], "Another user has updated this Payment while you were editing")                   
                     return
                 }
             }
@@ -33,6 +32,24 @@ class PaymentController {
         else {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'payment.label', default: 'Payment'), params.id])}"
           
+        }
+        render(view: "customerPayments", model: [contractInstance: Contract.get(params.contract.id)])
+    }
+
+    def paymentRemove = {
+        def paymentInstance = Payment.get(params.id)
+        if (paymentInstance) {
+            try {
+                paymentInstance.delete(flush: true)
+                flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'payment.label', default: 'Payment'), params.id])}"
+                redirect(action: "list")
+            }
+            catch (org.springframework.dao.DataIntegrityViolationException e) {
+                flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'payment.label', default: 'Payment'), params.id])}"
+            }
+        }
+        else {
+            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'payment.label', default: 'Payment'), params.id])}"
         }
         render(view: "customerPayments", model: [contractInstance: Contract.get(params.contract.id)])
     }

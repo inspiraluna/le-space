@@ -148,14 +148,7 @@ class Contract {
         calculateAmounts()
     }
   */
-    def afterInsert = {
-        // paymentService.calculatePayments(this)
-    }
 
-    def afterUpdate = {
-
-        //paymentService.calculatePayments(this)
-    }
 
     String toString(){
         "${id} ${contractStart} ${contractEnd} ${paymentMethod} ${amountGross} ${amountNet}"

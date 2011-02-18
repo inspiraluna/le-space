@@ -163,7 +163,9 @@
           </tr>
         </table>
       </div>
-
+            <div class="customerContracts" id="customerContracts">
+                         <g:render template="/customer/customerContracts" model="['numbers':true,'contract':contract]" />
+            </div>
       <div class="userLogins" id="userLogins">
         <g:render template="/shiroUser/userLogins"/>
       </div>
