@@ -29,16 +29,16 @@
           <tr>
             <td valign="top">
           <g:form>
-                  <div class="buttons">
-        <g:hiddenField name="id" value="${contract?.id}" />
-        <span class="button"><g:actionSubmit class="previous" action="previous" value="${message(code: 'default.button.previous.label', default: 'previous')}" /></span>
-        <span class="button"><g:actionSubmit class="next" action="next" value="${message(code: 'default.button.next.label', default: 'next')}" /></span>
-        <span class="button"><g:actionSubmit class="addFullPayment" action="addFullPayment" value="${message(code: 'default.button.addFullPayment.label', default: 'addFullPayment')}" /></span>
-        <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
-        <span class="button"><g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" /></span>
-        <span class="button"><g:actionSubmit class="calculatePayments" action="calculatePayments" value="${message(code: 'default.button.calculate.label', default: 'Calculate Payments')}" /></span>
+            <div class="buttons">
+              <g:hiddenField name="id" value="${contract?.id}" />
+              <span class="button"><g:actionSubmit class="previous" action="previous" value="${message(code: 'default.button.previous.label', default: 'previous')}" /></span>
+              <span class="button"><g:actionSubmit class="next" action="next" value="${message(code: 'default.button.next.label', default: 'next')}" /></span>
+              <span class="button"><g:actionSubmit class="addFullPayment" action="addFullPayment" value="${message(code: 'default.button.addFullPayment.label', default: 'addFullPayment')}" /></span>
+              <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
+              <span class="button"><g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" /></span>
+              <span class="button"><g:actionSubmit class="calculatePayments" action="calculatePayments" value="${message(code: 'default.button.calculate.label', default: 'Calculate Payments')}" /></span>
 
-                  </div>
+            </div>
             <table>
               <tbody>
                 <tr class="prop">
@@ -163,11 +163,11 @@
           </tr>
         </table>
       </div>
-            <div class="customerContracts" id="customerContracts">
-                         <g:render template="/customer/customerContracts" model="['numbers':true,'contract':contract]" />
-            </div>
+      <div class="customerContracts" id="customerContracts">
+        <g:render template="/customer/customerContracts" model="['numbers':true,'contract':contract]" />
+      </div>
       <div class="userLogins" id="userLogins">
-        <g:render template="/shiroUser/userLogins"/>
+        <g:render template="/login/userLogins"/>
       </div>
       <div class="shiroUserAdd" id="shiroUserAdd">
         <g:render template="/shiroUser/customerUsers" />

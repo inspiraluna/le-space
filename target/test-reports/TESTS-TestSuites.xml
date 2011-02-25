@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites>
+  <testsuite errors="0" failures="0" hostname="Nico.local" id="0" name="ContractRegistrationTests" package="le.space" tests="4" time="139.371" timestamp="2011-02-21T16:45:44">
+      <properties />
+
+      <testcase classname="le.space.ContractRegistrationTests" name="testAddDayTicket" time="92.095" />
+
+      <testcase classname="le.space.ContractRegistrationTests" name="testAddReverseChargeSystemContract" time="26.224" />
+
+      <testcase classname="le.space.ContractRegistrationTests" name="testAdd10DayTicket" time="16.952" />
+
+      <testcase classname="le.space.ContractRegistrationTests" name="testCustomerPublicationOnWebsite" time="4.019" />
+
+      <system-out><![CDATA[--Output from testAddDayTicket--
+Server And Context from config file: set [:]
+Request servlet path: /grails/public/step3.dispatch
+Request with context: http://localhost:8080/le-space
+context only: /le-space
+Server And Context from config file: set [:]
+Request servlet path: /grails/public/step3.dispatch
+Request with context: http://localhost:8080/le-space
+context only: /le-space
+Server And Context from config file: set [:]
+Request servlet path: /grails/public/step3.dispatch
+Request with context: http://localhost:8080/le-space
+context only: /le-space
+Server And Context from config file: set [:]
+Request servlet path: /grails/public/register.dispatch
+Request with context: http://localhost:8080/le-space
+context only: /le-space
+--Output from testAddReverseChargeSystemContract--
+Server And Context from config file: set [:]
+Request servlet path: /grails/public/step2.dispatch
+Request with context: http://localhost:8080/le-space
+context only: /le-space
+Server And Context from config file: set [:]
+Request servlet path: /grails/public/register.dispatch
+Request with context: http://localhost:8080/le-space
+context only: /le-space
+--Output from testAdd10DayTicket--
+Server And Context from config file: set [:]
+Request servlet path: /grails/public/step2.dispatch
+Request with context: http://localhost:8080/le-space
+context only: /le-space
+Server And Context from config file: set [:]
+Request servlet path: /grails/public/step2.dispatch
+Request with context: http://localhost:8080/le-space
+context only: /le-space
+Server And Context from config file: set [:]
+Request servlet path: /grails/public/register.dispatch
+Request with context: http://localhost:8080/le-space
+context only: /le-space
+--Output from testCustomerPublicationOnWebsite--
+]]></system-out>
+
+      <system-err><![CDATA[--Output from testAddDayTicket--
+--Output from testAddReverseChargeSystemContract--
+--Output from testAdd10DayTicket--
+--Output from testCustomerPublicationOnWebsite--
+]]></system-err>
+
+  </testsuite>
+  <testsuite errors="2" failures="0" hostname="Nico.local" id="1" name="ProfileTests" package="le.space" tests="2" time="40.905" timestamp="2011-02-21T16:48:04">
+      <properties />
+
+      <testcase classname="le.space.ProfileTests" name="testPassword" time="0.208">
+          <error message="WebTest le.space.ProfileTests.testPassword has failed. See WebTestReport for details." type="java.lang.RuntimeException">java.lang.RuntimeException: WebTest le.space.ProfileTests.testPassword has failed. See WebTestReport for details.
+	at org.grails.plugins.webtest.WebTestStatement.evaluate(WebTestStatement.groovy:46)
+</error>
+
+      </testcase>
+
+      <testcase classname="le.space.ProfileTests" name="testCustomerData" time="40.598">
+          <error message="WebTest le.space.ProfileTests.testCustomerData has failed. See WebTestReport for details." type="java.lang.RuntimeException">java.lang.RuntimeException: WebTest le.space.ProfileTests.testCustomerData has failed. See WebTestReport for details.
+	at org.grails.plugins.webtest.WebTestStatement.evaluate(WebTestStatement.groovy:46)
+</error>
+
+      </testcase>
+
+      <system-out><![CDATA[--Output from testPassword--
+--Output from testCustomerData--
+Webtest failure: : No suitable form found having field named "company", Step: SetInputField at :  with (taskName="setInputField")
+]]></system-out>
+
+      <system-err><![CDATA[--Output from testPassword--
+--Output from testCustomerData--
+]]></system-err>
+
+  </testsuite>
+</testsuites>

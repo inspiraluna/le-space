@@ -18,6 +18,8 @@ class ShiroUser {
     String twitterName
     String facebookName
 
+    String mac
+
     boolean optOutIamHereFunction = false
 
     Date dateCreated = new Date()
@@ -45,6 +47,7 @@ class ShiroUser {
         dateModified(nullable:true,blank:true)
         createdBy(nullable:true,blank:true)
         modifiedBy(nullable:true,blank:true)
+        mac(nullable:true,blank:true)
     }
     
     def beforeInsert = {

@@ -40,6 +40,23 @@ class LoginController {
         }        
         [radiusServerIP:radiusServerIP,radiusServerSharedSecret:radiusServerSharedSecret,radiusUsername:radiusUsername,radiusPassword:radiusPassword,logged_in:logged_in]
     }
+    
+    def addLogin = {
+        
+        def loginInstance = new Login(params)
+        
+        if (loginInstance.save(flush: true)) {
+            log.debug "added login ${loginInstance}"
+            flash.message = "${message(code: 'default.created.message', args: [message(code: 'login.label', default: 'Login'), loginInstance.id])}"  
+        }
+
+
+        def contract = Contract.get(params.contract.id)
+        def loginList = loginService.getDayLogins(contract)
+        log.debug "now ${loginList.size()} elements "
+        render(view: "_userLogins", controller:"shiroUser", model: [loginList:loginList,contract: contract])
+    }
+
 
     def index = {
         redirect(action: "list", params: params)

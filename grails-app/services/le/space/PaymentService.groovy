@@ -78,9 +78,6 @@ class PaymentService {
                 }
                 log.debug "${contractNew} saved.."
             }
-
-            
-            
         }
         catch(Exception ex){
             log.debug "problem with calculation of contract id ${contract.id} ${ex}"

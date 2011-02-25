@@ -29,30 +29,60 @@ class LeSpaceRadiusServer extends org.tinyradius.util.RadiusServer {
     throws RadiusException {
 
         //String plaintext = getUserPassword(accessRequest.getUserName());
-        int type = RadiusPacket.ACCESS_REJECT;
-        //Accept auf true setzen, wenn das übermittelte passwort (aus dem accessRequest mit dem aus der Datenbank übereinstimmt
-
-        def shiroUser = le.space.ShiroUser.findByUsername(accessRequest.getUserName())
-        //accessRequest.setAuthProtocol(AccessRequest.AUTH_PAP); //
-        System.out.println("try radius login of:"+accessRequest.getUserName())
-
-        accessRequest.getAttributes().each{
-            System.out.println("attribute:"+it.getAttributeTypeObject().getName()+":"+it.getAttributeValue() )
-        }
+        int type = RadiusPacket.ACCESS_REJECT
         
-        // if(!shiroUser)
-        //     throw RadiusException
-        // System.out.println("accessRequest.getUserPassword()"+accessRequest.getUserPassword())
-        // System.out.println("new Sha1Hash(accessRequest.getUserPassword()).toHex()"+new Sha512Hash(accessRequest.getUserPassword()).toHex())
-        //System.out.println("shiroUser.findByUsername(username).passwordHash"+shiroUser.passwordHash)
+        accessRequest.getAttributes().each{
+            System.out.println("attribute:"+it.getAttributeTypeObject().getName()+":"+it.getAttributeValue())
+        }
+
+        boolean macAuth = false
+        def shiroUser
+
+        System.out.println("try radius login of:"+accessRequest.getUserName())
+        // System.out.println(accessRequest.getUserName().tokenize(':').size())
+
+        if(accessRequest.getUserName().tokenize(':').size()==6){
+            macAuth = true
+            System.out.println("mac address wants to authenticate searching for user.")
+            shiroUser = le.space.ShiroUser.findByMac(accessRequest.getUserName())
+            if(!shiroUser){
+                //create new anonymous user
+                System.out.println("mac address not known creating a new user!")
+                //le.space.ShiroUser.withTransaction(){
+                shiroUser = new le.space.ShiroUser(username:accessRequest.getUserName(),
+                    passwordHash:new Sha512Hash(accessRequest.getUserName()).toHex(),salutation:null,
+                    firstname:"Anonym",
+                    lastname:"Anonymous",
+                    email:accessRequest.getUserName().replace(':','.')+"@le-space.de",
+                    birthday:null,
+                    telMobile:null,
+                    occupation:null,
+                    twitterName:null,
+                    facebookName:null,
+                    mac:accessRequest.getUserName(),optOutIamHereFunction:true)
+
+                ApplicationContext ctx = (ApplicationContext)ApplicationHolder.getApplication().getMainContext()
+                le.space.java.LoginServiceIf loginService = (le.space.java.LoginServiceIf) ctx.getBean("loginService")
+
+                shiroUser = loginService.createUser(shiroUser)
+               
+                System.out.println("User: "+shiroUser+" created!")
+            }
+        }
+        else
+        shiroUser = le.space.ShiroUser.findByUsername(accessRequest.getUserName())
+
+        //accessRequest.setAuthProtocol(AccessRequest.AUTH_PAP); //
+        
 
         //http://www.dd-wrt.com/wiki/index.php/How_to_configure_DD-WRT,_Chillispot,_Apache2,_FreeRadius,_freeradius-dialupadmin,_and_MySQL_on_Debian_4.0
 
-        if (shiroUser && new Sha512Hash(accessRequest.getUserPassword()).toHex() == shiroUser.passwordHash){
-            type = RadiusPacket.ACCESS_ACCEPT;          
+        //Accept auf true setzen, wenn das übermittelte passwort (aus dem accessRequest mit dem aus der Datenbank übereinstimmt
+        if ((shiroUser && new Sha512Hash(accessRequest.getUserPassword()).toHex() == shiroUser.passwordHash) || macAuth){
+            type = RadiusPacket.ACCESS_ACCEPT
 
-            ApplicationContext ctx = (ApplicationContext)ApplicationHolder.getApplication().getMainContext();
-            le.space.java.LoginServiceIf loginService = (le.space.java.LoginServiceIf) ctx.getBean("loginService");
+            ApplicationContext ctx = (ApplicationContext)ApplicationHolder.getApplication().getMainContext()
+            le.space.java.LoginServiceIf loginService = (le.space.java.LoginServiceIf) ctx.getBean("loginService")
 
             loginService.login(shiroUser.id.toString(),
                 accessRequest?.getAttribute("Framed-IP-Address")?.getAttributeValue()
@@ -60,8 +90,8 @@ class LeSpaceRadiusServer extends org.tinyradius.util.RadiusServer {
                        
         }//if
 
-        RadiusPacket answer = new RadiusPacket(type, accessRequest.getPacketIdentifier());
-        copyProxyState(accessRequest, answer);
+        RadiusPacket answer = new RadiusPacket(type, accessRequest.getPacketIdentifier())
+        copyProxyState(accessRequest, answer)
         return answer;
     }
 

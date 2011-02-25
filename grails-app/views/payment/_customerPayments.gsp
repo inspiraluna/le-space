@@ -16,7 +16,7 @@
       </tr>
 
       <tr>
-        <td><input type="text" id="amount" name="amount" size="10" value="${payment?.amount}" /></td>
+        <td><input type="text" id="amount" name="amount" size="10" value="${formatNumber(number:payment?.amount, format: '#,##0.00')}" /></td>
         <td><g:datePicker precision="day" name="paymentDate" value="${payment?.paymentDate}" defaultValue="${new Date()}" /></td>
       <td><g:select name="paymentMethod" from="${[0,1,2,3]}" valueMessagePrefix="contract.paymentMethod" /></td>
       </tr>
@@ -31,7 +31,7 @@
 </g:each>
 <g:form>
   <table>
-    <g:hiddenField name="id" value="${payment?.id}" />
+    <g:hiddenField name="customer.id" value="${contract?.customer?.id}" />
     <g:hiddenField name="contract.id" value="${contract?.id}" />
     <g:hiddenField name="version" value="${payment?.version}" />
     <tr>
@@ -40,7 +40,7 @@
       <th align="left"><g:message code="payment.paymentMethod.label" default="paymentMethod" /></th>
     </tr>
     <tr>
-      <td><input type="text" id="amount" name="amount" size="10" value="${payment?.amount}" /></td>
+      <td><input type="text" id="amount" name="amount" size="10" value="${formatNumber(number:payment?.amount, format: '#,##0.00')}" /></td>
       <td><g:datePicker precision="day" name="paymentDate" value="${payment?.paymentDate}" defaultValue="${new Date()}" /></td>
     <td><g:select name="paymentMethod" from="${[0,1,2,3]}" valueMessagePrefix="contract.paymentMethod" /></td>
     </tr>

@@ -3,23 +3,30 @@ package le.space
 class PaymentController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+    def paymentService
 
-    def paymentAdd = {
+    def paymentAdd = {       
+        
         def paymentInstance = new Payment(params)
+
         if (paymentInstance.save(flush: true)) {
+            log.debug "added payment ${paymentInstance}"
+            paymentService.calculatePayments(Contract.get(params.contract.id))
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'payment.label', default: 'Payment'), paymentInstance.id])}"
         }
 
-        render(view: "customerPayments", model: [contractInstance: Contract.get(params.contract.id)])
+        render(view: "_customerPayments", model: [loginList:loginService.getDayLogins(contract), contract: Contract.get(params.contract.id)])
     }
     
     def paymentUpdate = {
+
         def paymentInstance = Payment.get(params.id)
         if (paymentInstance) {
+            log.debug "updating payment ${paymentInstance}"
+
             if (params.version) {
                 def version = params.version.toLong()
                 if (paymentInstance.version > version) {
-
                     paymentInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'payment.label', default: 'Payment')] as Object[], "Another user has updated this Payment while you were editing")                   
                     return
                 }
@@ -33,16 +40,20 @@ class PaymentController {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'payment.label', default: 'Payment'), params.id])}"
           
         }
-        render(view: "customerPayments", model: [contractInstance: Contract.get(params.contract.id)])
+        paymentService.calculatePayments(Contract.get(params.contract.id))
+        render(view: "_customerPayments", model: [contract: Contract.get(params.contract.id)])
     }
 
     def paymentRemove = {
+
+        log.debug "deleting payment"
+
         def paymentInstance = Payment.get(params.id)
         if (paymentInstance) {
             try {
                 paymentInstance.delete(flush: true)
                 flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'payment.label', default: 'Payment'), params.id])}"
-                redirect(action: "list")
+              
             }
             catch (org.springframework.dao.DataIntegrityViolationException e) {
                 flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'payment.label', default: 'Payment'), params.id])}"
@@ -51,7 +62,8 @@ class PaymentController {
         else {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'payment.label', default: 'Payment'), params.id])}"
         }
-        render(view: "customerPayments", model: [contractInstance: Contract.get(params.contract.id)])
+        paymentService.calculatePayments(Contract.get(params.contract.id))
+        render(view: "_customerPayments", model: [contract: Contract.get(params.contract.id)])
     }
 
 

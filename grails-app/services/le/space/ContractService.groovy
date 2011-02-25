@@ -5,18 +5,24 @@ class ContractService {
     static transactional = true
 
     def getContractsOfUsername(String username) {
-        def hql="select co from le.space.Contract  co "
-        hql+="inner join co.customer cu "
-        hql+="inner join cu.shiroUsers u "
-        hql+="WHERE u.username=:username "
-        hql+="ORDER BY co.contractStart desc"
 
-        def hparams = [username:username]
+        try {
 
-        Contract.executeQuery(hql,hparams)
+            def hql="select co from le.space.Contract  co "
+            hql+="inner join co.customer cu "
+            hql+="inner join cu.shiroUsers u "
+            hql+="WHERE u.username=:username "
+            hql+="ORDER BY co.contractStart desc"
+
+            def hparams = [username:username]
+
+            Contract.executeQuery(hql,hparams)
+
+        }catch(Exception ex){ log.debug "problem with user: ${username}" }
     }
 
     def getContractsOfCustomer(Customer cu) {
+        
         def hql="select co from le.space.Contract  co "
         hql+="inner join co.customer cu "
         hql+="WHERE cu=:customer "

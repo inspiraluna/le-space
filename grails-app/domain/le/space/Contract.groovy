@@ -63,6 +63,7 @@ class Contract {
         contractStart(nullable:false,blank:false)
         contractEnd(nullable:true,blank:true)
         autoExtend()
+        selectedProducts(nullable:true,blank:true)
         valid(nullable:true,blank:true)
         cancelationDate(nullable:true,blank:true)
         dateCreated(nullable:true,blank:true)
@@ -142,12 +143,12 @@ class Contract {
         log.debug "beforeUpdate"
         calculateAmounts()
     }
-/**
+
     def afterLoad = {
-        log.debug "afterload"
-        calculateAmounts()
+     
+        //calculateAmounts()
     }
-  */
+  
 
 
     String toString(){

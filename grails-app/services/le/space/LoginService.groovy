@@ -7,14 +7,28 @@ class LoginService implements  le.space.java.LoginServiceIf {
     static transactional = true
     def paymentService
 
+
+    def createUser(ShiroUser shiroUser){
+
+        if(shiroUser.validate()){
+            log.debug "shiroUser valid: ${shiroUser.validate()} saving"
+            shiroUser = shiroUser.save()
+        }
+
+        return shiroUser
+    }
+
     def isCurrentContractOfUserValid(ShiroUser user){
         def contract = getLastContractOfUser(user)
         try{
-            paymentService.calculatePayments(contract)
+            if(contract){
+                paymentService.calculatePayments(contract)
+                contract.calculateAmounts()
+                contract.valid
+            }
         }
         catch(Exception ex){log.debug "problem with calculation of contract..."}
-        contract.calculateAmounts()
-        contract.valid
+        
     }
 
     /**
@@ -22,17 +36,16 @@ class LoginService implements  le.space.java.LoginServiceIf {
      */
     def login(String id, String ipAddress, String macAddress) {
 
-       // ShiroUser.withNewSession{
-            def shiroUser = le.space.ShiroUser.get(id)
-            log.debug "shiroUser:${shiroUser} userId:${id} valid:${isCurrentContractOfUserValid(shiroUser)}"
+        def shiroUser = le.space.ShiroUser.get(id)
+        log.debug "shiroUser:${shiroUser} userId:${id} valid:${isCurrentContractOfUserValid(shiroUser)}"
 
-            if (shiroUser) {
-                def login = new Login(user:shiroUser,ipAddress:ipAddress?ipAddress:null,macAddress:macAddress?macAddress:null,loginStart:new Date()).save()
-                log.debug "login saved?: ${login}"
-                def contract = getLastContractOfUser(shiroUser)
-                recalculateLoginsOfContract(contract)
-            } // if shiroUser
-        //}
+        if (shiroUser) {
+            def login = new Login(user:shiroUser,ipAddress:ipAddress?ipAddress:null,macAddress:macAddress?macAddress:null,loginStart:new Date()).save()
+            log.debug "login saved?: ${login}"
+            def contract = getLastContractOfUser(shiroUser)
+            if(contract)
+            recalculateLoginsOfContract(contract)
+        } // if shiroUser
     }
 
     /**
@@ -44,25 +57,25 @@ class LoginService implements  le.space.java.LoginServiceIf {
     def recalculateLoginsOfContract(Contract contractInstance){
 
         //ShiroUser.withNewSession{
-            log.debug "Contract ${contractInstance}"
-            //log.debug "has durationType: ${(contractInstance.getProducts()?.toArray())[0].durationType} (0=day 1=month)"
+        log.debug "Contract ${contractInstance}"
+        //log.debug "has durationType: ${(contractInstance.getProducts()?.toArray())[0].durationType} (0=day 1=month)"
 
-            contractInstance.loginDays = this.getDayLogins(contractInstance).size()
-            log.debug "set loginDays of contract from ${contractInstance.loginDays} to ${contractInstance.loginDays}"
+        contractInstance.loginDays = this.getDayLogins(contractInstance).size()
+        log.debug "set loginDays of contract from ${contractInstance.loginDays} to ${contractInstance.loginDays}"
 
-            log.debug "now update contract with allowedLoginDaysLeft with products allowedLoginsDay * quantity - loginDays!"
-            if(contractInstance.getProducts() && (contractInstance.getProducts().toArray())[0].allowedLoginDays!=0){ //(contractInstance.getProducts().toArray())[0].durationType==Product.DUR_DAY){
-                log.debug "allowedLoginDays of Product is ${(contractInstance.getProducts().toArray())[0].allowedLoginDays}"
-                contractInstance.allowedLoginDaysLeft = (contractInstance.getProducts().toArray())[0].allowedLoginDays*contractInstance.quantity - contractInstance.loginDays
-            }
-            else{
-                log.debug "allowedLoginsDay of product is 0"
-                contractInstance.allowedLoginDaysLeft = 0
-            }
+        log.debug "now update contract with allowedLoginDaysLeft with products allowedLoginsDay * quantity - loginDays!"
+        if(contractInstance.getProducts() && (contractInstance.getProducts().toArray())[0].allowedLoginDays!=0){ //(contractInstance.getProducts().toArray())[0].durationType==Product.DUR_DAY){
+            log.debug "allowedLoginDays of Product is ${(contractInstance.getProducts().toArray())[0].allowedLoginDays}"
+            contractInstance.allowedLoginDaysLeft = (contractInstance.getProducts().toArray())[0].allowedLoginDays*contractInstance.quantity - contractInstance.loginDays
+        }
+        else{
+            log.debug "allowedLoginsDay of product is 0"
+            contractInstance.allowedLoginDaysLeft = 0
+        }
 
-            log.debug "login was counted. allowedLoginDayLeft now:${contractInstance.allowedLoginDaysLeft} and loginDays now: ${contractInstance.loginDays}"
-            contractInstance.lastLogin = new Date()
-            contractInstance.save()
+        log.debug "login was counted. allowedLoginDayLeft now:${contractInstance.allowedLoginDaysLeft} and loginDays now: ${contractInstance.loginDays}"
+        contractInstance.lastLogin = new Date()
+        contractInstance.save()
         //}
     }
 
@@ -72,20 +85,20 @@ class LoginService implements  le.space.java.LoginServiceIf {
      */
     def getLastContractOfUser(ShiroUser shiroUser){
         
-       // Contract.withNewSession{
-            //0. find last active contract of user
-            def hql="select co from le.space.Contract  co "
-            hql+="left join co.customer cu "
-            hql+="left join cu.shiroUsers u "
-            hql+="WHERE u=:shiroUser "
-            hql+="ORDER BY co.contractStart desc"
+        // Contract.withNewSession{
+        //0. find last active contract of user
+        def hql="select co from le.space.Contract  co "
+        hql+="left join co.customer cu "
+        hql+="left join cu.shiroUsers u "
+        hql+="WHERE u=:shiroUser "
+        hql+="ORDER BY co.contractStart desc"
 
-            def hparams = [shiroUser:shiroUser]
+        def hparams = [shiroUser:shiroUser]
 
-            def contractList = Contract.executeQuery(hql,hparams)
-            log.debug "contractListSize of shiroUser ${shiroUser} is ${contractList.size()}"
+        def contractList = Contract.executeQuery(hql,hparams)
+        log.debug "contractListSize of shiroUser ${shiroUser} is ${contractList.size()}"
 
-            contractList[0]
+        contractList[0]
         //}
     }
 

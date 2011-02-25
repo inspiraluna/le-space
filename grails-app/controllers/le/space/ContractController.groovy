@@ -258,9 +258,7 @@ class ContractController {
         
         if (contract.save(flush: true)) {
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'contract.label', default: 'Contract'), contract.id])}"
-            //redirect(action: "show", id: contract.id)
         }
-        //render(view: "customerContracts", controller:"customer", model: [contract: contract] )
     }
 
     def create = {
@@ -271,8 +269,7 @@ class ContractController {
 
     def save = {
         def contract = new Contract(params)
-        //
-        //log.debug "${contract}"
+
         if (contract.save(flush: true)) {
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'contract.label', default: 'Contract'), contract.id])}"
             redirect(action: "show", id: contract.id)
@@ -305,7 +302,6 @@ class ContractController {
             redirect(action: "list")
         }
         else {
-            //def username = SecurityUtils.getSubject().principal
             def contractList = contractService.getContractsOfCustomer(contract.customer)
             log.debug "contractList.size():${contractList.size()}"
             [contract: contract, loginList:loginService.getDayLogins(contract),contractList:contractList]
@@ -372,12 +368,9 @@ class ContractController {
     }
 
     /**
-     * This controller method should be moved into a service!
+     * Registers a user log in from gui.
      */
     def addLogin = {
-        //def contract = Contract.get(params.id)
-        //def shiroUser = ShiroUser.get()
-
         log.debug "logging in userId:${params.userId} contract: ${params.id}"
         loginService.login(params.userId,null,null)
         redirect(action: "list")
@@ -395,8 +388,7 @@ class ContractController {
         if (contract) {
   
             if(contract.amountDue>0){
-                def payment = new Payment(amount:contract.amountDue,paymentDate:new Date(),paymentMethod:Payment.PM_DIRECT_DEBIT,customer:contract.customer).save()
-               
+                def payment = new Payment(amount:contract.amountDue,paymentDate:new Date(),paymentMethod:Payment.PM_DIRECT_DEBIT,customer:contract.customer).save()               
                 log.debug "added payment ${payment} to customer ${contract.customer}"
                 paymentService.calculatePayments(Contract.get(params.id))
             }

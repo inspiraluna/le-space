@@ -62,14 +62,18 @@ class CustomerController {
     def addContract = {
 
         def contractInstance = new Contract(params)
-        def customer = Customer.get(params.customer.id)
-        log.debug "adding new contract to customer ${customer}"
+         def customer = Customer.findById(params.customer.id)
+         log.debug "adding new contract to customer ${customer}"
 
         contractInstance.customer = customer
         contractInstance.products =  session.products
         if (contractInstance.save(flush: true)) {
-            flash.message = "${message(code: 'default.created.message', args: [message(code: 'contract.label', default: 'Contract'), contractInstance.id])}"
-            //redirect(action: "show", id: contractInstance.id)
+            flash.message = "${message(code: 'default.created.message', args: [message(code: 'contract.label', default: 'Contract'), contractInstance.id])}"         
+        }
+        else{
+            contractInstance.errors.allErrors.each {
+                log.error it
+            }
         }
         render(view: "addContract", controller:"customer", model: [contractInstance: contractInstance] )
     }
