@@ -7,6 +7,5 @@
   <g:hiddenField name="_inline" value="false" />
   <g:hiddenField name="_name" value="contract" />
   <g:hiddenField name="_file" value="contract"  />
-
   <g:actionSubmit action="contractPdf" controller="public" value="${g.message(code:'contract.print')}" />
 </g:form>

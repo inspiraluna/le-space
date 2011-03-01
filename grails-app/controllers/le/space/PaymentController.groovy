@@ -4,7 +4,8 @@ class PaymentController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
     def paymentService
-
+    def loginService
+    
     def paymentAdd = {       
         
         def paymentInstance = new Payment(params)

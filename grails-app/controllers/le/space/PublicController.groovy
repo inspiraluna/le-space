@@ -297,7 +297,7 @@ class PublicController {
         contract.customer = customer
         customer.addToShiroUsers(shiroUser)
         log.debug "quantity: ${contract.quantity} ${params} ${contract.customer.reverseChargeSystem} "
-        
+        log.debug params.id
         def p
         if(params.id && params.id!='0'){
             p = Product.get(params.id)

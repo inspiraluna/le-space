@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <testsuites>
-  <testsuite errors="0" failures="0" hostname="Nico.local" id="0" name="ContractRegistrationTests" package="le.space" tests="4" time="139.371" timestamp="2011-02-21T16:45:44">
+  <testsuite errors="0" failures="0" hostname="Nico.local" id="0" name="ContractRegistrationTests" package="le.space" tests="4" time="114.074" timestamp="2011-02-27T20:33:04">
       <properties />
 
-      <testcase classname="le.space.ContractRegistrationTests" name="testAddDayTicket" time="92.095" />
+      <testcase classname="le.space.ContractRegistrationTests" name="testAddDayTicket" time="79.711" />
 
-      <testcase classname="le.space.ContractRegistrationTests" name="testAddReverseChargeSystemContract" time="26.224" />
+      <testcase classname="le.space.ContractRegistrationTests" name="testAddReverseChargeSystemContract" time="17.359" />
 
-      <testcase classname="le.space.ContractRegistrationTests" name="testAdd10DayTicket" time="16.952" />
+      <testcase classname="le.space.ContractRegistrationTests" name="testAdd10DayTicket" time="13.569" />
 
-      <testcase classname="le.space.ContractRegistrationTests" name="testCustomerPublicationOnWebsite" time="4.019" />
+      <testcase classname="le.space.ContractRegistrationTests" name="testCustomerPublicationOnWebsite" time="3.352" />
 
       <system-out><![CDATA[--Output from testAddDayTicket--
 Server And Context from config file: set [:]
@@ -60,26 +60,21 @@ context only: /le-space
 ]]></system-err>
 
   </testsuite>
-  <testsuite errors="2" failures="0" hostname="Nico.local" id="1" name="ProfileTests" package="le.space" tests="2" time="40.905" timestamp="2011-02-21T16:48:04">
+  <testsuite errors="1" failures="0" hostname="Nico.local" id="1" name="ProfileTests" package="le.space" tests="2" time="52.291" timestamp="2011-02-27T20:34:58">
       <properties />
 
-      <testcase classname="le.space.ProfileTests" name="testPassword" time="0.208">
+      <testcase classname="le.space.ProfileTests" name="testPassword" time="37.82">
           <error message="WebTest le.space.ProfileTests.testPassword has failed. See WebTestReport for details." type="java.lang.RuntimeException">java.lang.RuntimeException: WebTest le.space.ProfileTests.testPassword has failed. See WebTestReport for details.
 	at org.grails.plugins.webtest.WebTestStatement.evaluate(WebTestStatement.groovy:46)
 </error>
 
       </testcase>
 
-      <testcase classname="le.space.ProfileTests" name="testCustomerData" time="40.598">
-          <error message="WebTest le.space.ProfileTests.testCustomerData has failed. See WebTestReport for details." type="java.lang.RuntimeException">java.lang.RuntimeException: WebTest le.space.ProfileTests.testCustomerData has failed. See WebTestReport for details.
-	at org.grails.plugins.webtest.WebTestStatement.evaluate(WebTestStatement.groovy:46)
-</error>
-
-      </testcase>
+      <testcase classname="le.space.ProfileTests" name="testCustomerData" time="14.459" />
 
       <system-out><![CDATA[--Output from testPassword--
+Webtest failure: : JavaScript error loading page http://localhost:8080/le-space/contract/profile: ReferenceError: "Effect" is not defined. (script in http://localhost:8080/le-space/contract/profile from (1408, 32) to (1428, 10)#1416)
 --Output from testCustomerData--
-Webtest failure: : No suitable form found having field named "company", Step: SetInputField at :  with (taskName="setInputField")
 ]]></system-out>
 
       <system-err><![CDATA[--Output from testPassword--

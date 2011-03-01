@@ -7,7 +7,6 @@ class ContractService {
     def getContractsOfUsername(String username) {
 
         try {
-
             def hql="select co from le.space.Contract  co "
             hql+="inner join co.customer cu "
             hql+="inner join cu.shiroUsers u "

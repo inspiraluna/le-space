@@ -31,8 +31,8 @@
                           value="${contract?.customer?.country?.id}" noSelection="${['0':g.message(code:'contract.chooseSomething')]}"
                           optionKey="id"  /></td></tr>
 <tr><th><g:message code="shiroUser.email.label" />*:</th><td class="value ${hasErrors(bean: shiroUser, field: 'email', 'errors')}"><g:textField name="email" value="${shiroUser.email}" /></td></tr>
-<tr><th><g:message code="shiroUser.birthday.label" />:</th><td class="value ${hasErrors(bean: shiroUser, field: 'birthday', 'errors')}"><g:datePicker
-precision="day" name="birthday" value="${(contract?.customer?.shiroUsers)?contract?.customer?.shiroUsers.toArray()[0].birthday:""}" defaultValue="${new Date()}" /></td>
+<tr><th><g:message code="shiroUser.birthday.label" />:</th><td class="value ${hasErrors(bean: shiroUser, field: 'birthday', 'errors')}">
+<g:datePicker   precision="day" name="birthday" value="${(contract?.customer?.shiroUsers)?contract?.customer?.shiroUsers.toArray()[0].birthday:""}"  noSelection="[null:'-']" defaultValue="null" default="none"/></td>
 </tr>
 <tr><th><g:message code="customer.tel1.label" />:</th><td class="value ${hasErrors(bean: customer, field: 'tel1', 'errors')}"><g:textField name="tel1" value="${contract?.customer?.tel1}"/></td></tr>
 <tr><th><g:message code="shiroUser.telMobile.label" />:</th><td class="value ${hasErrors(bean: shiroUser, field: 'telMobile', 'errors')}"><g:textField name="telMobile" value="${shiroUser.telMobile}"/></td></tr>
@@ -72,9 +72,11 @@ precision="day" name="birthday" value="${(contract?.customer?.shiroUsers)?contra
 </tr>
 </table>
 <g:javascript>
-			loadSubOptions = function(optionId) {
-				new Ajax.Updater('optionsOfProduct', '${createLinkTo(dir:'public/optionsOfProduct/')}'+optionId, {
-			  		parameters: {
+			loadSubOptions = function(optionId) {                               
+                                $.ajax({
+                                  type: "POST",
+                                  url: "${createLinkTo(dir:'public/optionsOfProduct/')}"+optionId,
+                                  data: {
                                         id: optionId,
                                         autoExtend: document.contract.autoExtend.value,
                                         product: document.contract.product.value,
@@ -88,18 +90,38 @@ precision="day" name="birthday" value="${(contract?.customer?.shiroUsers)?contra
                                         reverseChargeSystem:document.contract.reverseChargeSystem.checked,
                                         reverseChargeSystemID:document.contract.reverseChargeSystemID.value,
                                         quantity:document.contract.quantity.value
-                                        }
-                                });
+                                        },
+                                  success: function( r ) {
+                                  $('#optionsOfProduct').html( r );
+                                  //location.reload( true );
+                                }
+
+                              });
+
                         }
 			loadSum = function(optionName,optionValue) {
-				new Ajax.Updater('sum', '${createLinkTo(dir:'public/addOption/')}', {
-			  		parameters: { optionName: optionName, optionValue: optionValue }
-                                });
+                                  $.ajax({
+                                  type: "POST",
+                                  url: "${createLinkTo(dir:'public/addOption/')}",
+                                  data: { optionName: optionName, optionValue: optionValue },
+                                  success: function( r ) {
+                                  $('#sum').html( r );
+                                  //location.reload( true );
+                                }
+
+                              });
                         }
 			autoExtend = function(optionValue){
-				new Ajax.Updater('optionsOfProduct', '${createLinkTo(dir:'public/autoExtend/')}', {
-			  		parameters: { autoExtend: optionValue }
-                                });
+                                  $.ajax({
+                                  type: "POST",
+                                  url: "${createLinkTo(dir:'public/autoExtend/')}",
+                                  data: { autoExtend: optionValue },
+                                  success: function( r ) {
+                                  $('#optionsOfProduct').html( r );
+                                 // location.reload( true );
+                                }
+
+                              });
                         }
 </g:javascript>
 <div id="optionsOfProduct">

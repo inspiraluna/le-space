@@ -5,21 +5,17 @@
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 <meta name="robots" content="index,follow" />
 <meta name="language" content="de" />
-<link rel="shortcut icon" type="image/x-icon" href="${createLinkTo(file:'favicon.ico')}">
+<link rel="shortcut icon" type="image/x-icon" href="${createLinkTo(file:'favicon.ico')}" />
 <link rel="stylesheet" href="${createLinkTo(dir:'css',file:'general.css')}" type="text/css" media="screen" title="no title" />
 <style type="text/css">
+ @import url("${createLinkTo(dir:'css',file:'thickbox.css')}");
  @import url("${createLinkTo(dir:'css',file:'layout.css')}");
  @import url("${createLinkTo(dir:'css',file:'form.css')}");
- @import url("${createLinkTo(dir:'css',file:'lightbox.css')}");
 </style>
-
+<g:javascript library="jquery" plugin="jquery"/>
 <calendar:resources lang="${le.space.HelperTools.getLocale(request)}" theme="tiger"/>
-
-
 <!-- Beginn Script für Bilder -->
-<script src="${createLinkTo(dir:'js',file:'prototype.js')}" type="text/javascript"></script>
-<script src="${createLinkTo(dir:'js',file:'scriptaculous.js?load=effects,builder')}" type="text/javascript"></script>
-<script src="${createLinkTo(dir:'js',file:'lightbox.js')}" type="text/javascript"></script>
+<script src="${createLinkTo(dir:'js/jquery',file:'thickbox.js')}" type="text/javascript"></script>
 <script src="${createLinkTo(dir:'js',file:'humane.js')}" type="text/javascript"></script>
 
 <title>Le Space (beta) - Coworking in Leipzig</title>

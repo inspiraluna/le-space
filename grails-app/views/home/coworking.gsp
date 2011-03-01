@@ -17,14 +17,14 @@
 <i>Le Space</i> ist der erste Coworking-Space in Leipzig: flexibel, individuell und entspannt.</p>
 
 <h1>Welche Vorteile bietet mir Coworking @ Le Space?</h1>
-<div class="ausklappen"><a href="javascript:schiebe('vorteil01');">Einfach die bestehende Infrastruktur nutzen</a></div>
+<div class="ausklappen"><a href="javascript:schiebe('#vorteil01');">Einfach die bestehende Infrastruktur nutzen</a></div>
 
 <div id="vorteil01">
 <p>Im <i>Le Space</i> ist aller Anfang leicht. Egal, ob Schreibtisch, Drucker oder Scanner: Wir stellen das gesamte Equipment zur Verfügung. Weil das Arbeitsumfeld einfach und unkompliziert sein muss. Ohne die Lieblingspalme oder das
 Foto vom Stubentiger geht nichts? Dauer-User können natürlich ihren Arbeitsplatz individuell gestalten.</p>
 </div>
 
-<div class="ausklappen"><a href="javascript:schiebe('vorteil02');">Volle Flexibilität</a></div>
+<div class="ausklappen"><a href="javascript:schiebe('#vorteil02');">Volle Flexibilität</a></div>
 
 <div id="vorteil02">
 <p>Bei <i>Le Space</i> wird nur die Zeit bezahlt, die man auch wirklich bei uns arbeitet.
@@ -32,21 +32,21 @@ So individuell und flexibel wie die eigenen Arbeitszeiten: <i>Le Space</i> ist i
 Entweder mit unserem 9-18.00-Uhr-Tarif (Mo-Fr) oder zum 24/7 Abo. </p>
 </div>
 
-<div class="ausklappen"><a href="javascript:schiebe('vorteil03');">Social Innovation</a></div>
+<div class="ausklappen"><a href="javascript:schiebe('#vorteil03');">Social Innovation</a></div>
 
 <div id="vorteil03">
 <p>Isoliert, unproduktiv und blockiert? <i>Le Space</i> kennt das nicht. Unterschiedliche Menschen aus verschiedenen Berufszweigen und Branchen treffen bei uns aufeinander.
 Input durch Austausch: In entspannter Arbeitsatmosphäre und bei einer Tasse Kaffee kann man über die eigenen Projekte reden. Und wenn die Deadline näher rückt: Durch  mobile Desks lassen sich private Spaces gestalten.</p>
 </div>
 
-<div class="ausklappen"><a href="javascript:schiebe('vorteil04');">Coworking Visa</a></div>
+<div class="ausklappen"><a href="javascript:schiebe('#vorteil04');">Coworking Visa</a></div>
 
 <div id="vorteil04">
 <p><i>Le Space</i> nimmt am weltweiten Coworking Visa teil. Das bedeutet, dass sie in anderen teilnehmenden Coworking Spaces in der Welt z.T.
 kostenlos arbeiten können. <a href="http://coworking.pbworks.com/CoworkingVisa" target="_blank"> (Click Coworking Visa)</a></p>
 </div>
 <!--
-<div class="ausklappen"><a href="javascript:schiebe('vorteil05');">ॐ Yoga inside ॐ</a></div>
+<div class="ausklappen"><a href="javascript:schiebe('#vorteil05');">ॐ Yoga inside ॐ</a></div>
 
 <div id="vorteil05">
 <p><i>Le Space</i> wird zukünftig auch verschieden Techniken & Methoden aus dem klassischen indischen Yoga zur Entspannung und Ausgleich anbieten.
@@ -72,17 +72,18 @@ function schiebe(layer){
   //	if(oldLayer!=null)
   //         Effect.toggle(oldLayer, 'slide');
   //speichere neuen layer als es als altes element
-  Effect.toggle(layer, 'slide');
+  //Effect.toggle(layer, 'slide');
+ $(layer).toggle("slow");
   //öffne neues element
   oldLayer = layer;
   //return false;
   }
 
-$('vorteil01').hide();
-$('vorteil02').hide();
-$('vorteil03').hide();
-$('vorteil04').hide();
-//$('vorteil05').hide();
+$('#vorteil01').hide();
+$('#vorteil02').hide();
+$('#vorteil03').hide();
+$('#vorteil04').hide();
+//$('#vorteil05').hide();
 
 </script>
 </body>

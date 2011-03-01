@@ -110,7 +110,7 @@ class LoginService implements  le.space.java.LoginServiceIf {
         log.debug "look for all logins in between contract start and contract stop / cancelationDate and count all days"
         def contractStartTemp = contractInstance.contractStart
         if(contractInstance.autoExtend)
-        contractStartTemp = new DateTime(new DateTime().year().get(),new DateTime().monthOfYear().get(),contractInstance.contractStart.getDay(),0,0,0,0).toDate()
+        contractStartTemp = new DateTime(new DateTime().year().get(),new DateTime().monthOfYear().get(),contractInstance.contractStart.getDay()>0?contractInstance.contractStart.getDay():1,0,0,0,0).toDate()
 
         def hparams = [contractStart:contractStartTemp]
         def hql = "select date(l.loginStart), l.user as user from le.space.Login l "

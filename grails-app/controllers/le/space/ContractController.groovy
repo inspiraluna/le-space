@@ -9,8 +9,6 @@ class ContractController {
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def loginService 
-    def exportService
-    def paymentService
     def contractService
 
 

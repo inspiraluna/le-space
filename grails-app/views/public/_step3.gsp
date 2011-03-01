@@ -74,5 +74,5 @@
   <g:if test="${contract.paymentMethod==1}">
     <g:submitToRemote update="update" action="step2" controller="public" name="back" value="${g.message(code:'contract.back')}" /></g:if>
 
- <input type="button" value="${g.message(code:'contract.register')}" id="register"  disabled="disabled" name="register" onclick="new Ajax.Updater('update','${createLinkTo(dir:'/public/register')}',{asynchronous:true,evalScripts:true,parameters:Form.serialize(this.form)});return false">
+ <input type="button" value="${g.message(code:'contract.register')}" id="register"  disabled="disabled" name="register" onclick="$.ajax({type: 'POST',url: '${createLinkTo(dir:'public/register')}',data: jQuery(document.contract).serialize(),success: function( r ) {$('#update').html( r );}});return false">
 </g:form>

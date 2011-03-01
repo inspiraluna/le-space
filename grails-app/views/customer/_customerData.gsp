@@ -16,7 +16,7 @@
     <tr><th align="left"><g:message code="customer.fax.label" />:</th><td class="value ${hasErrors(bean: customer, field: 'fax', 'errors')}"><g:textField name="fax" value="${contract?.customer?.tel1}" size="30" /></td></tr>
     <tr><th align="left"><g:message code="customer.url.label" />:</th><td class="value ${hasErrors(bean: customer, field: 'url', 'errors')}"><g:textField name="url" value="${contract?.customer?.url}" size="30" /></td></tr>
     <tr><th align="left"><g:message code="customer.allowPublishNameOnWebsite.label" />:</th><td><g:checkBox name="allowPublishNameOnWebsite" value="${contract?.customer?.allowPublishNameOnWebsite}" /><g:message code="customer.allowPublishNameOnWebsite_ext.label" /></td></tr>
-    <tr><th  align="left" class="value ${hasErrors(bean: customer, field: 'reverseChargeSystem', 'errors')}"><g:message code="customer.reverseChargeSystem.label" />:</th><td><g:checkBox name="reverseChargeSystem" value="${contract?.customer?.reverseChargeSystem}" onChange="loadSubOptions(document.contract.product.value);"/>
+    <tr><th  align="left" class="value ${hasErrors(bean: customer, field: 'reverseChargeSystem', 'errors')}"><g:message code="customer.reverseChargeSystem.label" />:</th><td><g:checkBox name="reverseChargeSystem" value="${contract?.customer?.reverseChargeSystem}"/>
     &nbsp;<g:message code="customer.reverseChargeSystemID.label" />:&nbsp;<g:textField name="reverseChargeSystemID" value="${contract?.customer?.reverseChargeSystemID}" />&nbsp;
     </td></tr>
     <tr><td valign="top" colspan="2"  align="middle"><g:if test="${flash.message}"><div class="message">${flash.message}</div></g:if></td></tr>

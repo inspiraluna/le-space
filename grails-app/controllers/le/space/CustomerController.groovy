@@ -1,10 +1,23 @@
 package le.space
-
+import org.apache.shiro.SecurityUtils
 class CustomerController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
+    def loginService 
+    def contractService
 
+    def customerContracts = {
+        log.debug "customerContracts"
+
+        def username = SecurityUtils.getSubject().principal
+        // def shiroUser = ShiroUser.findByUsername(username)
+        def contractList = contractService.getContractsOfUsername(username)
+        def contract = contractList[0]
+        [number:false,contract:contract,
+            contractList:contractList]
+    }
+    
     def bankAccount = {
         log.debug "updateBankAccount"
         def bankAccountInstance = BankAccount.get(params.id)
@@ -61,21 +74,21 @@ class CustomerController {
     
     def addContract = {
 
-        def contractInstance = new Contract(params)
-         def customer = Customer.findById(params.customer.id)
-         log.debug "adding new contract to customer ${customer}"
+        def contract = new Contract(params)
+        def customer = Customer.findById(params.customer.id)
+        log.debug "adding new contract to customer ${customer}"
 
-        contractInstance.customer = customer
-        contractInstance.products =  session.products
-        if (contractInstance.save(flush: true)) {
-            flash.message = "${message(code: 'default.created.message', args: [message(code: 'contract.label', default: 'Contract'), contractInstance.id])}"         
+        contract.customer = customer
+        contract.products =  session.products
+        if (contract.save()) {
+            flash.message = "${message(code: 'default.created.message', args: [message(code: 'contract.label', default: 'Contract'), contract.id])}"
         }
         else{
-            contractInstance.errors.allErrors.each {
+            contract.errors.allErrors.each {
                 log.error it
             }
         }
-        render(view: "addContract", controller:"customer", model: [contractInstance: contractInstance] )
+        render(view: "addContract", controller:"customer", model: [contract: contract] )
     }
 
     def index = {

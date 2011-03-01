@@ -12,29 +12,19 @@
   <div id="inhalt">
     <div class="zweispaltig">
       <h1><g:message code="contract.profile.label" default="Profil" /></h1>
-      <p>&nbsp;</p>
-      <!--
-      <g:if test="${session.loginParams}">
-        <g:form name="contract">
-               <g:actionSubmit class="redirect" action="redirect" value="${message(code: 'contract.profile.redirect', default: 'redirect')}" /></span>
-        </g:form>
-      </g:if>
-      -->
-      </g>
       <p>
         Ihr Vertrag läuft vom:
         <b><g:formatDate date="${contract.contractStart}" format="dd.MM.yyyy"/></b>
         bis: <b><g:formatDate date="${contract.contractEnd}" format="dd.MM.yyyy"/></b><br/>
         und verlängert sich <b>${!contract.autoExtend?"<font color='red'>nicht</font>":""} automatisch.</b><br/>
-        ihr gewählten Produkte sind: <ul><b>
+        ihr gewählten Produkte sind: <b>
           <g:each in="${contract.getProducts()}" status="i" var="p">
-            <li>${p.name}</g:each></b></ul>
-
-
-      Sie waren <b>${contract.loginDays}</b> Tage im Coworking Space und dürfen noch <b>${contract.allowedLoginDaysLeft} Tage kommen.</b> <br/>
-      Ihr letzter Login: <b><g:formatDate date="${contract.lastLogin}" format="dd.MM.yyyy hh:mm:ss"/></b><br/>
-      Rechnungstatus ist: <b>${contract.paid?message(code: 'contract.profile.paid'):message(code: 'contract.profile.unpaid')}</b><br/>
-</p>
+        ${p.name}<br/>
+          </g:each></b>
+        Sie waren <b>${contract.loginDays}</b> Tage im Coworking Space und dürfen noch <b>${contract.allowedLoginDaysLeft} Tage kommen.</b> <br/>
+        Ihr letzter Login: <b><g:formatDate date="${contract.lastLogin}" format="dd.MM.yyyy HH:mm:ss"/></b><br/>
+        Rechnungstatus ist: <b>${contract.paid?message(code: 'contract.profile.paid'):message(code: 'contract.profile.unpaid')}</b><br/>
+      </p>
 <p>&nbsp;</p>
 
 
@@ -49,7 +39,7 @@
 </div>
 
 <div class="ausklappen"><a href="javascript:schiebe('customerContracts');"><g:message code="contract.profile.customerContracts.label" default="Customer Contracts" /></a></div>
-<div id="customerContracts" model="['numbers':false,'contract':contract]" />>
+<div id="customerContracts" model="['numbers':false,'contract':contract]" />
 <g:render template="/customer/customerContracts" />
 </div>
 
@@ -78,6 +68,10 @@
 
 <div class="clear"></div>
 </div>
+
+
+
+
 <script type="text/javascript">
 //Dieser Teil ist für die Schieber verantwortlich.
 var oldLayer = null;
@@ -86,18 +80,18 @@ function schiebe(layer){
 //	if(oldLayer!=null)
 //         Effect.toggle(oldLayer, 'slide');
 //speichere neuen layer als es als altes element
-Effect.toggle(layer, 'slide');
+//Effect.toggle(layer, 'slide');
 //öffne neues element
 oldLayer = layer;
 //return false;
 }
-
+/**
 $('contractLogins').hide();
 $('passwordChange').hide();
 $('customerData').hide();
 $('addContract').hide();
 $('customerContracts').hide();
-$('bankAccount').hide();
+$('bankAccount').hide();*/
 </script>
 </body>
 </html>

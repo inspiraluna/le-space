@@ -32,35 +32,60 @@
     </tr>
    
   </table>
-  <g:javascript>
+<g:javascript>
 			loadSubOptions = function(optionId) {
-				new Ajax.Updater('optionsOfProduct', '${createLinkTo(dir:'public/optionsOfProduct/')}'+optionId, {
-			  		parameters: {
-    id: optionId,
-    autoExtend: document.contract.autoExtend.value,
-    product: document.contract.product.value,
-    contractStart: document.contract.contractStart.value,
-    paymentMethod:document.contract.paymentMethod.value,
-    quantity:document.contract.quantity.value
-    }
-    });
-    }
+                                $.ajax({
+                                  type: "POST",
+                                  url: "${createLinkTo(dir:'public/optionsOfProduct/')}"+optionId,
+                                  data: {
+                                        id: optionId,
+                                        autoExtend: document.contract.autoExtend.value,
+                                        product: document.contract.product.value,
+                                        contractStart: document.contract.contractStart.value,
+                                        paymentMethod:document.contract.paymentMethod.value,
+                                        quantity:document.contract.quantity.value
+                                        },
+                                  success: function( r ) {
+                                  $('#optionsOfProduct').html( r );
+                                  //location.reload( true );
+                                }
+
+                              });
+
+                        }
 			loadSum = function(optionName,optionValue) {
-				new Ajax.Updater('sum', '${createLinkTo(dir:'public/addOption/')}', {
-			  		parameters: { optionName: optionName, optionValue: optionValue }
-    });
-    }
+                                  $.ajax({
+                                  type: "POST",
+                                  url: "${createLinkTo(dir:'public/addOption/')}",
+                                  data: { optionName: optionName, optionValue: optionValue },
+                                  success: function( r ) {
+                                  $('#sum').html( r );
+                                  //location.reload( true );
+                                }
+
+                              });
+                        }
 			autoExtend = function(optionValue){
-				new Ajax.Updater('optionsOfProduct', '${createLinkTo(dir:'public/autoExtend/')}', {
-			  		parameters: { autoExtend: optionValue }
-    });
-    }
-  </g:javascript>
-  <div id="optionsOfProduct">
-    <g:render template="/public/optionsOfProduct" />
-  </div>
+                                  $.ajax({
+                                  type: "POST",
+                                  url: "${createLinkTo(dir:'public/autoExtend/')}",
+                                  data: { autoExtend: optionValue },
+                                  success: function( r ) {
+                                  $('#optionsOfProduct').html( r );
+                                 // location.reload( true );
+                                }
+
+                              });
+                        }
+                        reloadContracts = function(){
+                        $('#customerContracts').fadeOut('slow').delay(1600).load('${createLinkTo(dir:'customer/customerContracts')}').fadeIn("slow");
+                        }
+</g:javascript>
+<div id="optionsOfProduct">
+  <g:render template="/public/optionsOfProduct" />
+</div>
   <table>
   <tr><th colspan="2"  align="center"><g:if test="${flash.message}"><div class="message">${flash.message}</div></g:if></th></tr>
-  <tr><th colspan="2"  align="center"><span class="button"><g:submitToRemote update="addContract" class="userContracts" action="addContract" controller="customer" name="addContract" value="${g.message(code:'contract.addContract.label')}" /></span></th></tr>
+  <tr><th colspan="2"  align="center"><span class="button"><g:submitToRemote update="addContract" after="reloadContracts();" class="userContracts" action="addContract" controller="customer" name="addContract" value="${g.message(code:'contract.addContract.label')}" /></span></th></tr>
 </table>
 </g:form>

@@ -12,7 +12,7 @@ class ProfileTests extends grails.util.WebTest {
         setInputField name: "passwordOld", value: "nicowrong"
         clickButton "shiroUser.passwordChangeButton.label"
         //verifyText "login.failed.wrongPassword"
-
+/**
         setInputField name: "passwordOld", value: "eric.poscher@epe.at"
         setInputField name: "passwordNew", value: "nico1"
         setInputField name: "passwordNewAgain", value: "nico2"
@@ -37,7 +37,7 @@ class ProfileTests extends grails.util.WebTest {
 
         clickButton "shiroUser.passwordChangeButton.label"
         //verifyText "login.passwordChanged"
-        //*/
+        */
     }
 
     void testCustomerData() {
