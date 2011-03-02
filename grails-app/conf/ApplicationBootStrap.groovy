@@ -2,12 +2,13 @@ import org.apache.shiro.crypto.hash.Sha512Hash
 import groovy.sql.Sql
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import le.space.*
-import org.tinyradius.util.RadiusServer
+
 
 class ApplicationBootStrap {
 
-    def RadiusServer server = null;
-    
+//    def RadiusServer server = null;
+    def bgThreadManager
+
     def init = { servletContext ->
 
         def adminUser
@@ -216,15 +217,19 @@ class ApplicationBootStrap {
             log.debug "Contracts in database: ${le.space.Contract.count()}"
 
         }
-        server = new LeSpaceRadiusServer()
+        
+        bgThreadManager.queueRunnable(new RadiusThread())
+       // bgThreadManager.queueRunnable(new LeSpaceRadiusServer())
+
+ /**       server = new LeSpaceRadiusServer()
         server.start(true, true)
 
         log.debug "le space radius server started"
- 
+ */
     }
 
     def destroy = {
-        server.stop();
+        //server.stop();
     }
 
     def addAllCountries(String path){

@@ -16,6 +16,7 @@ class Contract {
 
     Customer customer
     String conditions
+    String conditionsExtra
 
     double quantity = 1 //default 1 (how many persons / per contract)
 
@@ -58,6 +59,7 @@ class Contract {
 
     static constraints = {
 
+        conditionsExtra(nullable:true,blank:true)
         conditions(nullable:true,blank:true)        
         paymentMethod(nullable:false,inList:[0,1,2,3])
         contractStart(nullable:false,blank:false)
@@ -77,11 +79,14 @@ class Contract {
     def calculateAmounts(){
         
         def val = ""
+        def conVal = ""
         this.getProducts().each{
             //log.debug it
             // val+=toolService.getMessage('contract.product.'+it.id)+" (€ "+toolService.formatNumber(it.priceNet)+" netto)\n"
             val+=it.name+" (€ "+toolService.formatNumber(it.priceNet)+" netto)\n"
+            conVal += it.conditions+"\n"
         }
+        conditions = conVal
         selectedProducts = val
      
         if(!autoExtend && this.getProducts()){

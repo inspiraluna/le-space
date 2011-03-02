@@ -6,11 +6,14 @@ import org.tinyradius.util.RadiusException
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import org.codehaus.groovy.grails.commons.ApplicationHolder;
 import org.springframework.context.ApplicationContext;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 /**
  * LeSpaceRadiusServer
  */
 class LeSpaceRadiusServer extends org.tinyradius.util.RadiusServer {
 
+    private static Log logger = LogFactory.getLog(LeSpaceRadiusServer.class)
     // This method should check whether the passed client is allowed to communicate with the Radius server. If this is the case, it should return the shared secret that secures the communication to the client.
     public String getUserPassword(String username) {
         return null;
@@ -93,6 +96,41 @@ class LeSpaceRadiusServer extends org.tinyradius.util.RadiusServer {
         RadiusPacket answer = new RadiusPacket(type, accessRequest.getPacketIdentifier())
         copyProxyState(accessRequest, answer)
         return answer;
+    }
+    /**
+     * Starts the Radius server.
+     * @param listenAuth open auth port?
+     * @param listenAcct open acct port?
+     */
+    public void start(boolean listenAuth, boolean listenAcct) {
+
+        if (listenAuth) {
+            try {
+                logger.info("starting RadiusAuthListener on port " + getAuthPort());
+                super.listenAuth();
+                logger.info("RadiusAuthListener is being terminated");
+            } catch(Exception e) {
+                e.printStackTrace();
+                logger.fatal("auth thread stopped by exception", e);
+            } finally {
+                authSocket.close();
+                logger.debug("auth socket closed");
+            }
+        }
+
+        if (listenAcct) {
+            try {
+                logger.info("starting RadiusAcctListener on port " + getAcctPort());
+                super.listenAcct();
+                logger.info("RadiusAcctListener is being terminated");
+            } catch(Exception e) {
+                e.printStackTrace();
+                logger.fatal("acct thread stopped by exception", e);
+            } finally {
+                acctSocket.close();
+                logger.debug("acct socket closed");
+            }            
+        }
     }
 
 

@@ -99,8 +99,9 @@
               <td valign="top" class="value ${hasErrors(bean: contract, field: 'conditions', 'errors')}">
               <g:textArea name="conditions" value="${contract?.conditions}" rows="5" cols="25"/>
               </td>
-              <td valign="top" class="name"></td>
-              <td valign="top" class="value"></td>
+              <th align="left" valign="top" class="name"><g:message code="contract.ConditionsExtra.label" default="ConditionsExtra" /></th>
+              <td valign="top" class="value ${hasErrors(bean: contract, field: 'conditionsExtra', 'errors')}">
+              <g:textArea name="conditionsExtra" value="${contract?.conditionsExtra}" rows="5" cols="25"/>
               </tr>
               <tr class="prop">
                 <th align="left" valign="top" class="name"><g:message code="contract.amountNet.label" default="Amount Net" /></th>

@@ -141,8 +141,9 @@ class ShiroUserController {
 
         shiroUserInstance.properties = params
         shiroUserInstance.username = shiroUserInstance.email
+
         if(params.password)
-        shiroUserInstance.passwordHash = new Sha512Hash(params.password).toHex()
+            shiroUserInstance.passwordHash = new Sha512Hash(params.password).toHex()
 
         if (shiroUserInstance.validate() && shiroUserInstance.save()) {
             log.debug "shiroUser ${shiroUserInstance} saved... "

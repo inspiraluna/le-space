@@ -10,7 +10,7 @@ class ContractController {
 
     def loginService 
     def contractService
-
+    def paymentService
 
     def profile = {
 

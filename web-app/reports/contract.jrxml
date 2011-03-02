@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="UserContract" language="groovy" pageWidth="495" pageHeight="802" columnWidth="435" leftMargin="40" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="2.0"/>
-	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="544"/>
+	<property name="ireport.x" value="92"/>
+	<property name="ireport.y" value="32"/>
 	<field name="id" class="java.lang.String"/>
+	<field name="customer.id" class="java.lang.String"/>
 	<field name="customer.salutation" class="java.lang.String"/>
 	<field name="customer.firstname" class="java.lang.String"/>
 	<field name="customer.lastname" class="java.lang.String"/>
@@ -23,6 +24,7 @@
 	<field name="selectedProducts" class="java.lang.String"/>
 	<field name="amountGross" class="java.lang.Double"/>
 	<field name="conditions" class="java.lang.String"/>
+	<field name="conditionsExtra" class="java.lang.String"/>
 	<field name="amountNet" class="java.lang.Double"/>
 	<field name="amountVAT" class="java.lang.Double"/>
 	<field name="quantity" class="java.lang.Integer"/>
@@ -120,7 +122,7 @@ eingetragen im Amtsgericht Leipzig HRB 25885 / UstID Nr. DE27240660]]></text>
 				<text><![CDATA[Die Nutzung beginnt am:]]></text>
 			</staticText>
 			<textField pattern="EEEEE dd. MMMMM yyyy" isBlankWhenNull="true">
-				<reportElement x="131" y="104" width="198" height="12"/>
+				<reportElement x="131" y="104" width="104" height="12"/>
 				<textElement/>
 				<textFieldExpression class="java.util.Date"><![CDATA[$F{contractStart}]]></textFieldExpression>
 			</textField>
@@ -155,7 +157,9 @@ eingetragen im Amtsgericht Leipzig HRB 25885 / UstID Nr. DE27240660]]></text>
 				<text><![CDATA[Die Nutzung endet am:]]></text>
 			</staticText>
 			<textField pattern="EEEEE dd. MMMMM yyyy" isBlankWhenNull="true">
-				<reportElement x="131" y="118" width="198" height="12"/>
+				<reportElement x="131" y="118" width="296" height="12">
+					<printWhenExpression><![CDATA[$F{contractEnd}!=null]]></printWhenExpression>
+				</reportElement>
 				<textElement/>
 				<textFieldExpression class="java.util.Date"><![CDATA[$F{contractEnd}]]></textFieldExpression>
 			</textField>
@@ -224,7 +228,7 @@ eingetragen im Amtsgericht Leipzig HRB 25885 / UstID Nr. DE27240660]]></text>
 				<reportElement x="0" y="31" width="300" height="1"/>
 			</line>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="132" y="158" width="198" height="12"/>
+				<reportElement x="132" y="158" width="293" height="12"/>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{conditions}]]></textFieldExpression>
 			</textField>
@@ -234,35 +238,35 @@ eingetragen im Amtsgericht Leipzig HRB 25885 / UstID Nr. DE27240660]]></text>
 				<text><![CDATA[Vertragsbedingungen:]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="248" y="253" width="182" height="12">
+				<reportElement x="248" y="269" width="182" height="12">
 					<printWhenExpression><![CDATA[$F{customer.bankAccount.directDebitPermission}.booleanValue()]]></printWhenExpression>
 				</reportElement>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{customer.bankAccount.bankName}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="248" y="241" width="179" height="12">
+				<reportElement x="248" y="257" width="179" height="12">
 					<printWhenExpression><![CDATA[$F{customer.bankAccount.directDebitPermission}.booleanValue()]]></printWhenExpression>
 				</reportElement>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{customer.bankAccount.accountOwner}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="55" y="241" width="117" height="12">
+				<reportElement x="55" y="257" width="117" height="12">
 					<printWhenExpression><![CDATA[$F{customer.bankAccount.directDebitPermission}.booleanValue()]]></printWhenExpression>
 				</reportElement>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{customer.bankAccount.accountNo}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="55" y="253" width="117" height="12">
+				<reportElement x="55" y="269" width="117" height="12">
 					<printWhenExpression><![CDATA[$F{customer.bankAccount.directDebitPermission}.booleanValue()]]></printWhenExpression>
 				</reportElement>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{customer.bankAccount.bankNo}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="1" y="226" width="431" height="15">
+				<reportElement x="1" y="242" width="431" height="15">
 					<printWhenExpression><![CDATA[$F{customer.bankAccount.directDebitPermission}.booleanValue()]]></printWhenExpression>
 				</reportElement>
 				<textElement>
@@ -271,46 +275,46 @@ eingetragen im Amtsgericht Leipzig HRB 25885 / UstID Nr. DE27240660]]></text>
 				<text><![CDATA[4. Einzugsermächtigung erteile ich jederzeit widerufbar für die Vertragslaufzeit:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1" y="241" width="53" height="12">
+				<reportElement x="1" y="257" width="53" height="12">
 					<printWhenExpression><![CDATA[$F{customer.bankAccount.directDebitPermission}.booleanValue()]]></printWhenExpression>
 				</reportElement>
 				<textElement/>
 				<text><![CDATA[Kto. Nr.:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1" y="253" width="53" height="12">
+				<reportElement x="1" y="269" width="53" height="12">
 					<printWhenExpression><![CDATA[$F{customer.bankAccount.directDebitPermission}.booleanValue()]]></printWhenExpression>
 				</reportElement>
 				<textElement/>
 				<text><![CDATA[BLZ:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="174" y="241" width="74" height="12">
+				<reportElement x="174" y="257" width="74" height="12">
 					<printWhenExpression><![CDATA[$F{customer.bankAccount.directDebitPermission}.booleanValue()]]></printWhenExpression>
 				</reportElement>
 				<textElement/>
 				<text><![CDATA[Kontoinhaber:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="174" y="253" width="74" height="12">
+				<reportElement x="174" y="269" width="74" height="12">
 					<printWhenExpression><![CDATA[$F{customer.bankAccount.directDebitPermission}.booleanValue()]]></printWhenExpression>
 				</reportElement>
 				<textElement/>
 				<text><![CDATA[Bank:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1" y="267" width="429" height="28"/>
+				<reportElement x="1" y="283" width="429" height="28"/>
 				<textElement/>
 				<text><![CDATA[Ergänzend gelten die ausgelegten allgemeinen Geschäftsbedingungen der Le Space UG
 und die Hausordnung des Tapetenwerks]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1" y="188" width="125" height="12"/>
+				<reportElement x="1" y="204" width="125" height="12"/>
 				<textElement/>
 				<text><![CDATA[Betrag (netto):]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="234" y="201" width="195" height="12">
+				<reportElement x="234" y="217" width="195" height="12">
 					<printWhenExpression><![CDATA[$F{customer.reverseChargeSystem}.booleanValue()]]></printWhenExpression>
 				</reportElement>
 				<textElement>
@@ -319,60 +323,60 @@ und die Hausordnung des Tapetenwerks]]></text>
 				<text><![CDATA[§13b (Reverse Charge System): Die Steuerschuld geht auf den Leistungsempfänger über!]]></text>
 			</staticText>
 			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
-				<reportElement x="126" y="188" width="100" height="12"/>
+				<reportElement x="126" y="204" width="100" height="12"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{amountNet}]]></textFieldExpression>
 			</textField>
 			<textField pattern="¤ #,##0.00" isBlankWhenNull="false">
-				<reportElement x="291" y="213" width="138" height="12">
+				<reportElement x="291" y="229" width="138" height="12">
 					<printWhenExpression><![CDATA[$F{customer.reverseChargeSystem}.booleanValue()]]></printWhenExpression>
 				</reportElement>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{customer.reverseChargeSystemID}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="1" y="200" width="125" height="12"/>
+				<reportElement x="1" y="216" width="125" height="12"/>
 				<textElement/>
 				<text><![CDATA[MwSt:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="234" y="213" width="53" height="12">
+				<reportElement x="234" y="229" width="53" height="12">
 					<printWhenExpression><![CDATA[$F{customer.reverseChargeSystem}.booleanValue()]]></printWhenExpression>
 				</reportElement>
 				<textElement/>
 				<text><![CDATA[Ihre UstId:]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="2" y="332" width="387" height="51">
+				<reportElement x="2" y="348" width="387" height="18">
 					<printWhenExpression><![CDATA[$F{customer.allowPublishNameOnWebsite}.booleanValue()]]></printWhenExpression>
 				</reportElement>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{customer.publicationHTML}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="1" y="213" width="125" height="12"/>
+				<reportElement x="1" y="229" width="125" height="12"/>
 				<textElement/>
 				<text><![CDATA[Betrag (brutto):]]></text>
 			</staticText>
 			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
-				<reportElement x="126" y="213" width="100" height="12"/>
+				<reportElement x="126" y="229" width="100" height="12"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{amountGross}]]></textFieldExpression>
 			</textField>
 			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
-				<reportElement x="126" y="200" width="100" height="12"/>
+				<reportElement x="126" y="216" width="100" height="12"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{amountVAT}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="1" y="173" width="225" height="15"/>
+				<reportElement x="1" y="189" width="225" height="15"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[3. Nutzungsgebühr]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1" y="301" width="376" height="15">
+				<reportElement x="1" y="317" width="376" height="15">
 					<printWhenExpression><![CDATA[$F{customer.allowPublishNameOnWebsite}.booleanValue()]]></printWhenExpression>
 				</reportElement>
 				<textElement>
@@ -381,12 +385,26 @@ und die Hausordnung des Tapetenwerks]]></text>
 				<text><![CDATA[5. Veröffentlichung von Firmenname, Name, Beruf und Webadresse ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="2" y="316" width="404" height="13">
+				<reportElement x="2" y="332" width="404" height="13">
 					<printWhenExpression><![CDATA[$F{customer.allowPublishNameOnWebsite}.booleanValue()]]></printWhenExpression>
 				</reportElement>
 				<textElement/>
 				<text><![CDATA[Folgender Text wird ausschließlich auf unserer Webseite kostenfrei veröffentlicht.]]></text>
 			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="133" y="170" width="291" height="12"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{conditionsExtra}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd. MMMMM yyyy" isBlankWhenNull="true">
+				<reportElement x="132" y="120" width="300" height="10">
+					<printWhenExpression><![CDATA[($F{contractEnd}==null || $F{contractEnd}=="")]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Vertrag verlängert sich nach Ablauf automatisch um die Buchungsdauer des Produkts. Der Betrag wird erneut fällig."]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<pageFooter>

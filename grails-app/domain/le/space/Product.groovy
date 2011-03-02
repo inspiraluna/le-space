@@ -7,8 +7,9 @@ class Product {
 
     static constraints = {
         productNo(nullable:false)
-        name(nullable:false)
-        description(nullable:true)
+        name(nullable:false,blank:false)
+        description(nullable:true,blank:true)
+        conditions(nullable:true,blank:true)
         priceNet(nullable:false)
         priceVAT(nullable:false)
         priceGross(nullable:false)
@@ -24,6 +25,8 @@ class Product {
     String productNo
     String name
     String description
+    String conditions
+
     double priceNet
     double priceVAT
     double priceGross

@@ -57,6 +57,14 @@
                                     <input type="text" id="description" name="description" value="${fieldValue(bean:productInstance,field:'description')}"/>
                                 </td>
                             </tr>
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                  <label for="description"><g:message code="product.conditions.label" default="Conditions" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: productInstance, field: 'conditions', 'errors')}">
+                                    <input type="text" id="description" name="conditions" value="${fieldValue(bean:productInstance,field:'conditions')}"/>
+                                </td>
+                            </tr>
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
