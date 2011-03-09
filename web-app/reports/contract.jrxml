@@ -21,6 +21,7 @@
 	<field name="customer.reverseChargeSystem" class="java.lang.Boolean"/>
 	<field name="contractStart" class="java.util.Date"/>
 	<field name="contractEnd" class="java.util.Date"/>
+	<field name="dateCreated" class="java.util.Date"/>
 	<field name="selectedProducts" class="java.lang.String"/>
 	<field name="amountGross" class="java.lang.Double"/>
 	<field name="conditions" class="java.lang.String"/>
@@ -59,7 +60,7 @@
 				<reportElement x="1" y="76" width="364" height="25"/>
 				<textElement/>
 				<text><![CDATA[vertreten durch den Geschäftsführer Nico Krause
-eingetragen im Amtsgericht Leipzig HRB 25885 / UstID Nr. DE27240660]]></text>
+eingetragen im Amtsgericht Leipzig HRB 25885 / UstID Nr. DE270240660]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="1" y="43" width="430" height="15"/>
@@ -448,14 +449,14 @@ BIC-/SWIFT-Code: WELADE8L]]></text>
 				<textElement>
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA["Leipzig,"+(new java.text.SimpleDateFormat("dd.MM.yyyy").format(new java.util.Date()))]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA["Leipzig,"+(new java.text.SimpleDateFormat("dd.MM.yyyy").format($F{dateCreated}))]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="188" y="10" width="133" height="10"/>
 				<textElement>
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA["Leipzig,"+(new java.text.SimpleDateFormat("dd.MM.yyyy").format(new java.util.Date()))]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA["Leipzig,"+(new java.text.SimpleDateFormat("dd.MM.yyyy").format($F{dateCreated}))]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageFooter>

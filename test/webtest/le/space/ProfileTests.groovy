@@ -1,7 +1,5 @@
 package le.space
 
-
-
 class ProfileTests extends grails.util.WebTest {
 
     void testPassword() {
@@ -11,32 +9,32 @@ class ProfileTests extends grails.util.WebTest {
         clickLink "Change Password"
         setInputField name: "passwordOld", value: "nicowrong"
         clickButton "shiroUser.passwordChangeButton.label"
-        //verifyText "login.failed.wrongPassword"
-/**
+        verifyText "login.failed.wrongPassword"
+
         setInputField name: "passwordOld", value: "eric.poscher@epe.at"
         setInputField name: "passwordNew", value: "nico1"
         setInputField name: "passwordNewAgain", value: "nico2"
 
 
         clickButton "shiroUser.passwordChangeButton.label"
-       // verifyText "login.failed.passwordDontMatch"
+        //verifyText "login.failed.passwordDontMatch"
 
         setInputField name: "passwordOld", value: "eric.poscher@epe.at"
         setInputField name: "passwordNew", value: "niconeu"
-        setInputField name: "passwordNewAgain", value: "nicoenu"
+        setInputField name: "passwordNewAgain", value: "niconeu"
 
         clickButton "shiroUser.passwordChangeButton.label"
         //verifyText "login.passwordChanged"
 
         clickLink id: "logout"
-        userProfileLogin("eric.poscher@epe.at","eric.poscher@epe.at")
+        /*userProfileLogin("eric.poscher@epe.at","eric.poscher@epe.at")
 
         setInputField name: "passwordOld", value: "niconeu"
         setInputField name: "passwordNew", value: "eric.poscher@epe.at"
         setInputField name: "passwordNewAgain", value: "eric.poscher@epe.at"
 
         clickButton "shiroUser.passwordChangeButton.label"
-        //verifyText "login.passwordChanged"
+        verifyText "login.passwordChanged"
         */
     }
 

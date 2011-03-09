@@ -28,11 +28,11 @@ vertreten durch den Geschäftsführer Nico Krause<br />
 Eingetragen im Amtsgericht Leipzig HRB 25885</p>
 
 <h2>UstId</h3>
-<p>DE27240660</p>
+<p>DE270240660</p>
 
 <h2>Bankverbindung</h3>
 <p>
-Sparkasse Leipzig (Bankleitzahl 860 555 92, Kto. Nr. 1100880298)<br/>
+Sparkasse Leipzig (Bankleitzahl 86055592, Kto. Nr. 1100880298)<br/>
 IBAN: DE74860555921100880298 <br/>
 BIC-/SWIFT-Code:WELADE8L
 </p>

@@ -11,6 +11,7 @@ class ContractController {
     def loginService 
     def contractService
     def paymentService
+    def exportService
 
     def profile = {
 
@@ -210,8 +211,8 @@ class ContractController {
         //log.debug "contractList.size() ${contractList.size}"
 
 
-        List fields = ["id", "customer.firstname", "customer.lastname","customer.company","customer.city","amountGross","autoExtend","valid","paid"]
-        Map labels = ["id":"Vertragsnummer","firstname":"Vorname","lastname":"Nachname","city":"Stadt","amountGross":"Betrag (brutto)","auto_extend":"Auto-Verlängerung"]
+        List fields = ["id", "customer.id","customer.debitNo","customer.firstname", "customer.lastname","customer.company","customer.city","amountGross","autoExtend","paid","customer.bankAccount.directDebitPermission"]
+        Map labels = ["id":"V-Nr.","customer.id":"KdNr.","customer.debitNo":"Deb.Nr.","customer.firstname":"Vorname","customer.lastname":"Nachname","customer.city":"Stadt","customer.company":"Firma","amountGross":"Betrag (brutto)","autoExtend":"Auto-Verlängerung","customer.bankAccount.directDebitPermission":"LS"]
         Map formatters = [:]
         Map parameters = [:]
         

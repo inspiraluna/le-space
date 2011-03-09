@@ -26,6 +26,8 @@ class Customer {
     String reverseChargeSystemID
 
     BankAccount bankAccount
+
+    String debitNo
     
     /*
      *
@@ -91,6 +93,7 @@ class Customer {
         
         bankAccount(nullable:true)
 
+        debitNo(nullable:true,blank:true)
         reverseChargeSystem()
         reverseChargeSystemID(nullable:true,blank:true)
         dateCreated(nullable:true,blank:true)
