@@ -6,13 +6,13 @@ class LoginService implements  le.space.java.LoginServiceIf {
   
     static transactional = true
     def paymentService
+    def sessionFactory
 
 
     def createUser(ShiroUser shiroUser){
-
         if(shiroUser.validate()){
             log.debug "shiroUser valid: ${shiroUser.validate()} saving"
-            shiroUser = shiroUser.save()
+            shiroUser = shiroUser.save(flush:true)
         }
 
         return shiroUser
@@ -38,13 +38,21 @@ class LoginService implements  le.space.java.LoginServiceIf {
 
         def shiroUser = le.space.ShiroUser.get(id)
         log.debug "shiroUser:${shiroUser} userId:${id} valid:${isCurrentContractOfUserValid(shiroUser)}"
-
+        def contract
         if (shiroUser) {
-            def login = new Login(user:shiroUser,ipAddress:ipAddress?ipAddress:null,macAddress:macAddress?macAddress:null,loginStart:new Date()).save()
-            log.debug "login saved?: ${login}"
-            def contract = getLastContractOfUser(shiroUser)
-            if(contract)
-            recalculateLoginsOfContract(contract)
+            try {
+                sessionFactory.currentSession.flushMode = org.hibernate.FlushMode.MANUAL
+                def login = new Login(user:shiroUser,ipAddress:ipAddress?ipAddress:null,macAddress:macAddress?macAddress:null,loginStart:new Date()).save(flush:true)
+                log.debug "login saved?: ${login}"
+
+                contract = getLastContractOfUser(shiroUser)
+
+                if(contract)
+                    recalculateLoginsOfContract(contract)
+                
+            } finally {
+                sessionFactory.currentSession.flushMode = org.hibernate.FlushMode.AUTO
+            }
         } // if shiroUser
     }
 
@@ -67,15 +75,22 @@ class LoginService implements  le.space.java.LoginServiceIf {
         if(contractInstance.getProducts() && (contractInstance.getProducts().toArray())[0].allowedLoginDays!=0){ //(contractInstance.getProducts().toArray())[0].durationType==Product.DUR_DAY){
             log.debug "allowedLoginDays of Product is ${(contractInstance.getProducts().toArray())[0].allowedLoginDays}"
             contractInstance.allowedLoginDaysLeft = (contractInstance.getProducts().toArray())[0].allowedLoginDays*contractInstance.quantity - contractInstance.loginDays
+
+            if(contractInstance.allowedLoginDaysLeft==0)
+            contractInstance.cancelationDate = new Date()
         }
         else{
             log.debug "allowedLoginsDay of product is 0"
             contractInstance.allowedLoginDaysLeft = 0
         }
+        if(this.getDayLogins(contractInstance).toArray())
+        contractInstance.lastLogin = (this.getDayLogins(contractInstance).toArray())[0][2].loginStart
+        else
+        contractInstance.lastLogin = new Date()
 
         log.debug "login was counted. allowedLoginDayLeft now:${contractInstance.allowedLoginDaysLeft} and loginDays now: ${contractInstance.loginDays}"
-        contractInstance.lastLogin = new Date()
-        contractInstance.save()
+        log.debug "lastLogin now: ${contractInstance.lastLogin}"
+        contractInstance.save(flush:true)
         //}
     }
 
@@ -113,7 +128,7 @@ class LoginService implements  le.space.java.LoginServiceIf {
         contractStartTemp = new DateTime(new DateTime().year().get(),new DateTime().monthOfYear().get(),contractInstance.contractStart.getDay()>0?contractInstance.contractStart.getDay():1,0,0,0,0).toDate()
 
         def hparams = [contractStart:contractStartTemp]
-        def hql = "select date(l.loginStart), l.user as user from le.space.Login l "
+        def hql = "select date(l.loginStart), l.user as user, l as login from le.space.Login l "
         hql+= "where l.loginStart >= :contractStart "
 
         if(contractInstance.cancelationDate){

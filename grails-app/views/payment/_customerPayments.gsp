@@ -3,7 +3,7 @@
 <g:if test="${flash.message}">
   <div class="message">${flash.message}</div>
 </g:if>
-<g:each in="${contract?.customer?.payments}" status="i" var="payment">
+<g:each in="${contract?.customer?.payments.toArray().sort{it.paymentDate}}" status="i" var="payment">
   <g:form>
     <table>
       <g:hiddenField name="id" value="${payment?.id}" />

@@ -5,13 +5,19 @@
 </g:if>
 <table>
   <tr>
+    <th nowrap><g:message code="login.no.label" default="no" /></th>
     <th align="left"><g:message code="login.loginStart.label" default="loginStart" /></th>
-<th align="left"><g:message code="login.shiroUser.label" default="shiroUser" /></th>
+    <th align="left"><g:message code="login.shiroUser.label" default="shiroUser" /></th>
+    <th align="left">&nbsp;</th>
 </tr>
 <g:each in="${loginList}" status="j" var="login">
   <tr>
+    <td nowrap>${loginList.size()-j}</td>
     <td nowrap>${login[0]}</td>
-    <td nowrap>${login[1].username}</td>
+    <td nowrap>${login[1].username} (${login[1].id})</td>
+    <td nowrap>
+        <g:form controller="Login">
+          <g:hiddenField name="id" value="${login[2]?.id}" /><g:hiddenField name="contract.id" value="${contract?.id}" /><g:submitToRemote update="userLogins" class="removeLogin" action="removeLogin" controller="login" name="removeLogin" value="${g.message(code:'default.button.delete.label')}" /></g:form></td>
   </tr>
 </g:each>
 </table>
@@ -26,7 +32,8 @@
     </tr>
     <tr>
       <td nowrap><g:datePicker precision="day" name="loginStart" precision="minute" value="${payment?.paymentDate}" defaultValue="${new Date()}" /></td>
-    <td><g:select name="user.id"
+    <td>
+    <g:select name="user.id"
                   from="${contract?.customer.shiroUsers}"
                   optionKey="id"
                   value="username" /></td>

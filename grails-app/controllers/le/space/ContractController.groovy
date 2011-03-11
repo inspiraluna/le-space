@@ -385,7 +385,6 @@ class ContractController {
     def addFullPayment = {
         def contract = Contract.get(params.id)
         if (contract) {
-  
             if(contract.amountDue>0){
                 def payment = new Payment(amount:contract.amountDue,paymentDate:new Date(),paymentMethod:Payment.PM_DIRECT_DEBIT,customer:contract.customer).save()               
                 log.debug "added payment ${payment} to customer ${contract.customer}"

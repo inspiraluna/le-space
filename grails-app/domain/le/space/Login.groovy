@@ -13,6 +13,7 @@ class Login {
     Date loginStart = new Date()
 
     static belongsTo = [user:ShiroUser]
+
     static transients = ["loginService"]
     
     static constraints = {

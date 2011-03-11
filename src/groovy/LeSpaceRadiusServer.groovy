@@ -37,6 +37,9 @@ class LeSpaceRadiusServer extends org.tinyradius.util.RadiusServer {
         accessRequest.getAttributes().each{
             System.out.println("attribute:"+it.getAttributeTypeObject().getName()+":"+it.getAttributeValue())
         }
+        
+        ApplicationContext ctx = (ApplicationContext)ApplicationHolder.getApplication().getMainContext()
+        le.space.java.LoginServiceIf loginService = (le.space.java.LoginServiceIf) ctx.getBean("loginService")
 
         boolean macAuth = false
         def shiroUser
@@ -64,16 +67,12 @@ class LeSpaceRadiusServer extends org.tinyradius.util.RadiusServer {
                     facebookName:null,
                     mac:accessRequest.getUserName(),optOutIamHereFunction:true)
 
-                ApplicationContext ctx = (ApplicationContext)ApplicationHolder.getApplication().getMainContext()
-                le.space.java.LoginServiceIf loginService = (le.space.java.LoginServiceIf) ctx.getBean("loginService")
-
                 shiroUser = loginService.createUser(shiroUser)
-               
                 System.out.println("User: "+shiroUser+" created!")
             }
         }
         else
-        shiroUser = le.space.ShiroUser.findByUsername(accessRequest.getUserName())
+            shiroUser = le.space.ShiroUser.findByUsername(accessRequest.getUserName())
 
         //accessRequest.setAuthProtocol(AccessRequest.AUTH_PAP); //
         
@@ -83,10 +82,6 @@ class LeSpaceRadiusServer extends org.tinyradius.util.RadiusServer {
         //Accept auf true setzen, wenn das übermittelte passwort (aus dem accessRequest mit dem aus der Datenbank übereinstimmt
         if ((shiroUser && new Sha512Hash(accessRequest.getUserPassword()).toHex() == shiroUser.passwordHash) || macAuth){
             type = RadiusPacket.ACCESS_ACCEPT
-
-            ApplicationContext ctx = (ApplicationContext)ApplicationHolder.getApplication().getMainContext()
-            le.space.java.LoginServiceIf loginService = (le.space.java.LoginServiceIf) ctx.getBean("loginService")
-
             loginService.login(shiroUser.id.toString(),
                 accessRequest?.getAttribute("Framed-IP-Address")?.getAttributeValue()
                 ,accessRequest?.getAttribute("Calling-Station-Id")?.getAttributeValue())
@@ -97,6 +92,7 @@ class LeSpaceRadiusServer extends org.tinyradius.util.RadiusServer {
         copyProxyState(accessRequest, answer)
         return answer;
     }
+
     /**
      * Starts the Radius server.
      * @param listenAuth open auth port?

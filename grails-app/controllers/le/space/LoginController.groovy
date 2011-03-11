@@ -53,10 +53,37 @@ class LoginController {
 
         def contract = Contract.get(params.contract.id)
         def loginList = loginService.getDayLogins(contract)
+
+        loginService.recalculateLoginsOfContract(contract)
+        
         log.debug "now ${loginList.size()} elements "
         render(view: "_userLogins", controller:"shiroUser", model: [loginList:loginList,contract: contract])
     }
 
+    def removeLogin = {
+        def loginInstance = Login.get(params.id)
+        if (loginInstance) {
+            try {
+                loginInstance.delete(flush: true)
+                flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'login.label', default: 'Login'), params.id])}"
+                
+            }
+            catch (org.springframework.dao.DataIntegrityViolationException e) {
+                flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'login.label', default: 'Login'), params.id])}"
+              
+            }
+        }
+        else {
+            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'login.label', default: 'Login'), params.id])}"
+        }
+        
+        def contract = Contract.get(params.contract.id)
+        def loginList = loginService.getDayLogins(contract)
+        loginService.recalculateLoginsOfContract(contract)
+        
+        log.debug "now ${loginList.size()} elements "
+        render(view: "_userLogins", controller:"shiroUser", model: [loginList:loginList,contract: contract])
+    }
 
     def index = {
         redirect(action: "list", params: params)
