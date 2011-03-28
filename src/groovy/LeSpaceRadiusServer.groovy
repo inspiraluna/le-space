@@ -16,7 +16,8 @@ class LeSpaceRadiusServer extends org.tinyradius.util.RadiusServer {
     private static Log logger = LogFactory.getLog(LeSpaceRadiusServer.class)
     // This method should check whether the passed client is allowed to communicate with the Radius server. If this is the case, it should return the shared secret that secures the communication to the client.
     public String getUserPassword(String username) {
-        return null;
+        System.err.println("getting UserPassword of User:"+username+" : "+le.space.ShiroUser.findByUsername(username).password_hash)
+        return le.space.ShiroUser.findByUsername(username).password_hash
     }
 
     /**
@@ -30,67 +31,80 @@ class LeSpaceRadiusServer extends org.tinyradius.util.RadiusServer {
      */
     public RadiusPacket accessRequestReceived(AccessRequest accessRequest, InetSocketAddress client)
     throws RadiusException {
-
+        
         //String plaintext = getUserPassword(accessRequest.getUserName());
         int type = RadiusPacket.ACCESS_REJECT
         
         accessRequest.getAttributes().each{
-            System.out.println("attribute:"+it.getAttributeTypeObject().getName()+":"+it.getAttributeValue())
+        System.err.println("attribute:"+it.getAttributeTypeObject().getName()+":"+it.getAttributeValue())
         }
         
         ApplicationContext ctx = (ApplicationContext)ApplicationHolder.getApplication().getMainContext()
         le.space.java.LoginServiceIf loginService = (le.space.java.LoginServiceIf) ctx.getBean("loginService")
+        accessRequest.setAuthProtocol(AccessRequest.AUTH_CHAP);
 
         boolean macAuth = false
         def shiroUser
 
-        System.out.println("try radius login of:"+accessRequest.getUserName())
+        System.err.println("try radius login of:"+accessRequest.getUserName())
         // System.out.println(accessRequest.getUserName().tokenize(':').size())
 
         if(accessRequest.getUserName().tokenize(':').size()==6){
-            macAuth = true
-            System.out.println("mac address wants to authenticate searching for user.")
-            shiroUser = le.space.ShiroUser.findByMac(accessRequest.getUserName())
-            if(!shiroUser){
-                //create new anonymous user
-                System.out.println("mac address not known creating a new user!")
-                //le.space.ShiroUser.withTransaction(){
-                shiroUser = new le.space.ShiroUser(username:accessRequest.getUserName(),
-                    passwordHash:new Sha512Hash(accessRequest.getUserName()).toHex(),salutation:null,
-                    firstname:"Anonym",
-                    lastname:"Anonymous",
-                    email:accessRequest.getUserName().replace(':','.')+"@le-space.de",
-                    birthday:null,
-                    telMobile:null,
-                    occupation:null,
-                    twitterName:null,
-                    facebookName:null,
-                    mac:accessRequest.getUserName(),optOutIamHereFunction:true)
+        macAuth = true
+        System.out.println("mac address wants to authenticate searching for user.")
+        shiroUser = le.space.ShiroUser.findByMac(accessRequest.getUserName())
+        if(!shiroUser){
+        //create new anonymous user
+        System.out.println("mac address not known creating a new user!")
+        //le.space.ShiroUser.withTransaction(){
+        shiroUser = new le.space.ShiroUser(username:accessRequest.getUserName(),
+        passwordHash:accessRequest.getUserName(),salutation:null,
+        firstname:"Anonym",
+        lastname:"Anonymous",
+        email:accessRequest.getUserName().replace(':','.')+"@le-space.de",
+        birthday:null,
+        telMobile:null,
+        occupation:null,
+        twitterName:null,
+        facebookName:null,
+        mac:accessRequest.getUserName(),optOutIamHereFunction:true)
 
-                shiroUser = loginService.createUser(shiroUser)
-                System.out.println("User: "+shiroUser+" created!")
-            }
+        shiroUser = loginService.createUser(shiroUser)
+        System.out.println("User: "+shiroUser+" created!")
+        }
         }
         else
-            shiroUser = le.space.ShiroUser.findByUsername(accessRequest.getUserName())
+        shiroUser = le.space.ShiroUser.findByUsername(accessRequest.getUserName())
 
         //accessRequest.setAuthProtocol(AccessRequest.AUTH_PAP); //
-        
+     
 
         //http://www.dd-wrt.com/wiki/index.php/How_to_configure_DD-WRT,_Chillispot,_Apache2,_FreeRadius,_freeradius-dialupadmin,_and_MySQL_on_Debian_4.0
 
         //Accept auf true setzen, wenn das übermittelte passwort (aus dem accessRequest mit dem aus der Datenbank übereinstimmt
-        if ((shiroUser && new Sha512Hash(accessRequest.getUserPassword()).toHex() == shiroUser.passwordHash) || macAuth){
-            type = RadiusPacket.ACCESS_ACCEPT
-            loginService.login(shiroUser.id.toString(),
-                accessRequest?.getAttribute("Framed-IP-Address")?.getAttributeValue()
-                ,accessRequest?.getAttribute("Calling-Station-Id")?.getAttributeValue())
+        //if ((shiroUser && new Sha512Hash(accessRequest.getUserPassword()).toHex() == shiroUser.passwordHash) || macAuth){
+        if ((shiroUser &&  accessRequest.verifyPassword(shiroUser.passwordHash)) || macAuth){
+
+        type = RadiusPacket.ACCESS_ACCEPT
+        loginService.login(shiroUser.id.toString(),
+        accessRequest?.getAttribute("Framed-IP-Address")?.getAttributeValue()
+        ,accessRequest?.getAttribute("Calling-Station-Id")?.getAttributeValue())
                        
         }//if
 
         RadiusPacket answer = new RadiusPacket(type, accessRequest.getPacketIdentifier())
         copyProxyState(accessRequest, answer)
         return answer;
+
+/*
+        String plaintext = getUserPassword(accessRequest.getUserName());
+        int type = RadiusPacket.ACCESS_REJECT;
+        if (plaintext != null && accessRequest.verifyPassword(plaintext))
+        type = RadiusPacket.ACCESS_ACCEPT;
+
+        RadiusPacket answer = new RadiusPacket(type, accessRequest.getPacketIdentifier());
+        copyProxyState(accessRequest, answer);
+        return answer;*/
     }
 
     /**

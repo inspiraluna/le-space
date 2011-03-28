@@ -2,19 +2,7 @@
 // // locations to search for config files that get merged into the main config
 // config files can either be Java properties files or ConfigSlurper scripts
 grails.config.locations = ["file:${userHome}/.grails/${appName}-config.groovy"]
-grails {
-    mail {
-        host = "www.le-space.de"
-        port = 465
-        //    port = 25
-        username = "kontakt@le-space.de"
-        password = "hurra2010"
-        props = ["mail.smtp.auth":"true",
-              "mail.smtp.socketFactory.port":"465",
-              "mail.smtp.socketFactory.class":"javax.net.ssl.SSLSocketFactory",
-              "mail.smtp.socketFactory.fallback":"true"]
-    }
-}
+
 
 
 //grails.config.locations = [ "classpath:${appName}-config.properties",
@@ -102,14 +90,14 @@ environments {
 	
     development {
         dataSource {
-            grails.serverURL = "http://localhost:8080/le-space/"
+            grails.serverURL = "http://localhost:8080/"
             grails.secureServerURL  = "https://localhost:8443/le-space"
             dbCreate = "create-drop" // one of 'create', 'create-drop','update'
             url = "jdbc:hsqldb:mem:devDB"
         }
         log4j = {
             // in development mode, let's see all my log messages
-            debug 'grails.app'
+            debug 'grails.app','org.tinyradius'
         }
     }
     test {
@@ -158,6 +146,7 @@ log4j = {
 	       'org.codehaus.groovy.grails.orm.hibernate', // hibernate integration
 	       'org.springframework',
 	       'org.hibernate',
+               'org.tinyradius',
            'net.sf.ehcache.hibernate'
 
     warn   'org.mortbay.log'

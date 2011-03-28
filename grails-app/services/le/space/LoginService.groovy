@@ -5,7 +5,9 @@ import org.joda.time.format.*
 class LoginService implements  le.space.java.LoginServiceIf {
   
     static transactional = true
+
     def paymentService
+
     def sessionFactory
 
 

@@ -1,9 +1,26 @@
 package le.space
-import org.apache.shiro.crypto.hash.Sha512Hash
+//import org.apache.shiro.crypto.hash.Sha512Hash
+import org.codehaus.groovy.grails.plugins.jasper.JasperExportFormat
+import org.codehaus.groovy.grails.plugins.jasper.JasperReportDef
+import org.apache.shiro.SecurityUtils
+import com.lowagie.text.*
+import com.lowagie.text.pdf.*
+import java.security.cert.Certificate;
+import java.security.PrivateKey;
+import java.security.KeyStore;
+import java.security.MessageDigest;
+import java.security.Security;
+import java.security.cert.CertStore;
+import java.security.cert.CollectionCertStoreParameters;
+import java.security.cert.X509Certificate;
 
 
 class PublicController {
 
+    def jasperService
+    def mailService
+    def contractService
+    
     def index = {
 
         log.debug " registration called..."
@@ -86,7 +103,8 @@ class PublicController {
             shiroUser.properties = params
 
             shiroUser.username = params.email
-            shiroUser.passwordHash = new Sha512Hash(params.email).toHex()
+            //shiroUser.passwordHash = new Sha512Hash(params.email).toHex()
+            shiroUser.passwordHash = params.email
             contract.products = session.products
             customer.bankAccount = bankAccount
             
@@ -189,61 +207,46 @@ class PublicController {
         [contract:contract,customer:customer,shiroUser:shiroUser,bankAccount:bankAccount]
     }
 
-    //save contract
     def register = {
         log.debug "register called"
 
         def contract = session.contract
-        def shiroUser = session.shiroUser
-        shiroUser.addToRoles(ShiroRole.findByName("User"))
-        def customer = session.customer
         def bankAccount = session.bankAccount
-        
-        customer.addToShiroUsers(shiroUser)
+        def shiroUser = session.shiroUser
+
+        def customer = session.customer
+        def products = session.products
         contract.customer = customer
 
         log.debug "contract:${contract}\n shiroUser:${shiroUser}\n customer:${customer}"
         
-        if(shiroUser.validate() && shiroUser.save() && 
-            customer.validate() && customer.save() &&
-            bankAccount.validate() && bankAccount.save() &&
-            contract.validate() && contract.save() ){
-            
-            log.debug "no errors contract saved"
-            
-            //            shiroUser.save()
+        if(shiroUser.validate() &&
+            customer.validate() &&
+            bankAccount.validate() &&
+            contract.validate() &&
+            contractService.addContract(contract,customer,shiroUser,bankAccount,products))
+            {
             session.contract = contract
+            params.put("printLetterHead",true)
+            params.put("imageUrl","${HelperTools.getServerAndContext(request)}/img/logo_LeSpace.gif")
 
-            /*            //log.debug "try to send email... "
-            def senderEmail = "info@le-space.de"
+            def reportDef = new JasperReportDef(name:'contract',
+                fileFormat:JasperExportFormat.PDF_FORMAT,
+                reportData:[contract],
+                parameters:params
+            )
 
-            def sendFile = new le.space.java.sendfile(grailsApplication.config.grails.mail.host,grailsApplication.config.grails.mail.port.toString(),
-            grailsApplication.config.grails.mail.username,
-            grailsApplication.config.grails.mail.password,true,
-            senderEmail,contract.email, g.message(code:'contract.email.subject'), g.message(code:'contract.email.emailText'))
-
-
-            def params = "&imageUrl=${HelperTools.getServerAndContext(request)}/img/logo_LeSpace.gif&"+
-            "_format=PDF&"+
-            "_inline=false&"+
-            "_file=contract&"+
-            "jasperFile=contract&"+
-            "_name=${g.message(code:'contract.contract')}_${contract?.id}"
-
-            def url = le.space.HelperTools.getServerAndContext(request)+"/public/contract/"+contract?.id+"?"
-            url = response.encodeURL(url)+params
-
-            log.debug "url:"+url
-
-            sendFile.addFile(readUrlBytes(url),"${g.message(code:'contract.contract')}_${contract?.id}")
-
-            String sendError = sendFile.send()
-
-            if(sendError==null)
-            flash.message = message(code: "contract.emailSuccess",args: [ "${sendError}" ])
-            else
-            flash.message = message(code: "contract.emailFailed",args: [ "${sendError}" ])
-             */
+            log.debug "trying to send email to: ${customer.email}"
+            mailService.sendMail {
+                multipart true
+                to customer.email
+                from grailsApplication.config.grails.mail.from?grailsApplication.config.grails.mail.from:"noemail@le-space.de"
+                //cc "marge@g2one.com", "ed@g2one.com"
+                //bcc "joe@g2one.com"
+                subject "Le Space Registrierung"             //message(code: "contract.formErrors",args: [ "" ])
+                body "${contract?.customer?.firstname} ${contract?.customer?.lastname},\n im Anhang erhalten ihren Le Space Vertrag. Herzlich Willkommen!"
+                attachBytes "contract_${contract?.id}_${contract?.customer?.company?.replace(' ','_')}.pdf", "application/pdf", jasperService.generateReport(reportDef).toByteArray()  //contentOrder.getBytes("UTF-8")
+            }
         }
         else{
             contract.errors.allErrors.each {
@@ -304,13 +307,9 @@ class PublicController {
             log.debug "adding product to contract... ${p} ${params.id}"
             contract.addToProducts(p)
             contract.calculateAmounts()
-        
-        
+       
             session.contract=contract
-
             log.debug "load options of product ${p}  params.id:${params.id}"
-
-        
             session.options = []
 
             //if(params.id)
@@ -335,8 +334,7 @@ class PublicController {
             if(it.id==productId.toLong()){
                 if(params.optionValue=='true'){
                     log.debug "adding product ${it}"
-                    contract.addToProducts(it)
-                 
+                    contract.addToProducts(it)                
                 }
                 else{
                     log.debug "removing product ${it}"
@@ -359,12 +357,73 @@ class PublicController {
 
         def contract = session.contract
 
+        log.debug contract.customer
+        log.debug contract.customer.bankAccount
         contract.products.each{
             log.debug it
         }
+        def reportDef = new JasperReportDef(name:'contract',
+            fileFormat:JasperExportFormat.PDF_FORMAT,
+            reportData:[contract],
+            parameters:params
+        )
 
-        log.info "contractPdf called. with ${contract} \nand products: ${contract.products} \nand customer: ${contract.customer} \nand bankAccount:${contract.customer.bankAccount} \n and users: ${contract.customer.shiroUsers}"
-        chain(controller:"jasper", action:"index", model:[data:[contract]],params:params)
+        /**
+         * JasperReportDef has the following properties:
+         * name - Name of the Report. (Required)
+         * fileFormat - Fileformat of the Report. Please use the JasperExportFormat Enum. (Required)
+         * folder - The folder where you placed your reports. Defaults to /reports if unset and no global setting (jasper.report.dir in Config.groovy) exists.
+         * reportData - Collection containing the data of your report (leave empty if you want to use a SQL query inside your report)
+         * locale - Locale to use in the report generation.
+         * parameters - All additional parameters as a Map.
+         
+        <g:hiddenField name="id" value="${contract?.id}" />
+        <g:hiddenField name="_format" value="PDF" />
+        <g:hiddenField name="_inline" value="false" />
+        <g:hiddenField name="_name" value="contract_${contract?.id}_${contract?.customer?.company?.replace(' ','_')}" />
+        <g:hiddenField name="_file" value="contract"  />
+         */
+        /*
+        def reportDef = new JasperReportDef(name:'contract',
+        fileFormat:JasperExportFormat.PDF_FORMAT,
+        reportData:[contract],
+        parameters:params
+        )
+
+        KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());
+        ks.load(new FileInputStream("/tmp/keystore.ks"), "hurra2011!".toCharArray());
+        String alias = (String)ks.aliases().nextElement();
+        java.security.PrivateKey key = (java.security.PrivateKey)ks.getKey(alias, "hurra2011!".toCharArray());
+        Certificate[] chain = ks.getCertificateChain(alias);
+        PdfReader reader = new PdfReader(jasperService.generateReport(reportDef).toByteArray());
+        ByteArrayOutputStream fout = new ByteArrayOutputStream();
+        //FileOutputStream fout = new FileOutputStream("/tmp/signed.pdf");
+        char c = '\0'
+
+        PdfStamper stp = PdfStamper.createSignature(reader, fout, c);
+        PdfSignatureAppearance sap = stp.getSignatureAppearance();
+        sap.setCrypto(key, chain, null, PdfSignatureAppearance.SELF_SIGNED);
+        sap.setReason("I'm the author");
+        sap.setLocation("Leipzig");
+        // comment next line to have an invisible signature
+        sap.setVisibleSignature(new Rectangle(100, 100, 200, 200), 1, null);
+        stp.close();*/
+
+
+
+
+
+
+        //  org.apache.commons.io.FileUtils.writeByteArrayToFile(new File("/tmp/contract_${contract?.id}_${contract?.customer?.company?.replace(' ','_')}.pdf"),jasperService.generateReport(reportDef).toByteArray())
+        
+        response.setHeader("Content-disposition", "attachment; filename="+(reportDef.parameters._name ?: reportDef.name) + "." + reportDef.fileFormat.extension);
+        response.contentType = reportDef.fileFormat.mimeTyp
+        response.characterEncoding = "UTF-8"
+        //response.outputStream << fout.toByteArray() //reportDef.contentStream.toByteArray()
+        response.outputStream << jasperService.generateReport(reportDef).toByteArray()
+        
+        //log.info "contractPdf called. with ${contract} \nand products: ${contract.products} \nand customer: ${contract.customer} \nand bankAccount:${contract.customer.bankAccount} \n and users: ${contract.customer.shiroUsers}"
+        //chain(controller:"jasper", action:"index", model:[data:[contract]],params:params)
     }
 
     public byte[] readUrlBytes(String address) {

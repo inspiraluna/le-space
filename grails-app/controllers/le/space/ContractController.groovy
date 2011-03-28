@@ -3,6 +3,8 @@ import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import org.joda.time.*
 import org.joda.time.format.*
 import org.apache.shiro.SecurityUtils
+import de.jost_net.OBanToo.Dtaus.*
+
 
 class ContractController {
 
@@ -31,10 +33,58 @@ class ContractController {
             contractList:contractList,loginList:loginList]
     }
 
+    def dtaus ={
+
+       // def hql = "select sum(amountGross) as amount, year(contractStart)||' '||month(contractStart) "
+        def hql="from le.space.Contract  c "
+        hql+="where c.customer.bankAccount.directDebitPermission=true "
+        hql+= "and c.amountDue>0"
+
+        def hparams = []
+        def contractList = Contract.executeQuery(hql,hparams)
+
+        //FileOutputStream fos = new FileOutputStream("/Users/nico/Desktop/dtaus")
+        ByteArrayOutputStream fout = new ByteArrayOutputStream();
+        de.jost_net.OBanToo.Dtaus.DtausDateiWriter dtausDateiWriter = new DtausDateiWriter(fout);
+
+        //Jetzt wird der ASatz gefüllt und geschrieben:
+        dtausDateiWriter.setAGutschriftLastschrift("LK");
+        dtausDateiWriter.setABLZBank(86055592);
+        dtausDateiWriter.setAKundenname("Le Space UG");
+        dtausDateiWriter.setAKonto(1100880298);
+        dtausDateiWriter.writeASatz();
+
+        //Ab hier werden die eigentlichen Zahlungssätze erstellt:
+        contractList.each{
+            dtausDateiWriter.setCBLZEndbeguenstigt(new Long(it.customer.bankAccount.bankNo).longValue());
+            dtausDateiWriter.setCKonto(new Long(it.customer.bankAccount.accountNo).longValue());
+            dtausDateiWriter.setCTextschluessel(CSatz.TS_LASTSCHRIFT_EINZUGSERMAECHTIGUNGSVERFAHREN);
+            dtausDateiWriter.setCInterneKundennummer(it.customer.id);
+            dtausDateiWriter.setCBetragInEuro(it.amountDue);
+            dtausDateiWriter.setCName(it.customer.bankAccount.accountOwner);
+            dtausDateiWriter.addCVerwendungszweck("Le Space UG");
+            dtausDateiWriter.addCVerwendungszweck("Vertr. Nr."+it.id);
+            dtausDateiWriter.writeCSatz();
+        }
+       
+        //E-Satz schreiben = Ende einer logischen Datei.
+        dtausDateiWriter.writeESatz();
+
+
+        dtausDateiWriter.close();
+
+        response.setHeader("Content-disposition", "attachment; filename=dtaus");
+        response.contentType = "application/dtaus"
+        //response.characterEncoding = "UTF-8"
+        response.outputStream << fout.toByteArray() //reportDef.contentStream.toByteArray()
+         
+       // render 'bla'
+    }
+
     def list = {
         int max = 10
         int offset = 0
-        def sort = "id"
+        def sort = "lastLogin"
         def order = "desc"
         def searchText = ""
 
@@ -46,13 +96,13 @@ class ContractController {
 
         def dtDateFrom = new DateTime()
         // dtDateFrom=dtDateFrom.minusMonths(1)
-        dtDateFrom=dtDateFrom.withDayOfMonth(1)
+        // dtDateFrom=dtDateFrom.withDayOfMonth(1)
 
         def dtDateTo = new DateTime()
-        dtDateTo=dtDateTo.withDayOfMonth(1)
+        /*  dtDateTo=dtDateTo.withDayOfMonth(1)
         dtDateTo=dtDateTo.plusMonths(1)
         dtDateTo=dtDateTo.minusDays(1)
-
+         */
         dateFrom = dtDateFrom.toDate()
         dateTo = dtDateTo.toDate()
 
@@ -211,17 +261,20 @@ class ContractController {
         //log.debug "contractList.size() ${contractList.size}"
 
 
-        List fields = ["id", "customer.id","customer.debitNo","customer.firstname", "customer.lastname","customer.company","customer.city","amountGross","autoExtend","paid","customer.bankAccount.directDebitPermission"]
-        Map labels = ["id":"V-Nr.","customer.id":"KdNr.","customer.debitNo":"Deb.Nr.","customer.firstname":"Vorname","customer.lastname":"Nachname","customer.city":"Stadt","customer.company":"Firma","amountGross":"Betrag (brutto)","autoExtend":"Auto-Verlängerung","customer.bankAccount.directDebitPermission":"LS"]
-        Map formatters = [:]
+        List fields = ["id", "customer.id","customer.debitNo","customer.firstname", "customer.lastname","customer.company","contractStart","contractEnd","amountGross","autoExtend","paid","customer.bankAccount.directDebitPermission"]
+        Map labels = ["id":"V-Nr.","customer.id":"KdNr.","customer.debitNo":"Deb.Nr.","customer.firstname":"Vorname","customer.lastname":"Nachname","contractStart":"von","contractEnd":"bis","customer.city":"Stadt","customer.company":"Firma","amountGross":"Betrag (brutto)","autoExtend":"Auto-Verlängerung","customer.bankAccount.directDebitPermission":"LS"]
+        def datum = { domain, value -> return value?.getDateString()}
+        Map formatters = [contractStart:datum,contractEnd:datum]
         Map parameters = [:]
-        
+        // Map formatters = [:]
         //Map labels = ["author": "Author", "title": "Title"]
 
         /* Formatter closure in previous releases def upperCase = { value -> return value.toUpperCase() } */
 
         // Formatter closure def upperCase = { domain, value -> return value.toUpperCase() }
 
+        //
+        //
         //Map formatters = [author: upperCase]
         //Map parameters = [title: "Cool books", "column.widths": [0.2, 0.3, 0.5]]
 

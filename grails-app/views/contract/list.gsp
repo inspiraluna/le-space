@@ -32,6 +32,7 @@
           </td>
           </tr>
         </table>
+         <g:actionSubmit class="input dtaus" value="${g.message(code:'contract.dtaus')}" action="dtaus" />
       </g:form>
       <div class="list">
         <table>

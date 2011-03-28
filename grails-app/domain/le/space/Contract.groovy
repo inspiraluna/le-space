@@ -84,7 +84,8 @@ class Contract {
             //log.debug it
             // val+=toolService.getMessage('contract.product.'+it.id)+" (€ "+toolService.formatNumber(it.priceNet)+" netto)\n"
             val+=it.name+" (€ "+toolService.formatNumber(it.priceNet)+" netto)\n"
-            conVal += it.conditions+"\n"
+            conVal += it.conditions?it.conditions:''
+            conVal += "\n"
         }
         conditions = conVal
         selectedProducts = val

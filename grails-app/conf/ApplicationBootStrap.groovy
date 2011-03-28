@@ -27,7 +27,8 @@ class ApplicationBootStrap {
             userRole.save()
             
             adminUser = new ShiroUser(username: "admin@le-space.de",
-                passwordHash: new Sha512Hash("admin").toHex(),
+                //passwordHash: new Sha512Hash("admin").toHex(),
+                passwordHash: admin,
                 firstname: "Administrator",
                 lastname:"admin",
                 email:"admin@le-space.de").save()

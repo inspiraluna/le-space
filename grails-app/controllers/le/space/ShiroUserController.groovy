@@ -1,5 +1,5 @@
 package le.space
-import org.apache.shiro.crypto.hash.Sha512Hash
+//import org.apache.shiro.crypto.hash.Sha512Hash
 import org.apache.shiro.authc.AuthenticationException
 import org.apache.shiro.authc.UsernamePasswordToken
 import org.apache.shiro.SecurityUtils
@@ -110,7 +110,9 @@ class ShiroUserController {
         shiroUserInstance.properties = params
         shiroUserInstance.username = shiroUserInstance.email
         if(params.password)
-        shiroUserInstance.passwordHash = new Sha512Hash(params.password).toHex()
+            shiroUserInstance.passwordHash = params.password
+
+//        shiroUserInstance.passwordHash = new Sha512Hash(params.password).toHex()
 
         if (shiroUserInstance.validate() && shiroUserInstance.save()) {
             log.debug "shiroUser ${shiroUserInstance} saved... "
@@ -143,7 +145,9 @@ class ShiroUserController {
         shiroUserInstance.username = shiroUserInstance.email
 
         if(params.password)
-            shiroUserInstance.passwordHash = new Sha512Hash(params.password).toHex()
+            shiroUserInstance.passwordHash = params.password
+
+            //shiroUserInstance.passwordHash = new Sha512Hash(params.password).toHex()
 
         if (shiroUserInstance.validate() && shiroUserInstance.save()) {
             log.debug "shiroUser ${shiroUserInstance} saved... "
@@ -203,7 +207,9 @@ class ShiroUserController {
                 SecurityUtils.subject.login(authToken)
 
                 //Change Password here.
-                shiroUser.passwordHash = new Sha512Hash(params.passwordNew).toHex()
+                //shiroUser.passwordHash = new Sha512Hash(params.passwordNew).toHex()
+
+                shiroUser.passwordHash =  params.passwordNew
                 shiroUser.save(flush:true)
                 
                 flash.message = message(code: "login.passwordChanged")

@@ -26,14 +26,11 @@ class CustomerController {
                 def version = params.version.toLong()
                 if (bankAccountInstance.version > version) {
                     bankAccountInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'bankAccount.label', default: 'BankAccount')] as Object[], "Another user has updated this BankAccount while you were editing")
-                    render(view: "edit", model: [bankAccountInstance: bankAccountInstance])
-                    return
                 }
             }
             bankAccountInstance.properties = params
             if (!bankAccountInstance.hasErrors() && bankAccountInstance.save(flush: true)) {
                 flash.message = "${message(code: 'default.updated.message', args: [message(code: 'bankAccount.label', default: 'BankAccount'), bankAccountInstance.id])}"
-                //redirect(action: "show", id: bankAccountInstance.id)
             }
         }
         else {

@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="UserContract" language="groovy" pageWidth="495" pageHeight="802" columnWidth="435" leftMargin="40" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="2.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="510"/>
+	<property name="ireport.y" value="29"/>
 	<parameter name="imageUrl" class="java.lang.String"/>
 	<parameter name="printLetterHead" class="java.lang.Boolean" isForPrompting="false">
 		<parameterDescription><![CDATA[if set to yes... logo and letterhead should be printed]]></parameterDescription>
@@ -84,12 +84,6 @@ eingetragen im Amtsgericht Leipzig HRB 25885 / UstID Nr. DE270240660]]></text>
 				</textElement>
 				<text><![CDATA[der Le Space UG (haftungsbeschränkt)]]></text>
 			</staticText>
-			<image>
-				<reportElement x="309" y="1" width="124" height="91">
-					<printWhenExpression><![CDATA[$P{printLetterHead} && $P{imageUrl}!=null && $P{imageUrl}!=""]]></printWhenExpression>
-				</reportElement>
-				<imageExpression class="java.lang.String"><![CDATA[$P{imageUrl}]]></imageExpression>
-			</image>
 		</band>
 	</title>
 	<detail>
@@ -429,108 +423,42 @@ und die Hausordnung des Tapetenwerks]]></text>
 	<pageFooter>
 		<band height="76">
 			<staticText>
-				<reportElement x="7" y="22" width="133" height="6">
-					<printWhenExpression><![CDATA[!$P{printLetterHead}]]></printWhenExpression>
-				</reportElement>
+				<reportElement x="7" y="22" width="133" height="6"/>
 				<textElement>
 					<font size="5"/>
 				</textElement>
 				<text><![CDATA[Ort, Datum, Unterschrift Le Space UG (haftungsbeschränkt)]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="189" y="22" width="133" height="6">
-					<printWhenExpression><![CDATA[!$P{printLetterHead}]]></printWhenExpression>
-				</reportElement>
+				<reportElement x="189" y="22" width="133" height="6"/>
 				<textElement>
 					<font size="5"/>
 				</textElement>
 				<text><![CDATA[Ort, Datum Unterschrift Nutzer]]></text>
 			</staticText>
 			<line>
-				<reportElement x="7" y="20" width="130" height="1">
-					<printWhenExpression><![CDATA[!$P{printLetterHead}]]></printWhenExpression>
-				</reportElement>
+				<reportElement x="7" y="20" width="130" height="1"/>
 			</line>
 			<line>
-				<reportElement x="189" y="20" width="131" height="1">
-					<printWhenExpression><![CDATA[!$P{printLetterHead}]]></printWhenExpression>
-				</reportElement>
+				<reportElement x="189" y="20" width="131" height="1"/>
 			</line>
 			<line>
 				<reportElement x="5" y="36" width="428" height="1"/>
 			</line>
 			<textField isBlankWhenNull="true">
-				<reportElement x="5" y="9" width="140" height="10">
-					<printWhenExpression><![CDATA[!$P{printLetterHead}]]></printWhenExpression>
-				</reportElement>
+				<reportElement x="5" y="9" width="140" height="10"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA["Leipzig,"+(new java.text.SimpleDateFormat("dd.MM.yyyy").format($F{dateCreated}))]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="188" y="10" width="133" height="10">
-					<printWhenExpression><![CDATA[!$P{printLetterHead}]]></printWhenExpression>
-				</reportElement>
+				<reportElement x="188" y="10" width="133" height="10"/>
 				<textElement>
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA["Leipzig,"+(new java.text.SimpleDateFormat("dd.MM.yyyy").format($F{dateCreated}))]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="0" y="41" width="100" height="33">
-					<printWhenExpression><![CDATA[$P{printLetterHead}]]></printWhenExpression>
-				</reportElement>
-				<textElement>
-					<font size="6"/>
-				</textElement>
-				<text><![CDATA[Le Space UG (haftungsbeschränkt)
-Im Tapetenwerk, Haus K
-Lützner Str. 91, 04177 Leipzig]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="100" y="41" width="92" height="33">
-					<printWhenExpression><![CDATA[$P{printLetterHead}]]></printWhenExpression>
-				</reportElement>
-				<textElement>
-					<font size="6"/>
-				</textElement>
-				<text><![CDATA[Tel: +49 (0)341 / 4 78 58 70
-Fax: +49 (0)341 /4 92 76 49]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="260" y="41" width="94" height="33">
-					<printWhenExpression><![CDATA[$P{printLetterHead}]]></printWhenExpression>
-				</reportElement>
-				<textElement>
-					<font size="6"/>
-				</textElement>
-				<text><![CDATA[Amtsgericht Leipzig HRB 25885
-Geschäftsführer: Nico Krause
-UStId Nr. DE 270240660
-]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="357" y="41" width="75" height="33">
-					<printWhenExpression><![CDATA[$P{printLetterHead}]]></printWhenExpression>
-				</reportElement>
-				<textElement>
-					<font size="6"/>
-				</textElement>
-				<text><![CDATA[Sparkasse Leipzig
-BLZ: 860 555 92
-Kto.: 1100 88 02 98]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="195" y="41" width="63" height="33">
-					<printWhenExpression><![CDATA[$P{printLetterHead}]]></printWhenExpression>
-				</reportElement>
-				<textElement>
-					<font size="6"/>
-				</textElement>
-				<text><![CDATA[info@Le-Space.de
-www.Le-Space.de]]></text>
-			</staticText>
 		</band>
 	</pageFooter>
 </jasperReport>

@@ -1,8 +1,51 @@
 package le.space
-
+import org.apache.shiro.SecurityUtils
 class ContractService {
 
     static transactional = true
+
+    def addContract(Contract contract, Customer customer, ShiroUser shiroUser, BankAccount bankAccount, java.util.HashSet products){
+
+        boolean okey = false
+
+        log.debug "contract:${contract}\n shiroUser:${shiroUser}\n customer:${customer}\n bankAccount:${bankAccount}"
+      //  shiroUser = shiroUser.merge()
+        shiroUser.save(flush:true)
+
+        if(!SecurityUtils.subject.hasRole("User"))
+            shiroUser.addToRoles(ShiroRole.findByName("User"))
+      
+        if(shiroUser.save(flush:true))
+            okey = true
+
+       // customer = customer.merge()
+
+        if(customer.save(flush:true))
+            okey = true
+
+        //customer = customer.merge()
+        if(!customer.shiroUsers.contains(shiroUser))
+        customer.addToShiroUsers(shiroUser)
+
+
+        if(customer.save(flush:true))
+            okey = true
+
+//        bankAccount = bankAccount.merge()
+        if(bankAccount.save(flush:true))
+            okey = true
+
+        contract.customer = customer
+        contract.products = products
+  //      contract = contract.merge()
+        
+        if(contract.save(flush:true))
+            okey = true
+            
+        log.debug "no errors contract,customer,shiroUser and bankAccount saved"
+        
+        okey
+    }
 
     def getContractsOfUsername(String username) {
 

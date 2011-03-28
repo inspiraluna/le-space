@@ -1,8 +1,8 @@
 package le.space
 
 class HomeController {
-    def index = {[bodyId:"startseite",slogan: "Coworking funktioniert weltweit und ist die Zukunft der Büroarbeit."]}
-    def raum = {[bodyId:"raeume",slogan: "Coworking = Co-Learning & Co-Creation"]}
+    def index = {[bodyId:"startseite",slogan: "Join the Coworking Revolution!"]}
+    def raum = {[bodyId:"raeume",slogan: "Coworking funktioniert weltweit und ist die Zukunft der Büroarbeit."]}
     def coworking = {[bodyId:"coworking",slogan: "Coworking ist produktives Arbeiten in kreativer Umgebung."] }
     def preise = {[bodyId:"preise",slogan: "Coworking = flexibles Arbeiten = flexible Tarife"] }
     def faq = { [bodyId:"faq",slogan: "Coworking ist die logische Konsequenz des Internets auf die Arbeitswelt."]}

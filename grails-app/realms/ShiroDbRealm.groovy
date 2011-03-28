@@ -30,6 +30,10 @@ class ShiroDbRealm {
 
         log.info "Found user '${user.username}' in DB"
 
+        credentialMatcher = new org.apache.shiro.authc.credential.SimpleCredentialsMatcher()
+       // this.setCredentialsMatcher(credentialMatcher)
+
+
         // Now check the user's password against the hashed value stored
         // in the database.
         def account = new SimpleAccount(username, user.passwordHash, "ShiroDbRealm")

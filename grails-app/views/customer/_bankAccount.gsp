@@ -1,7 +1,7 @@
 <g:form>
-  <g:hiddenField name="id" value="${contract?.customer?.id}" />
+  <g:hiddenField name="id" value="${contract?.customer?.bankAccount?.id}" />
   <g:hiddenField name="contract.id" value="${contract?.id}" />
-  <g:hiddenField name="version" value="${contract?.customer?.version}" />
+  <g:hiddenField name="version" value="${contract?.customer?.bankAccount?.version}" />
   <table>
     <tr><td><g:message code="bankAccount.accountOwner.label" />:</td>
     <td class="value ${hasErrors(bean: bankAccount, field: 'accountOwner', 'errors')}"><g:textField name="accountOwner" value="${contract?.customer?.bankAccount?.accountOwner}" /></td></tr>

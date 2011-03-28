@@ -22,33 +22,38 @@ Skype-Chat: <a href="skype:?chat&blob=jZHLGil1O6yWUOPrvPinptMuE6To9wOXoqgbtU-qxb
 <li><a href="http://coworking.de" class="extern" target="_blank">Coworking.de</a></li>
 <li><a href="http://hallenprojekt.de/" class="extern" target="_blank">Hallenprojekt</a></li>
 <li><a href="http://workatjelly.com/" class="extern" target="_blank">Work @ Jelly</a></li>
-<li><a href="http://zusammenarbeiten.wordpress.com/" class="extern" target="_blank">Zusammenarbeiten</a></li>
 </ul>
-
 <br/>
-<h2>Coworking in Deutschland</h2>
+<h2>Coworking & Friends in Leipzig</h2>
 <ul>
-<li><a href="http://www.betahaus.de/" class="extern" target="_blank">Betahaus Berlin</a></li>
-<li><a href="http://www.coworking-darmstadt.de/" class="extern" target="_blank">Coworking Darmstadt</a></li>
-<li><a href="http://coworking-erfurt.de/" class="extern" target="_blank">Coworking Erfurt</a></li>
 <li><a href="http://www.coworking-leipzig.de/" class="extern" target="_blank">Coworking Leipzig</a></li>
-<li><a href="http://hamburg.betahaus.de/" class="extern" target="_blank">Betahaus Hamburg</a></li>
-<li><a href="http://coworking-munich.de/" class="extern" target="_blank">Coworking Munich</a></li>
-<li><a href="http://www.coworking-muenster.de/" class="extern" target="_blank">Coworking Münster</a></li>
-<li><a href="http://www.coworking-nuernberg.de/" class="extern" target="_blank">Coworking Nürnberg</a></li>
-<li><a href="http://coworkingproject.com/" class="extern" target="_blank">Coworking Project by Cowo.</a></li>
-<li><a href="http://kaiser79.de/" class="extern" target="_blank">Kaiser79</a></li>
-<li><a href="http://mindbroker.de/wiki/LockSchuppen" class="extern" target="_blank">Lockschuppen</a></li>
-<li><a href="http://coworking-stuttgart.de/" class="extern" target="_blank">Coworking Stuttgart 0711</a></li>
-<li><a href="http://workflowmeiningen.wordpress.com/" class="extern" target="_blank">Workflow Meiningen</a></li>
+<li><a href="http://www.rockzipfel-leipzig.de/" class="extern" target="_blank">Rockzipfel Leipzig (Eltern/Kind Coworking)</a></li>
+<li><a href="http://www.studiodelta.de/" class="extern" target="_blank">Studio Delta</a></li>
+<li><a href="http://www.kreatives-leipzig.de/" class="extern" target="_blank">Kreatives Leipzig e.V.</a></li>
+<li><a href="http://www.netzideen-gmbh.de/" class="extern" target="_blank">Netzideen GmbH Leipzig</a></li>
 </ul>
 <br/>
-<h2>Coworking international</h2>
+<h2>Coworking & Friends in Deutschland</h2>
+<ul>
+<li><a href="http://www.neonworx.de/" class="extern" target="_blank">Neonworx Dresden</a></li>
+<li><a href="http://www.betahaus.de/" class="extern" target="_blank">Betahaus Berlin</a></li>
+<li><a href="http://www.studio70.info/" class="extern" target="_blank">Studio 70 Berlin</a></li>
+<li><a href="http://coworking-erfurt.de/" class="extern" target="_blank">Coworking Erfurt</a></li>
+<li><a href="http://www.halleundco.de/" class="extern" target="_blank">Halle & Co (Halle/Saale)</a></li>
+<li><a href="http://hamburg.betahaus.de/" class="extern" target="_blank">Betahaus Hamburg</a></li>
+<li><a href="http://www.coworkingcologne.de/" class="extern" target="_blank">Coworking Köln </a></li>
+<li><a href="http://www.coworking-nuernberg.de/" class="extern" target="_blank">Coworking Nürnberg</a></li>
+<li><a href="http://coworking-stuttgart.de/" class="extern" target="_blank">Coworking Stuttgart 0711</a></li>
+</ul>
+<br/>
+<h2>Coworking & Friends international</h2>
 <ul>
 <li><a href="http://coworking.pbworks.com/" class="extern" target="_blank">Coworking weltweit</a></li>
 <li><a href="http://coworking.com" class="extern" target="_blank">Coworking.com</a></li>
-<li><a href="http://www.the-hub.net/" class="extern" target="_blank">The Hub (weltweit)</a></li>
-<li><a href="http://citizenspace.us" class="extern" target="_blank">citizenspace San Fransisco</a></li>
+<li><a href="http://coworking.pbworks.com/CoworkingVisa" class="extern" target="_blank">CoworkingVisa</a></li>
+<li><a href="http://www.the-hub.net/" class="extern" target="_blank">The Hub</a></li>
+<li><a href="http://citizenspace.us" class="extern" target="_blank">citizenspace San Fransisco,CA</a></li>
+<li><a href="http://officenomads.com/" class="extern" target="_blank">OfficeNomads Seattle,WA</a></li>
 </ul>
 <hr />
 </div>
