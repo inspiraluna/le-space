@@ -20,7 +20,12 @@ class PublicController {
     def jasperService
     def mailService
     def contractService
-    
+
+    def login = {
+        
+        
+    }
+
     def index = {
 
         log.debug " registration called..."

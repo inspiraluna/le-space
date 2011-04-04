@@ -11,7 +11,7 @@
 
 <h1>Stats</h1>
 
-      <h2>logins by customer id 119</h2>
+      <h2>logins by customer</h2>
       <table>
       <g:each in="${loginsByCustomer}" status="j" var="i">
         <tr>
@@ -70,6 +70,21 @@
           <td>${i[1]}</td>
         </tr>
       </g:each>
+     </table>
+
+      <h2>current due contracts</h2>
+      <table>
+      <g:each in="${currentDueContracts}" status="j" var="i">
+        <tr>
+          <td>${i.customer.id} (${i.customer.company})</td>
+          <td>${i.amountDue}</td>
+        </tr>        
+      </g:each>
+        <tr>
+          <td colspan="2">
+            <g:actionSubmit class="input dtaus" value="${g.message(code:'contract.dtaus')}" action="dtaus" />
+         </td>
+         </tr>
      </table>
 
 </div>

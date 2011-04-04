@@ -26,6 +26,21 @@
                   <td><g:message code="contract.login.password" />:</td>
                   <td><input type="password" name="password" value="" /></td>
                 </tr>
+            
+                <g:if test="${session.loginParams.ssid}">
+                <tr>
+                  <td><g:message code="contract.login.sid" />:</td>
+                  <td>${session.loginParams.ssid}</td>
+                </tr>
+                <tr>
+                  <td><g:message code="contract.login.mac" />:</td>
+                  <td>${session.loginParams.mac}</td>
+                </tr>
+                <tr>
+                  <td><g:message code="contract.login.ip" />:</td>
+                  <td>${session.loginParams.ip}</td>
+                </tr>
+                 </g:if>
               <tr>
                 <td />
                 <td><input type="submit" id="signIn" value="${message(code: 'contract.login.signIn')}" /></td>

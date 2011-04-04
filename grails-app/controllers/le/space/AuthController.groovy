@@ -44,10 +44,18 @@ class AuthController {
             // will be thrown if the username is unrecognised or the
             // password is incorrect.
             SecurityUtils.subject.login(authToken)
-            log.info "Redirecting to '${targetUri}'."
-            session.userPassword = params.password
-            session.username = params.username
-            redirect(uri: targetUri)
+
+            if(session.loginParams.ssid){
+                
+                //http://192.168.182.1:3990/json/logon?username=XXXX&chapchallenge=YYYY&chappassword=0123456789abcdef&lang=EN
+                def uamUrl = "http://${session.loginParams.uamip}:${session.loginParams.uamport}/json/logon?username=${params.username}&chapchallenge=${session.loginParams.challenge}&chappassword=${params.password}"
+                log.debug "Redirecting to uam url: '${uamUrl}'."
+                redirect(url:uamUrl)
+            }
+            else{
+                log.info "Redirecting to '${targetUri}'."
+                redirect(uri: targetUri)
+            }
         }
         catch (AuthenticationException ex){
             // Authentication failed, so display the appropriate message

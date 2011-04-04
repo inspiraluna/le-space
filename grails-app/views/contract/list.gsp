@@ -19,12 +19,24 @@
             <td align="left" valign="middle" nowrap><g:message code="contract.searchText" />:</td>
           <td align="left" valign="middle" nowrap><g:textField name="searchText" value="${searchText}"/>
           </td>
-          <td nowrap><g:message code="contract.contractStart" />:<calendar:datePicker dateFormat="%d.%m.%Y" name="dateFrom" value="${dateFrom}" defaultValue="${null}" years="2009,2999"/>
+          <td nowrap><g:message code="contract.contractStart.label" />:<calendar:datePicker dateFormat="%d.%m.%Y" name="dateFrom" value="${dateFrom}" defaultValue="${null}" years="2009,2999"/>
           </td>
-          <td nowrap><g:message code="contract.contractEnd" />:<calendar:datePicker dateFormat="%d.%m.%Y" name="dateTo" value="${dateTo}" defaultValue="${null}" years="2009,2999"/>
+          <td nowrap><g:message code="contract.contractEnd.label" />:<calendar:datePicker dateFormat="%d.%m.%Y" name="dateTo" value="${dateTo}" defaultValue="${null}" years="2009,2999"/>
           </td>
-          <td><g:message code="contract.valid" /><g:select name="valid" from="${['all','true', 'false']}" value="${valid}" onchange="document.list.submit();"/></td>
-          <td><g:message code="contract.paid" /><g:select name="paid" from="${['all','true', 'false']}" value="${paid}" onchange="document.list.submit();"/></td>
+          </tr>
+          <tr>
+          <td nowrap><g:message code="contract.loggedIn" /><g:checkBox name="loggedInOnly" value="true" checked="${loggedInOnly}" onchange="document.list.submit();"/><g:message code="contract.valid" /><g:select name="valid" from="${['all','true', 'false']}" value="${valid}" onchange="document.list.submit();"/></td>
+          <td nowrap><g:message code="contract.paid" /><g:select name="paid" from="${['all','true', 'false']}" value="${paid}" onchange="document.list.submit();"/></td>
+          <td nowrap><g:message code="contract.withProducts" />
+              <g:select name="searchProducts"
+                        from="${le.space.Product.list()}"
+                        noSelection="${['null':'Select One...']}"
+                          optionKey="id"
+                        value="${searchProducts}" onchange="document.list.submit();"/>
+              </td>
+                    <td nowrap>
+${g.message(code:'default.display.max')} <g:select name="max" from="${['5', '10', '20','50']}" value="${max}" onchange="document.list.submit();"/>
+          </td>
           <td><div class="buttons">
               <span class="button">
                 <g:actionSubmit class="input search" value="${g.message(code:'contract.search')}" action="list" />
@@ -32,7 +44,6 @@
           </td>
           </tr>
         </table>
-         <g:actionSubmit class="input dtaus" value="${g.message(code:'contract.dtaus')}" action="dtaus" />
       </g:form>
       <div class="list">
         <table>
@@ -101,6 +112,8 @@ ${message(code: 'contract.autoExtend.true', default: 'autoExtend')}
       </div>
 
       <div class="paginateButtons">
+      
+         
         <g:paginate  max="${max}" offset="${offset}" total="${totalCount}" />
         <export:formats formats="['csv', 'excel', 'ods', 'pdf', 'rtf', 'xml']" />
       </div>

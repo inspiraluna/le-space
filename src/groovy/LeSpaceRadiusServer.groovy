@@ -13,7 +13,7 @@ import org.apache.commons.logging.LogFactory;
  */
 class LeSpaceRadiusServer extends org.tinyradius.util.RadiusServer {
 
-    private static Log logger = LogFactory.getLog(LeSpaceRadiusServer.class)
+    private static Log log = LogFactory.getLog(LeSpaceRadiusServer.class)
     // This method should check whether the passed client is allowed to communicate with the Radius server. If this is the case, it should return the shared secret that secures the communication to the client.
     public String getUserPassword(String username) {
         System.err.println("getting UserPassword of User:"+username+" : "+le.space.ShiroUser.findByUsername(username).password_hash)
@@ -36,12 +36,12 @@ class LeSpaceRadiusServer extends org.tinyradius.util.RadiusServer {
         int type = RadiusPacket.ACCESS_REJECT
         
         accessRequest.getAttributes().each{
-        System.err.println("attribute:"+it.getAttributeTypeObject().getName()+":"+it.getAttributeValue())
+            System.err.println("attribute:"+it.getAttributeTypeObject().getName()+":"+it.getAttributeValue())
         }
         
         ApplicationContext ctx = (ApplicationContext)ApplicationHolder.getApplication().getMainContext()
         le.space.java.LoginServiceIf loginService = (le.space.java.LoginServiceIf) ctx.getBean("loginService")
-        accessRequest.setAuthProtocol(AccessRequest.AUTH_CHAP);
+//        accessRequest.setAuthProtocol(AccessRequest.AUTH_PAP);
 
         boolean macAuth = false
         def shiroUser
@@ -50,28 +50,28 @@ class LeSpaceRadiusServer extends org.tinyradius.util.RadiusServer {
         // System.out.println(accessRequest.getUserName().tokenize(':').size())
 
         if(accessRequest.getUserName().tokenize(':').size()==6){
-        macAuth = true
-        System.out.println("mac address wants to authenticate searching for user.")
-        shiroUser = le.space.ShiroUser.findByMac(accessRequest.getUserName())
-        if(!shiroUser){
-        //create new anonymous user
-        System.out.println("mac address not known creating a new user!")
-        //le.space.ShiroUser.withTransaction(){
-        shiroUser = new le.space.ShiroUser(username:accessRequest.getUserName(),
-        passwordHash:accessRequest.getUserName(),salutation:null,
-        firstname:"Anonym",
-        lastname:"Anonymous",
-        email:accessRequest.getUserName().replace(':','.')+"@le-space.de",
-        birthday:null,
-        telMobile:null,
-        occupation:null,
-        twitterName:null,
-        facebookName:null,
-        mac:accessRequest.getUserName(),optOutIamHereFunction:true)
+            macAuth = true
+            System.out.println("mac address wants to authenticate searching for user.")
+            shiroUser = le.space.ShiroUser.findByMac(accessRequest.getUserName())
+            if(!shiroUser){
+                //create new anonymous user
+                System.out.println("mac address not known creating a new user!")
+                //le.space.ShiroUser.withTransaction(){
+                shiroUser = new le.space.ShiroUser(username:accessRequest.getUserName(),
+                    passwordHash:accessRequest.getUserName(),salutation:null,
+                    firstname:"Anonym",
+                    lastname:"Anonymous",
+                    email:accessRequest.getUserName().replace(':','.')+"@le-space.de",
+                    birthday:null,
+                    telMobile:null,
+                    occupation:null,
+                    twitterName:null,
+                    facebookName:null,
+                    mac:accessRequest.getUserName(),optOutIamHereFunction:true)
 
-        shiroUser = loginService.createUser(shiroUser)
-        System.out.println("User: "+shiroUser+" created!")
-        }
+                shiroUser = loginService.createUser(shiroUser)
+                System.out.println("User: "+shiroUser+" created!")
+            }
         }
         else
         shiroUser = le.space.ShiroUser.findByUsername(accessRequest.getUserName())
@@ -83,20 +83,29 @@ class LeSpaceRadiusServer extends org.tinyradius.util.RadiusServer {
 
         //Accept auf true setzen, wenn das übermittelte passwort (aus dem accessRequest mit dem aus der Datenbank übereinstimmt
         //if ((shiroUser && new Sha512Hash(accessRequest.getUserPassword()).toHex() == shiroUser.passwordHash) || macAuth){
-        if ((shiroUser &&  accessRequest.verifyPassword(shiroUser.passwordHash)) || macAuth){
+        //
+        //if ((shiroUser &&  accessRequest.verifyPassword(shiroUser.passwordHash)) || macAuth){
+        System.out.println( "${accessRequest.getAuthProtocol()} : ${accessRequest.verifyPassword(shiroUser.passwordHash)} : accessRequest.getUserPassword():${accessRequest.getUserPassword()}...shiroUser.passwordHash:${shiroUser.passwordHash}")
+     
+        boolean login = false
+        if (accessRequest.getAuthProtocol()==AccessRequest.AUTH_CHAP && ((shiroUser && accessRequest.verifyPassword(shiroUser.passwordHash)) || macAuth))
+            login = true
+            
+        if (accessRequest.getAuthProtocol()==AccessRequest.AUTH_PAP && ((shiroUser && accessRequest.getUserPassword() == shiroUser.passwordHash) || macAuth))
+            login = true
 
-        type = RadiusPacket.ACCESS_ACCEPT
-        loginService.login(shiroUser.id.toString(),
-        accessRequest?.getAttribute("Framed-IP-Address")?.getAttributeValue()
-        ,accessRequest?.getAttribute("Calling-Station-Id")?.getAttributeValue())
-                       
+        if(login){
+            type = RadiusPacket.ACCESS_ACCEPT
+            loginService.login(shiroUser.id.toString(),
+                accessRequest?.getAttribute("Framed-IP-Address")?.getAttributeValue()
+                ,accessRequest?.getAttribute("Calling-Station-Id")?.getAttributeValue())                      
         }//if
 
         RadiusPacket answer = new RadiusPacket(type, accessRequest.getPacketIdentifier())
         copyProxyState(accessRequest, answer)
         return answer;
 
-/*
+        /*
         String plaintext = getUserPassword(accessRequest.getUserName());
         int type = RadiusPacket.ACCESS_REJECT;
         if (plaintext != null && accessRequest.verifyPassword(plaintext))
@@ -116,29 +125,29 @@ class LeSpaceRadiusServer extends org.tinyradius.util.RadiusServer {
 
         if (listenAuth) {
             try {
-                logger.info("starting RadiusAuthListener on port " + getAuthPort());
+                log.info("starting RadiusAuthListener on port " + getAuthPort());
                 super.listenAuth();
-                logger.info("RadiusAuthListener is being terminated");
+                log.info("RadiusAuthListener is being terminated");
             } catch(Exception e) {
                 e.printStackTrace();
-                logger.fatal("auth thread stopped by exception", e);
+                log.fatal("auth thread stopped by exception", e);
             } finally {
                 authSocket.close();
-                logger.debug("auth socket closed");
+                log.debug("auth socket closed");
             }
         }
 
         if (listenAcct) {
             try {
-                logger.info("starting RadiusAcctListener on port " + getAcctPort());
+                log.info("starting RadiusAcctListener on port " + getAcctPort());
                 super.listenAcct();
-                logger.info("RadiusAcctListener is being terminated");
+                log.info("RadiusAcctListener is being terminated");
             } catch(Exception e) {
                 e.printStackTrace();
-                logger.fatal("acct thread stopped by exception", e);
+                log.fatal("acct thread stopped by exception", e);
             } finally {
                 acctSocket.close();
-                logger.debug("acct socket closed");
+                log.debug("acct socket closed");
             }            
         }
     }
@@ -150,7 +159,7 @@ class LeSpaceRadiusServer extends org.tinyradius.util.RadiusServer {
     }
 
     org.tinyradius.packet.RadiusPacket accountingRequestReceived(org.tinyradius.packet.AccountingRequest request, InetAddress client){
-        System.out.println("access Request Received")
+        log.debug("access Request Received")
     }
 
 }

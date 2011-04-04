@@ -216,7 +216,6 @@
 from="${le.space.ShiroUser.list()}"
 size="5" multiple="yes" optionKey="id"
 value="${customerInstance?.shiroUsers}" />
-
                                 </td>
                             </tr>
                         

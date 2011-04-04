@@ -33,60 +33,14 @@ class ContractController {
             contractList:contractList,loginList:loginList]
     }
 
-    def dtaus ={
-
-       // def hql = "select sum(amountGross) as amount, year(contractStart)||' '||month(contractStart) "
-        def hql="from le.space.Contract  c "
-        hql+="where c.customer.bankAccount.directDebitPermission=true "
-        hql+= "and c.amountDue>0"
-
-        def hparams = []
-        def contractList = Contract.executeQuery(hql,hparams)
-
-        //FileOutputStream fos = new FileOutputStream("/Users/nico/Desktop/dtaus")
-        ByteArrayOutputStream fout = new ByteArrayOutputStream();
-        de.jost_net.OBanToo.Dtaus.DtausDateiWriter dtausDateiWriter = new DtausDateiWriter(fout);
-
-        //Jetzt wird der ASatz gefüllt und geschrieben:
-        dtausDateiWriter.setAGutschriftLastschrift("LK");
-        dtausDateiWriter.setABLZBank(86055592);
-        dtausDateiWriter.setAKundenname("Le Space UG");
-        dtausDateiWriter.setAKonto(1100880298);
-        dtausDateiWriter.writeASatz();
-
-        //Ab hier werden die eigentlichen Zahlungssätze erstellt:
-        contractList.each{
-            dtausDateiWriter.setCBLZEndbeguenstigt(new Long(it.customer.bankAccount.bankNo).longValue());
-            dtausDateiWriter.setCKonto(new Long(it.customer.bankAccount.accountNo).longValue());
-            dtausDateiWriter.setCTextschluessel(CSatz.TS_LASTSCHRIFT_EINZUGSERMAECHTIGUNGSVERFAHREN);
-            dtausDateiWriter.setCInterneKundennummer(it.customer.id);
-            dtausDateiWriter.setCBetragInEuro(it.amountDue);
-            dtausDateiWriter.setCName(it.customer.bankAccount.accountOwner);
-            dtausDateiWriter.addCVerwendungszweck("Le Space UG");
-            dtausDateiWriter.addCVerwendungszweck("Vertr. Nr."+it.id);
-            dtausDateiWriter.writeCSatz();
-        }
-       
-        //E-Satz schreiben = Ende einer logischen Datei.
-        dtausDateiWriter.writeESatz();
-
-
-        dtausDateiWriter.close();
-
-        response.setHeader("Content-disposition", "attachment; filename=dtaus");
-        response.contentType = "application/dtaus"
-        //response.characterEncoding = "UTF-8"
-        response.outputStream << fout.toByteArray() //reportDef.contentStream.toByteArray()
-         
-       // render 'bla'
-    }
-
     def list = {
         int max = 10
         int offset = 0
+        boolean loggedInOnly = false
         def sort = "lastLogin"
         def order = "desc"
         def searchText = ""
+
 
         def report = new Report()
         report.properties = params
@@ -147,7 +101,15 @@ class ContractController {
         if(params.valid) session.valid = params.valid
         valid = session.valid
 
+        if(params.loggedInOnly) session.loggedInOnly = true
+        else session.loggedInOnly = false
         
+        loggedInOnly = session.loggedInOnly
+        
+        if(params.searchProducts) session.searchProducts = params.searchProducts
+        def searchProducts = session.searchProducts
+
+
         def hparamsAll = [:]
         def hparams = [:]
 
@@ -155,6 +117,7 @@ class ContractController {
 
         def hql = "select distinct c from le.space.Contract  c "
         hql+= " left join c.customer cu"
+        hql+= " left join c.products p"
         hql+= " left join c.customer.shiroUsers u "
         
         if(paid && paid!="all"){
@@ -188,15 +151,13 @@ class ContractController {
             dtFrom.setHourOfDay(0)
             dtFrom.setMinuteOfHour(0)
             dtFrom.setSecondOfMinute(0)
-            log.debug dtFrom
 
             MutableDateTime dtTo = new DateTime(dateTo).toMutableDateTime()
             dtTo.setHourOfDay(23)
             dtTo.setMinuteOfHour(59)
             dtTo.setSecondOfMinute(59)
-            log.debug dtTo
  
-            hql+="( (c.contractStart >= :fromDate and c.contractEnd <= :toDate) or "
+            hql+="((c.contractStart >= :fromDate and c.contractEnd <= :toDate) or "
             hql+=" (c.contractStart <= :fromDate and c.contractEnd >= :fromDate) or"
             hql+=" (c.contractStart <= :toDate and c.contractEnd >= :toDate) or "
             hql+=" (c.contractStart <= :fromDate and c.contractEnd >= :toDate) or "
@@ -208,7 +169,6 @@ class ContractController {
 
             hparams.put("fromDate",dtFrom.toDateTime().toDate())
             hparams.put("toDate",dtTo.toDateTime().toDate())
-
         }
 
         //select distinct c from le.space.Contract c left join c.customer cu left join c.customer.shiroUsers u where (c.contractStart >= :contractStart and c.contractEnd <= :contractEnd) or (c.contractStart <= :contractStart and c.contractEnd >= :contractStart) or (c.contractStart <= :contractEnd and c.contractEnd >= :contractEnd) or (c.contractStart <= :contractStart and c.contractEnd >= :contractEnd) or (c.contractStart >= :contractStart and ((c.autoExtend==true and c.cancelationDate is null) or (c.autoExtend==true and c.cancelationDate <= :contractEnd))) or (c.contractStart <= :contractStart and ((c.autoExtend==true and c.cancelationDate is null) or (c.autoExtend==true and c.cancelationDate >= :contractStart))) or (c.contractStart <= :contractEnd and ((c.autoExtend==true and c.cancelationDate is null) or (c.autoExtend==true and c.cancelationDate >= :contractEnd))) or (c.contractStart <= :contractStart and ((c.autoExtend==true and c.cancelationDate is null) or (c.autoExtend==true and c.cancelationDate >= :contractEnd))) order by c.id desc
@@ -233,12 +193,43 @@ class ContractController {
                 hparams.put("searchText","%"+searchText+"%")
             }
         }
+        
+        log.debug "loggedInOnly: ${params.loggedInOnly} ${loggedInOnly}"
+
+        if(loggedInOnly){
+            hql+= "AND (c.lastLogin <= :now and c.lastLogin >= :todayMorning) "
+
+            MutableDateTime mDtTodayMorning = new DateTime().toMutableDateTime()
+            mDtTodayMorning.setHourOfDay(0)
+            mDtTodayMorning.setMinuteOfHour(0)
+            mDtTodayMorning.setSecondOfMinute(0)
+
+            hparams.put("now",new Date())
+            hparams.put("todayMorning",mDtTodayMorning.toDateTime().toDate())
+
+        }
+
+        if(searchProducts && searchProducts!='null'){
+            log.debug searchProducts
+            hql+="and ("
+            int i = 0
+            searchProducts.each{
+                log.debug it
+                i++
+                if(i>1)
+                    hql+=" or "
+                hql+=" p.id=:pro "
+                hparams.put("pro",it.toLong())
+            }
+            hql+=")"
+        }
+
         hql+=" order by c."
 
         hql+= sort
         hql+=" "+order
 
-        //log.debug "${hql} searchText:${searchText} paid:${paid} valid:${valid} "
+        log.debug "${hql} ${hparams} "
       
         hparamsAll.putAll(hparams)
 
@@ -295,8 +286,12 @@ class ContractController {
             paid:paid,
             valid:valid,
             sort:sort,
-            searchText:searchText,dateFrom:dateFrom,
-            dateTo:dateTo,params:params]
+            loggedInOnly:loggedInOnly,
+            searchText:searchText,
+            dateFrom:dateFrom,
+            dateTo:dateTo,
+            searchProducts:searchProducts,
+            params:params]
     }
 
     
@@ -451,7 +446,55 @@ class ContractController {
         flash.message = "${message(code: 'contract.calculatePayments.recalculated', args: [message(code: 'contract.label', default: 'Contract recalculated'), params.id])}"
         redirect(action: "show",id:params.id)
     }
-    
+
+        def dtaus ={
+
+       // def hql = "select sum(amountGross) as amount, year(contractStart)||' '||month(contractStart) "
+        def hql="from le.space.Contract  c "
+        hql+="where c.customer.bankAccount.directDebitPermission=true "
+        hql+= "and c.amountDue>0"
+
+        def hparams = []
+        def contractList = Contract.executeQuery(hql,hparams)
+
+        //FileOutputStream fos = new FileOutputStream("/Users/nico/Desktop/dtaus")
+        ByteArrayOutputStream fout = new ByteArrayOutputStream();
+        de.jost_net.OBanToo.Dtaus.DtausDateiWriter dtausDateiWriter = new DtausDateiWriter(fout);
+
+        //Jetzt wird der ASatz gefüllt und geschrieben:
+        dtausDateiWriter.setAGutschriftLastschrift("LK");
+        dtausDateiWriter.setABLZBank(86055592);
+        dtausDateiWriter.setAKundenname("Le Space UG");
+        dtausDateiWriter.setAKonto(1100880298);
+        dtausDateiWriter.writeASatz();
+
+        //Ab hier werden die eigentlichen Zahlungssätze erstellt:
+        contractList.each{
+            dtausDateiWriter.setCBLZEndbeguenstigt(new Long(it.customer.bankAccount.bankNo).longValue());
+            dtausDateiWriter.setCKonto(new Long(it.customer.bankAccount.accountNo).longValue());
+            dtausDateiWriter.setCTextschluessel(CSatz.TS_LASTSCHRIFT_EINZUGSERMAECHTIGUNGSVERFAHREN);
+            dtausDateiWriter.setCInterneKundennummer(it.customer.id);
+            dtausDateiWriter.setCBetragInEuro(it.amountDue);
+            dtausDateiWriter.setCName(it.customer.bankAccount.accountOwner);
+            dtausDateiWriter.addCVerwendungszweck("Le Space UG");
+            dtausDateiWriter.addCVerwendungszweck("Vertr. Nr."+it.id);
+            dtausDateiWriter.writeCSatz();
+        }
+
+        //E-Satz schreiben = Ende einer logischen Datei.
+        dtausDateiWriter.writeESatz();
+
+
+        dtausDateiWriter.close();
+
+        response.setHeader("Content-disposition", "attachment; filename=dtaus");
+        response.contentType = "application/dtaus"
+        //response.characterEncoding = "UTF-8"
+        response.outputStream << fout.toByteArray() //reportDef.contentStream.toByteArray()
+
+       // render 'bla'
+    }
+
     def stat = {
         //select sum(amount_gross), month(contract_start), year(contract_start) from contract group by month(contract_start), year(contract_start) order by 1 desc
         def hql = "select sum(amountGross) as amount, year(contractStart)||' '||month(contractStart) "
@@ -488,12 +531,20 @@ class ContractController {
         hql+= "order by date(loginStart) desc "
         hparams = []
         def loginsByDate = Contract.executeQuery(hql,hparams)
+
+        hql="from le.space.Contract  c "
+        hql+="where c.customer.bankAccount.directDebitPermission=true "
+        hql+= "and c.amountDue>0"
+
+        hparams = []
+        def currentDueContracts = Contract.executeQuery(hql,hparams)
         [
             revenueByMonth: revenueByMonth,
             revenueByMonthOrderByDateDesc:revenueByMonthOrderByDateDesc,
             revenueByCustomer:revenueByCustomer,
             loginsByMonthYear:loginsByMonthYear,
-            loginsByDate:loginsByDate
+            loginsByDate:loginsByDate,
+            currentDueContracts:currentDueContracts
         ]
     }
 }

@@ -9,7 +9,6 @@ class ContractService {
         boolean okey = false
 
         log.debug "contract:${contract}\n shiroUser:${shiroUser}\n customer:${customer}\n bankAccount:${bankAccount}"
-      //  shiroUser = shiroUser.merge()
         shiroUser.save(flush:true)
 
         if(!SecurityUtils.subject.hasRole("User"))
@@ -18,12 +17,9 @@ class ContractService {
         if(shiroUser.save(flush:true))
             okey = true
 
-       // customer = customer.merge()
-
         if(customer.save(flush:true))
             okey = true
 
-        //customer = customer.merge()
         if(!customer.shiroUsers.contains(shiroUser))
         customer.addToShiroUsers(shiroUser)
 
@@ -31,13 +27,11 @@ class ContractService {
         if(customer.save(flush:true))
             okey = true
 
-//        bankAccount = bankAccount.merge()
         if(bankAccount.save(flush:true))
             okey = true
 
         contract.customer = customer
         contract.products = products
-  //      contract = contract.merge()
         
         if(contract.save(flush:true))
             okey = true
