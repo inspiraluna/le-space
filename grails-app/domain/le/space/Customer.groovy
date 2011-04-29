@@ -28,6 +28,11 @@ class Customer {
     BankAccount bankAccount
 
     String debitNo
+
+    double amountPaid = 0
+    double amountDue = 0
+    double amountTotal = 0
+    
     
     /*
      *

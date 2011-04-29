@@ -356,7 +356,7 @@ und die Hausordnung des Tapetenwerks]]></text>
 			<staticText>
 				<reportElement x="1" y="249" width="125" height="12"/>
 				<textElement/>
-				<text><![CDATA[MwSt:]]></text>
+				<text><![CDATA[MwSt:   (19%)]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="234" y="262" width="53" height="12">

@@ -57,6 +57,7 @@ class ContractService {
         }catch(Exception ex){ log.debug "problem with user: ${username}" }
     }
 
+
     def getContractsOfCustomer(Customer cu) {
         
         def hql="select co from le.space.Contract  co "

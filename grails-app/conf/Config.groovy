@@ -90,7 +90,7 @@ environments {
 	
     development {
         dataSource {
-            grails.serverURL = "http://localhost:8080/"
+            grails.serverURL = "http://localhost:8080/le-space"
             grails.secureServerURL  = "https://localhost:8443/le-space"
             dbCreate = "create-drop" // one of 'create', 'create-drop','update'
             url = "jdbc:hsqldb:mem:devDB"

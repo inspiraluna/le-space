@@ -31,9 +31,9 @@ ${message(code: 'contract.autoExtend.true', default: 'autoExtend')}
   </g:if>
   </td>
 
-  <td valign="top" nowrap><g:formatNumber number="${contractInstance.amountTotal}" format="€ ###,##0.00" />/
-  <g:formatNumber number="${contractInstance.amountPaid}" format="€ ###,##0.00" />/
-  <g:formatNumber number="${contractInstance.amountDue}" format="€ ###,##0.00" /></td>
+  <td valign="top" nowrap><g:formatNumber number="${contractInstance.customer.amountTotal}" format="€ ###,##0.00" />/
+  <g:formatNumber number="${contractInstance.customer.amountPaid}" format="€ ###,##0.00" />/
+  <g:formatNumber number="${contractInstance.customer.amountDue}" format="€ ###,##0.00" /></td>
   <td valign="top" >${fieldValue(bean: contractInstance, field: "valid")}</td>
   <td valign="top" align="right" nowrap><g:formatNumber number="${contractInstance.amountGross}" format="€ ###,##0.00" /></td>
   <td valign="top" align="left">${fieldValue(bean: contractInstance, field: "quantity")} x <ul><g:each in="${contractInstance.getProducts()}" status="j" var="p">

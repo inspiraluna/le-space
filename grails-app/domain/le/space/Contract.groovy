@@ -40,9 +40,7 @@ class Contract {
     double amountGross = 0
     double amountNet = 0
     double amountVAT = 0
-    double amountPaid = 0
-    double amountDue = 0
-    double amountTotal = 0
+
 
     Date cancelationDate
     Date dateCreated = new Date()

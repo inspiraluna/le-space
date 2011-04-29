@@ -76,13 +76,13 @@
       <table>
       <g:each in="${currentDueContracts}" status="j" var="i">
         <tr>
-          <td>${i.customer.id} (${i.customer.company})</td>
+          <td>${i.id} (${i.bankAccount.accountOwner})</td>
           <td>${i.amountDue}</td>
         </tr>        
       </g:each>
         <tr>
           <td colspan="2">
-            <g:actionSubmit class="input dtaus" value="${g.message(code:'contract.dtaus')}" action="dtaus" />
+            <g:form><g:actionSubmit class="input dtaus" value="${g.message(code:'contract.dtaus')}" action="dtaus" /></g:form>
          </td>
          </tr>
      </table>

@@ -125,13 +125,13 @@
               </tr>
               <tr class="prop">
                 <th align="left" valign="top" class="name"><g:message code="contract.amountTotal.label" default="amountTotal" /></th>
-              <td valign="top" class="value">€ ${formatNumber(number: contract.amountTotal, format: '##0.00')}</td>
+              <td valign="top" class="value">€ ${formatNumber(number: contract.customer.amountTotal, format: '##0.00')}</td>
               <th align="left" valign="top" class="name"><g:message code="contract.amountPaid.label" default="amountPaid" /></th>
-              <td valign="top" class="value">€ ${formatNumber(number: contract.amountPaid, format: '##0.00')}</td>
+              <td valign="top" class="value">€ ${formatNumber(number: contract.customer.amountPaid, format: '##0.00')}</td>
               </tr>
               <tr class="prop">
                 <th align="left" valign="top" class="name"><g:message code="contract.amountDue.label" default="amountDue" /></th>
-              <td align="left" valign="top" class="value">€ ${formatNumber(number: contract.amountDue, format: '##0.00')}</td>
+              <td align="left" valign="top" class="value">€ ${formatNumber(number: contract.customer.amountDue, format: '##0.00')}</td>
               <th align="left" valign="top" class="name">&nbsp;</th>
               <td align="left" valign="top" class="value">&nbsp;</td>
               </tr>

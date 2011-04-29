@@ -41,7 +41,7 @@
     </div>
     <hr />
     <div id="bilder">
-        <g:each in="${le.space.Photo.findAll('from Photo as p where p.pageId like \'%'+bodyId+'%\'')}"><a href="${createLinkTo(dir:it.directory,file:it.filename+'.jpg',absolute:true)}" title="${it.title}" class="thickbox"><img src="${createLinkTo(dir:it.directory,file:it.filename+'_k.jpg')}" alt="${it.title}" /></a></g:each>
+        <g:each in="${le.space.Photo.findAll('from Photo as p where p.pageId like \'%'+bodyId+'%\'')}"><a href="${createLinkTo(dir:it.directory,file:it.filename+'.jpg',absolute:true)}" rel="hugo" title="${it.title}" class="thickbox"><img src="${createLinkTo(dir:it.directory,file:it.filename+'_k.jpg')}" alt="${it.title}" /></a></g:each>
     </div>
     <hr />
   </div>

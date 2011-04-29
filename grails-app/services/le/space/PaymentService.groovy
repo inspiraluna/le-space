@@ -13,7 +13,7 @@ class PaymentService {
             def sum = Contract.executeQuery("select sum(amount) from le.space.Payment p where p.customer.id=:id",[id:contract.customer.id])
             def amountPaid = (sum==null || sum[0]==null)?0:sum[0]
 
-            log.debug "amountPaid (all payments) of customer with id: ${contract.customer.id} ${contract.amountPaid}"
+            log.debug "amountPaid (all payments) of customer with id: ${contract.customer.id} ${contract.customer.amountPaid}"
 
             //Collect all contracts
             def amountTotal = 0
@@ -59,21 +59,24 @@ class PaymentService {
             tmpValid  = true
 
             if(tmpValid!=contract.valid || paid!=contract.paid ||
-                contract.amountDue!=amountDue || contract.amountPaid!=amountPaid ||
-                contract.amountTotal != amountTotal){
+                contract.customer.amountDue != amountDue || contract.customer.amountPaid!=amountPaid ||
+                contract.customer.amountTotal != amountTotal){
                 
                 log.debug "saving contract ${contract.id} because payment calculation changed... amountDue:${amountDue} amountPaid:${amountPaid} amountTotal:${amountTotal}"
                 // def contract2 = Contract.get(contract.id)
+                def customer = contract.customer
+                customer.amountDue = amountDue
+                customer.amountPaid = amountPaid
+                customer.amountTotal = amountTotal
 
-                contract.amountDue = amountDue
-                contract.amountPaid = amountPaid
-                contract.amountTotal = amountTotal
                 contract.valid = tmpValid
                 contract.paid = paid
                 contract.calculateAmounts()
-                def contractNew = contract.save(flush:true)
 
-                contract.errors.each{
+                def contractNew = contract.save(flush:true)
+                def customerNew = customer.save(flush:true)
+
+                contractNew.errors.each{
                     log.debug "${it}"
                 }
                 log.debug "${contractNew} saved.."

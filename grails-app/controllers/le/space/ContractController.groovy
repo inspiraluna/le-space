@@ -217,7 +217,7 @@ class ContractController {
                 log.debug it
                 i++
                 if(i>1)
-                    hql+=" or "
+                hql+=" or "
                 hql+=" p.id=:pro "
                 hparams.put("pro",it.toLong())
             }
@@ -433,7 +433,7 @@ class ContractController {
     def addFullPayment = {
         def contract = Contract.get(params.id)
         if (contract) {
-            if(contract.amountDue>0){
+            if(contract.customer.amountDue>0){
                 def payment = new Payment(amount:contract.amountDue,paymentDate:new Date(),paymentMethod:Payment.PM_DIRECT_DEBIT,customer:contract.customer).save()               
                 log.debug "added payment ${payment} to customer ${contract.customer}"
                 paymentService.calculatePayments(Contract.get(params.id))
@@ -447,12 +447,14 @@ class ContractController {
         redirect(action: "show",id:params.id)
     }
 
-        def dtaus ={
-
-       // def hql = "select sum(amountGross) as amount, year(contractStart)||' '||month(contractStart) "
-        def hql="from le.space.Contract  c "
-        hql+="where c.customer.bankAccount.directDebitPermission=true "
-        hql+= "and c.amountDue>0"
+    def dtaus ={
+        log.debug "dtaus called..."
+        // def hql = "select sum(amountGross) as amount, year(contractStart)||' '||month(contractStart) "
+        def hql="from le.space.Customer  c "
+        //  hql+=" left join c.customer cu "
+        hql+=" where c.bankAccount.directDebitPermission=true "
+        hql+= "and c.amountDue>0 "
+        hql+= "order by c.amountDue desc"
 
         def hparams = []
         def contractList = Contract.executeQuery(hql,hparams)
@@ -470,14 +472,16 @@ class ContractController {
 
         //Ab hier werden die eigentlichen Zahlungssätze erstellt:
         contractList.each{
-            dtausDateiWriter.setCBLZEndbeguenstigt(new Long(it.customer.bankAccount.bankNo).longValue());
-            dtausDateiWriter.setCKonto(new Long(it.customer.bankAccount.accountNo).longValue());
+            log.debug "dtaus customer.id: ${it.id} ${it.bankAccount.accountOwner}"
+            dtausDateiWriter.setCBLZEndbeguenstigt(new Long(it.bankAccount.bankNo).longValue());
+            dtausDateiWriter.setCKonto(new Long(it.bankAccount.accountNo).longValue());
             dtausDateiWriter.setCTextschluessel(CSatz.TS_LASTSCHRIFT_EINZUGSERMAECHTIGUNGSVERFAHREN);
-            dtausDateiWriter.setCInterneKundennummer(it.customer.id);
+            dtausDateiWriter.setCInterneKundennummer(it.id);
             dtausDateiWriter.setCBetragInEuro(it.amountDue);
-            dtausDateiWriter.setCName(it.customer.bankAccount.accountOwner);
+            dtausDateiWriter.setCName(it.bankAccount.accountOwner); //it.bankAccount.accountOwner
             dtausDateiWriter.addCVerwendungszweck("Le Space UG");
-            dtausDateiWriter.addCVerwendungszweck("Vertr. Nr."+it.id);
+            dtausDateiWriter.addCVerwendungszweck("Coworking Schreibtisch V.Nr.:"+contractService.getContractsOfCustomer(it)[0]);
+            //dtausDateiWriter.addCVerwendungszweck("Vertr. Nr."+it.id);
             dtausDateiWriter.writeCSatz();
         }
 
@@ -492,7 +496,7 @@ class ContractController {
         //response.characterEncoding = "UTF-8"
         response.outputStream << fout.toByteArray() //reportDef.contentStream.toByteArray()
 
-       // render 'bla'
+        // render 'bla'
     }
 
     def stat = {
@@ -532,9 +536,11 @@ class ContractController {
         hparams = []
         def loginsByDate = Contract.executeQuery(hql,hparams)
 
-        hql="from le.space.Contract  c "
-        hql+="where c.customer.bankAccount.directDebitPermission=true "
-        hql+= "and c.amountDue>0"
+        hql="from le.space.Customer  c "
+        //  hql+=" left join c.customer cu "
+        hql+=" where c.bankAccount.directDebitPermission=true "
+        hql+= "and c.amountDue>0 "
+        hql+= "order by c.amountDue desc"
 
         hparams = []
         def currentDueContracts = Contract.executeQuery(hql,hparams)
